@@ -5,12 +5,50 @@ function makeInst(name, cb) {
 }
 
 function Player(name, cb) {
+
 	var self=this
 	makeInst(name, (inst) => {
 		self.inst = inst
 		if (cb) cb(inst)
 	})
+
+	this.started = {}
+	this.opts =  {}
+	this.gain =  function (vel) {
+		return vel / 127
+	}
+
 }
+
+
+
+Player.prototype.playMidi = function (msg) {
+
+		
+		var mm = msg.messageType ? msg : midimessage(msg)
+		if (mm.messageType === 'noteon' && mm.velocity === 0) {
+			mm.messageType = 'noteoff'
+		}
+		if (this.opts.channel && mm.channel !== this.opts.channel) return
+
+		switch (mm.messageType) {
+			case 'noteon':
+			    if (this.inst === undefined) return
+				this.started[mm.key] = this.inst.play(mm.key, 0, {
+					gain:this.gain(mm.velocity)
+				})
+				break
+			case 'noteoff':
+				if (this.started[mm.key]) {
+					this.started[mm.key].stop()
+					delete this.started[mm.key]
+				}
+				break
+		}
+	}
+
+
+	
 
 
 Player.prototype.listenToMidi = function (input, options) {
@@ -21,32 +59,9 @@ Player.prototype.listenToMidi = function (input, options) {
 	}
 	var self = this
 	
-	input.onmidimessage = function (msg) {
-		
-		var mm = msg.messageType ? msg : midimessage(msg)
-		if (mm.messageType === 'noteon' && mm.velocity === 0) {
-			mm.messageType = 'noteoff'
-		}
-		if (opts.channel && mm.channel !== opts.channel) return
-
-		switch (mm.messageType) {
-			case 'noteon':
-			    if (self.inst === undefined) return
-				started[mm.key] = self.inst.play(mm.key, 0, {
-					gain: gain(mm.velocity)
-				})
-				break
-			case 'noteoff':
-				if (started[mm.key]) {
-					started[mm.key].stop()
-					delete started[mm.key]
-				}
-				break
-		}
+	input.onmidimessage = function(msg) {
+	    slef.playMidi(msg)
 	}
-	
-	self.onmidimessage=input.onmidimessage
-	
 	return this
 }
 
@@ -112,11 +127,16 @@ function Music() {
 
 
 Music.prototype.tick=function() {	
+	try {
 	var x=this.pulse.tick()
 	if (x !== null) {
 		disp.innerHTML = x[0]+ ":" + x[1]
 		var mm={"messageType":"noteon","key":60+x[1],"velocity":100}
-		if (this.focusPlayer) this.focusPlayer.onmidimessage(mm)
+		if (this.focusPlayer) this.focusPlayer.playMidi(mm)
+	}
+	}catch(err) {
+		console.log(err.stack)
+		
 	}
 }
 
