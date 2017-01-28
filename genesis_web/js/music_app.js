@@ -1,12 +1,12 @@
 'use strict'
 
-var context = new AudioContext();
+var audioContext = new AudioContext();
 
 
 let dMin = undefined
 let dMax = undefined
 let playing = false;
-const DELTA_T = 0.0
+const DELTA_T = 0.005
 
 var but = document.getElementById('but')
 var xxx = document.getElementById('xxx')
@@ -19,9 +19,26 @@ let tick = function (func) {
 	setTimeout(func, DELTA_T)
 }
 
+
+var logger = {
+	log: function (msg) {
+	  //fs.write(this.logFile, msg + '\n')
+	  console.log("MES"+msg)
+	},
+
+    error:function (msg) {
+	  if (msg instanceof Error) {
+		msg = msg.stack
+	  }
+	  //fs.write(this.logFile, msg + '\n')
+	  console.log("ERROR:"+ msg)
+	}
+}
+
+
 let playLoop = function () {
 
-	let time = context.currentTime
+	let time = audioContext.currentTime
 
 	if (lastTime !== undefined) {
 		let delta = (time - lastTime)
@@ -52,7 +69,7 @@ function play() {
 		dMin = undefined
 		dMax = undefined
 		lastTime = undefined
-		startTime = context.currentTime;
+		startTime = audioContext.currentTime;
 		but.innerHTML = "Stop"
 		pause_but.style.visibility= "visible"		
 		music.start()
@@ -72,6 +89,11 @@ function pause() {
 
 }
 
+
+function init() {
+	music.ai.init();
+	
+}
 var music = new Music(disp)
 
 
