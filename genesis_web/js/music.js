@@ -26,23 +26,33 @@ function Music(pulse_el) {
     this.pulse = new Pulse(ticksPerBeat,beatsPerSec)
    
 
-    let ticksArr=[[0,4],[0,2],[0,1],[0,0.5]]
+    let ticksArr=[[0,8],[0,4],[0,2],[0,1],[0,0.5]]
     
     let nIn=ticksArr.length
 
     ticksArr.forEach((ticks)=>{new Ramper(ticks,this)})
    
-    var majorSeed = [0, 2, 4, 5, 7, 9, 11]
-    var stack3 = [0, 2, 4, 6, 8, 10, 12]
+    //var majorSeed = [0, 2, 4, 5, 7, 9, 11]
+    //var stack3 = [0, 2, 4, 6, 8, 10, 12]
+    
     let nOut=20
+    let nHidden=120
 
-    this.ai=new AI("marimba",this,nIn,nOut)
+    this.ai=new AI(this,nIn,nHidden,nOut)
 
     this.pulse.clients.push(this.ai)
     
     var inst = new Instrument("marimba")
 
-    this.player=new Player(this.ai,inst)
+	var base=[0,3,5,7,10]
+
+    var mapper=new Mapper(40,base)
+
+    var mapPlayer=new MappedPlayer(inst,mapper)
+    
+    this.player=new AIPlayer(this.ai,mapPlayer)
+
+
     this.pulse.clients.push(this.player)
     
     if (pulse_el !== undefined) {

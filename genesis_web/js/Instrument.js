@@ -26,7 +26,7 @@ function Instrument(name, music) {
 
 Instrument.prototype.playNote = function(key, vel) {
     if (this.inst === undefined) return
-    key+=50
+
     if (vel > 0) {
         this.started[key] = this.inst.play(key, 0, {
             gain: vel
