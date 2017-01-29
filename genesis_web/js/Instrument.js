@@ -1,7 +1,6 @@
 'use strict'
 
 
-
 function makeInst(name, cb) {
 	Soundfont.instrument(audioContext, name).then(function (inst) {
 		cb(inst)
