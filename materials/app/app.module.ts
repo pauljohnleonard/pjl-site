@@ -6,16 +6,20 @@ import {MaterialModule} from '@angular/material';
 
 import { AppComponent }   from './app.component';
 
-import { AIComponent } from './music/ai.component';
+import { AIDetailComponent } from './music/ai-detail.component';
+import { AIPlayerDetailComponent } from './music/ai-player-detail.component';
 import { MusicComponent } from './music/music.component';
-import { MusicAppComponent } from './music_app.component';
+import { MusicAppComponent } from './music-app.component';
+import { DBService } from './services/db.service';
+import { SFService } from './services/sf.service';
+
 
 @NgModule({
   imports:      [ BrowserModule,HttpModule,JsonpModule,FormsModule,
     MaterialModule.forRoot()  
   ],
-  declarations: [ AppComponent,MusicAppComponent,MusicComponent,AIComponent , MusicAppComponent],
-  providers: [],
+  declarations: [ AppComponent,MusicAppComponent,MusicComponent,AIDetailComponent,AIPlayerDetailComponent, MusicAppComponent],
+  providers: [DBService,SFService],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

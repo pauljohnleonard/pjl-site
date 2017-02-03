@@ -1,25 +1,29 @@
 import { Component, ViewChild } from '@angular/core';
 import { MusicComponent } from './music/music.component';
 
+
+declare var audioContext:any
+
+
 @Component({
 	selector: 'musicApp',
 	template: `
-     
-
-		<md-card style="max-height: 100px;">             
+		<md-card>             
         <md-card-content>
-        <div style="width: 100%; height: 265px">
+        <div style="width: 100%">
   			<div class="button-row">
                 <div class="btn-group">
                     <button md-raised-button id="play_but" (click)="play()"> {{play_stop_text}}</button>
-                    <button md-raised-button id="pause_but" (click)="pause()" style="visibility:hidden">Pause</button>
+                    <button *ngIf="pauseable" md-raised-button id="pause_but" (click)="pause()">{{pause_text}}</button>
                 </div>
          	</div>
      	</div>
+
      	<music></music>
      	</md-card-content>        
         </md-card>
-    `
+     	
+    `,
        styleUrls: ["css/mystyles.css"]
 })
 
@@ -27,14 +31,17 @@ import { MusicComponent } from './music/music.component';
 export class MusicAppComponent {
     
     @ViewChild(MusicComponent) music: MusicComponent;
-	startTime;
-	lastTime;
-	dMin = undefined;
-	dMax = undefined;
-	playing = false;
-	DELTA_T = 0.005;
+	startTime:number;
+	lastTime:number;
+	dMin:number = undefined;
+	dMax:number = undefined;
+	playing:boolean = false;
+	DELTA_T:number = 0.005;
 
- 	play_stop_text="play"
+ 	play_stop_text:string="play"
+ 	pauseable:boolean=false
+ 	pause_text:string="pause"
+
  	
     constructor() {
 	
@@ -44,7 +51,7 @@ export class MusicAppComponent {
 		setTimeout(this.playLoop, this.DELTA_T,this)
 	}
 
-	playLoop(self) {
+	playLoop(self:any) {
 
 		let time = audioContext.currentTime
 
@@ -73,10 +80,11 @@ export class MusicAppComponent {
 			this.dMax = undefined
 			this.lastTime = undefined
 			this.startTime = audioContext.currentTime;
-
 			this.music.start()
 			this.tick();
+			this.pauseable=true
 		} else {
+			this.pauseable=false	
 			this.play_stop_text="play"
 			this.playing = false;
 			this.music.stop()
@@ -85,6 +93,11 @@ export class MusicAppComponent {
 
 	pause() {
 		this.music.pause()
+		if (this.music.isRunning()) {
+			this.pause_text="pause"
+		} else {
+			this.pause_text="resume"
+		}
 	}
 
 }

@@ -1,23 +1,22 @@
-import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
-declare var MyNet1: any;
-declare var MyNet2: any;
-
-@Component({
-    selector: "ai",
-    templateUrl: "app/music/ai.html", 
-    styleUrls: ["css/mystyles.css"]
-
-})
+import { DBService } from 'app/services/db.service'
+import { Elman,Jordan } from 'app/music/net'
 
 
-export class AIComponent implements OnInit {
+export class AI {
 
-	types=["Type1","Type2"];
-	type="Type1";
-	nHidden
-	type
+	
+    types = ["Jordan", "Elman"];
+    type = "Jordan";
+    nHidden:any
+    out:Array<number>
+    dbService:DBService
+    saved:boolean
 
+    constructor(dbService:DBService){
+		this.dbService=dbService
+
+    }
 
     ngOnInit() {
         //  console.log("HELLO"+this.ai.out)
@@ -28,10 +27,10 @@ export class AIComponent implements OnInit {
     }
 
     save() {
-        var w = this.ai.net.weights
+        var w = this.net.weights
         var data = JSON.stringify(w)
-        writeWeights(w)
-        saved = true
+        this.saved = true
+        this.dbService.write(w)
     }
 
 	/*
@@ -50,8 +49,8 @@ export class AIComponent implements OnInit {
         this.music = music
         this.out = new Array(this.nOut)
         this.out.fill(0.5)
-        this.type="Type1"
-        this.nHidden=nHidden
+        this.type = "Jordan"
+        this.nHidden = nHidden
         this.implant()
     }
 
@@ -61,16 +60,18 @@ export class AIComponent implements OnInit {
         // console.log("OUT", this.out)   
     }
 
-    implant() {
 
+	
+    implant() {
+	 
 
         delete this.net
         switch (this.type) {
-            case "Type1":
-                this.net = new MyNet1(this.nIn, this.nHidden, this.nOut)
+            case "Elman":
+                this.net = new Elman(this.nIn, this.nHidden, this.nOut)
                 break;
-            default:
-                this.net = new MyNet2(this.nIn, this.nHidden, this.nOut)
+            case "Jordan":
+                this.net = new Jordan(this.nIn, this.nHidden, this.nOut)
         }
         this.out.fill(0.5)
         this.activateCnt = 0

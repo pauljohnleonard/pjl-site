@@ -1,30 +1,35 @@
 import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { MaterialModule } from '@angular/material';
-
-import { AIComponent } from './ai.component';
+import { DBService } from 'app/services/db.service'
+import { AI } from './ai';
+import { AIPlayer } from './ai-player';
+import { AIPlayerDetailComponent } from './ai-player-detail.component';
+import { Mapper,MappedPlayer } from './mapper';
+import { Instrument } from './instrument'
 
 declare var Pulse: any;
-
 declare var Ramper: any;
 declare var Instrument: any;
-declare var Mapper: any;
-declare var MappedPlayer: any;
 
 
 @Component({
     selector: "music",
 
     template: `
-               Hello music
-               <!--div class="button-row">
-                <button md-raised-button id="save_but" class="btn btn-primary" onclick="save()">Save</button>
-                <div class="btn-group">
-                    <button md-raised-button id="play_but" onclick="start()">Play</button>
-                    <button md-raised-button id="pause_but" onclick="pause()" style="visibility:hidden">Pause</button>
-                </div>
-            </div--->
-            <ai> </ai>
- 
+       <md-card>             
+            <div style="width: 100%">
+            <md-card-title>
+              <button md-mini-fab  (click)="addPlayer()"><md-icon>add</md-icon></button><br>
+            </md-card-title>
+            <md-card-content>
+
+            <div *ngFor="let p of aiPlayers">
+              <ai-player-detail [aiPlayer]=p> </ai-player-detail>
+            </div>
+            
+ 	       	</md-card-content>        
+        	</div>    
+       </md-card>
     `,
     styleUrls: ["css/mystyles.css"]
 })
@@ -52,45 +57,38 @@ Displayer.prototype.tick = function () {
 
 export class MusicComponent implements OnInit {
 
-    @ViewChild(AIComponent) ai : AIComponent;
+    // @ViewChild(AIComponent) ai : AIComponent;
     
+    aiPlayers:array<AIPlayers>=[]
+   
+    
+    constructor(private dbService: DBService) {
+		console.log("XYZ_MUS")
+    }
+
     constructorX() {
        
 
         let ticksPerBeat = 12
         let beatsPerSec = 2
-
+        
         this.pulse = new Pulse(ticksPerBeat, beatsPerSec)
 
 
+  
         let ticksArr = [[0, 8], [0, 4], [0, 2], [0, 1], [0, 0.5]]
 
-        let nIn = ticksArr.length
+        this.nIn = ticksArr.length
 
         ticksArr.forEach((ticks) => { new Ramper(ticks, this) })
 
         //var majorSeed = [0, 2, 4, 5, 7, 9, 11]
         //var stack3 = [0, 2, 4, 6, 8, 10, 12]
 
-        let nOut = 20
-        let nHidden = 120
 
-        this.ai.init(this, nIn, nHidden, nOut)
-        
-        this.pulse.clients.push(this.ai)
+        this.addPlayer("marimba")
 
-        var inst = new Instrument("marimba")
-
-        var base = [0, 3, 5, 7, 10]
-
-        var mapper = new Mapper(40, base)
-
-        var mapPlayer = new MappedPlayer(inst, mapper)
-
-        this.player = new AIPlayer(this.ai, mapPlayer)
-
-
-        this.pulse.clients.push(this.player)
+        this.addPlayer("vibraphone")
 
         /*
         if (pulse_el !== undefined) {
@@ -108,6 +106,31 @@ export class MusicComponent implements OnInit {
         });
     });
     */
+
+    addPlayer(name) {
+        let nOut = 20
+        let nHidden = 120
+        let n
+        
+        this.ai=new AI(this.dbService)
+        this.selectedAI=this.ai
+        this.ai.init(this, this.nIn, nHidden, nOut)
+        this.pulse.clients.push(this.ai)
+
+        if (name === undefined) name="marimba"
+        
+        var inst = new Instrument(name)
+
+        var base = [0, 3, 5, 7, 10]
+
+        var mapper = new Mapper(40, base)
+        var mapPlayer = new MappedPlayer(inst, mapper)
+        this.player = new AIPlayer(this.ai, mapPlayer)
+        this.aiPlayers.push(this.player)    
+        this.pulse.clients.push(this.player)
+   
+    }
+    
     tick() {
         try {
             this.pulse.tick()
@@ -128,7 +151,9 @@ export class MusicComponent implements OnInit {
         this.pulse.pause()
     }
 
-
+    isRunning():boolean {
+        return this.pulse.running
+    }
 
     ngOnInit() {
         //  console.log("HELLO"+this.ai.out)

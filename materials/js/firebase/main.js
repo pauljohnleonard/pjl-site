@@ -16,36 +16,6 @@
 'use strict';
 
 
-var signInButton  = document.getElementById('sign-in-button');
-var signOutButton = document.getElementById('sign-out-button');
-var signUpButton = document.getElementById('sign-up-button');
-var userIcon      = document.getElementById('user-icon');
-
-
-function writeWeights(weights) {
-    // A post entry.
-    var postData = {
-        uid: currentUID,
-        weights: weights,
-     };
-    // Get a key for a new Post.
-    var newKey = firebase.database().ref().child('weights').push().key;
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    var updates = {};
-    updates['/weights/' + newKey] = postData;
-    return firebase.database().ref().update(updates);
-}
-
-
-
-function writeUserData(userId, name, email, imageUrl) {
-    firebase.database().ref('users/' + userId).set({
-        username: name,
-        email: email,
-        profile_picture: imageUrl
-    });
-}
-
 var currentUID;
 
 function onAuthStateChanged(user) {
@@ -54,23 +24,11 @@ function onAuthStateChanged(user) {
         return;
     }
     if (user) {
-
         console.log("SIGNIN" +user.displayName)
         currentUID = user.uid;
-        //signOutButton.style.display=''
-        //signInButton.style.display="none"
-        //signUpButton.style.display="none"
-        //userIcon.style.display="block"
-        //userIcon.src=user.photoURL
-        //userIcon.alt=user.displayName
         writeUserData(user.uid, user.displayName, user.email, user.photoURL);
     } else {
         currentUID = null;
-        //signInButton.style.display=''
-        //signUpButton.style.display=''
-        //signOutButton.style.display="none"
-        //userIcon.style.display="none"
-        //userIcon.src=""
      }
 }
 
