@@ -1,3 +1,5 @@
+import { Player } from  "./player"
+
 
 export class Mapper {
 
@@ -15,7 +17,7 @@ export class Mapper {
     }
 }
 
-export class MappedPlayer {
+export class MappedPlayer implements Player {
     constructor(inst, mapper) {
         this.inst=inst
         this.mapper=mapper

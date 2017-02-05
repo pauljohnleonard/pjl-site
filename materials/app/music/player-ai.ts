@@ -1,10 +1,12 @@
 import { DBService } from '../services/db.service'
 import { Mapper, MappedPlayer } from "./mapper"
 import { AI } from  "./AI"
-export class AIPlayer {
+
+export class PlayerAI {
 
         ai:AI
-    constructor(ai, player) {
+
+    constructor(ai:AI, player) {
         this.ai = ai
         this.player = player
         this.last = ai.out

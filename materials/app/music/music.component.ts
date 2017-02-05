@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/cor
 import { MaterialModule } from '@angular/material';
 import { DBService } from 'app/services/db.service'
 import { AI } from './ai';
-import { AIPlayer } from './ai-player';
+import { PlayerAI } from './player-ai';
 import { AIPlayerDetailComponent } from './ai-player-detail.component';
 import { Mapper,MappedPlayer } from './mapper';
 import { Instrument } from './instrument'
@@ -59,7 +59,7 @@ export class MusicComponent implements OnInit {
 
     // @ViewChild(AIComponent) ai : AIComponent;
     
-    aiPlayers:array<AIPlayers>=[]
+    aiPlayers:array<PlayersAI>=[]
    
     
     constructor(private dbService: DBService) {
@@ -125,7 +125,7 @@ export class MusicComponent implements OnInit {
 
         var mapper = new Mapper(40, base)
         var mapPlayer = new MappedPlayer(inst, mapper)
-        this.player = new AIPlayer(this.ai, mapPlayer)
+        this.player = new PlayerAI(this.ai, mapPlayer)
         this.aiPlayers.push(this.player)    
         this.pulse.clients.push(this.player)
    

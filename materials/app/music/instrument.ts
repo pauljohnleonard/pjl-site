@@ -5,6 +5,7 @@ export class Instrument {
 
     constructor(name, music) {
         
+       
         this.setInst(name)
         this.started = {}
         this.opts = {}
@@ -21,6 +22,8 @@ export class Instrument {
 
         Soundfont.instrument(audioContext, name).then(function (inst) {
             self.inst = inst
+        
+            //inst.connect(audioContext.destination)
         })
 
 

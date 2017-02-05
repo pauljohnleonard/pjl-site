@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AIPlayer }  from  "app/music/ai-player"
+import { AIPlayer }  from  "app/music/player-ai"
 import { SFService } from 'app/services/sf.service'
 import { Instrument } from './instrument'
 
@@ -39,7 +39,7 @@ import { Instrument } from './instrument'
 })
 
 export class AIPlayerDetailComponent {
-  @Input() aiPlayer: AIPlayer;
+  @Input() aiPlayer: PlayerAI;
   instname:string
   
  
