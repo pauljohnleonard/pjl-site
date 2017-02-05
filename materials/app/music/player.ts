@@ -1,55 +1,52 @@
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'player',
-  template: ` <p>player<p>
-      
-      `
-})
-
-
-
+import { Instrument } from './instrument'
 
 var players:Array<Player>=[] 
-
 
 export class Player {
     
     soloed:boolean = false
     tmpMuted:boolean = false
-    muted = false
-        
+    muted:boolean = false
 
+    details:any={}
+           
     constructor() {
-        player.push(this)
-    }
-
-    playNote(i, vel) {
-        console.log(" Player has no playNote !!!")
+        players.push(this)
     }
 
     mute()   {
-       muted = ! muted    
+       this.muted = ! this.muted 
+       this.details.inst.mute(this.muted)
     }
 
     solo() {
-        soloed = ! soloed
 
-        if (soloed) {
-            players.forEach((p)=>{
-                if (!p.soloed) p.tmpMuted=true
-            })
+        this.soloed = ! this.soloed
+ 
+        if (this.soloed) this.muted=false
+
+        let soloedCnt=0;
+      
+        players.forEach((p)=>{
+            if (p.soloed) soloedCnt++  
+        })
+      
+        if (soloedCnt == 0) {
+             players.forEach((p)=>{
+                p.tmpMuted = false
+                p.details.inst.mute(this.muted)
+             })  
         } else {
-            let soloedCnt=0;
-            players.forEach((p)=>{
-                if (p.soloed) soloedCnt++  
-            }
-            if (soloedCnt = 0) {
-                 players.forEach((p)=>{
-                    tmpMuted = false
-                 }  
-            }   
+           players.forEach((p)=>{
+                if (!p.soloed) {
+                  p.tmpMuted=true
+                  p.details.inst.mute(true)
+                }  else {
+                  p.tmpMuted=false
+                  p.details.inst.mute(false)
+                }
+            })
         }
-
     }
+
 }

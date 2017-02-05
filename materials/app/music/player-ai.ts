@@ -1,8 +1,10 @@
 import { DBService } from '../services/db.service'
 import { Mapper, MappedPlayer } from "./mapper"
-import { AI } from  "./AI"
+import { Ticker }  from "./ticker"
 
-export class PlayerAI {
+import { AI } from  "./ai"
+
+export class PlayerAI implements Ticker {
 
         ai:AI
 

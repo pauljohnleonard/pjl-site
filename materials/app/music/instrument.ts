@@ -1,36 +1,53 @@
+
+import { Music } from "./music.component"
+
 declare var Soundfont : any
-declare var audioContest : any
+declare var audioContext : any
 
 export class Instrument {
 
-    constructor(name, music) {
+    started = {}
+    opts = {}
+    name:string
+    inst:any
+    gainValue:Number
+    muted:boolean=false
         
-       
+    constructor(name:string) {
         this.setInst(name)
-        this.started = {}
-        this.opts = {}
-        this.gain = function (vel) {
-            return vel / 127
-        }
-        this.music = music
     }
 
 
-    setInst(name) {
+    mute(yes:boolean) {
+        
+        if (this.muted == yes) return;
+        this.muted = yes    
+        console.log(this.name+ " mute " + yes);
+        if (yes) {
+            this.gainValue=this.inst.out.gain.value
+            this.inst.out.gain.value=0
+        } else {
+            this.inst.out.gain.value=this.gainValue 
+        }
+        
+    }
+
+    setInst(name:string) {
         this.name = name;
         var self = this
 
-        Soundfont.instrument(audioContext, name).then(function (inst) {
-            self.inst = inst
+        Soundfont.instrument(audioContext, name).then((inst:any) => {
+            this.inst = inst
+            this.gainValue=inst.out.gain.value
         
             //inst.connect(audioContext.destination)
         })
-
-
-
     }
 
-    playNote(key, vel) {
+
+
+
+    playNote(key:any , vel:Number) {
         if (this.inst === undefined) return
 
         if (vel > 0) {
@@ -44,7 +61,7 @@ export class Instrument {
             }
         }
     }
-
+    /*
     playMidi(msg) {
         var mm = msg.messageType ? msg : midimessage(msg)
         if (mm.messageType === 'noteon' && mm.velocity === 0) {
@@ -81,4 +98,5 @@ export class Instrument {
         }
         return this
     }
+    */
 }
