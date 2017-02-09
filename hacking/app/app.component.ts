@@ -6,7 +6,7 @@ import { DBService } from './services/db.service'
   selector: 'my-app',
   template: `
       <md-toolbar>
-           <span> <img src="genesis.png" style="height: 36px" alt="genesis logo" />
+           <span> <img src="genesis_thicker.png" style="height: 36px" alt="genesis logo" />
             Genesis </span>  
               <span style="flex: 1 1 auto"></span>
            <span>
@@ -15,7 +15,7 @@ import { DBService } from './services/db.service'
          </button>
           </span>
       </md-toolbar>
-
+      <musicApp></musicApp>
             
       `
 })

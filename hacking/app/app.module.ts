@@ -14,7 +14,7 @@ import { MusicComponent } from './music/music.component';
 import { MusicAppComponent } from './music-app.component';
 import { DBService } from './services/db.service';
 import { SFService } from './services/sf.service';
-import '../node_modules/hammerjs/hammer'; // Recommended
+//import 'hammerjs'; // Recommended
 
 
 
@@ -24,7 +24,7 @@ import '../node_modules/hammerjs/hammer'; // Recommended
   ],
   declarations: [ AppComponent,AIDetailComponent,InstrumentDetailComponent,PlayerDetailComponent,
         MusicComponent,MusicAppComponent],
-  providers: [],
+  providers: [DBService,SFService],
   bootstrap:    [ AppComponent ]
 })
 

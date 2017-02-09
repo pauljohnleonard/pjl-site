@@ -18,9 +18,11 @@ import * as import9 from '@angular/material/toolbar/toolbar';
 import * as import10 from '../node_modules/@angular/material/toolbar/toolbar.ngfactory';
 import * as import11 from '@angular/material/button/button';
 import * as import12 from '../node_modules/@angular/material/button/button.ngfactory';
-import * as import13 from '@angular/core/src/change_detection/change_detection_util';
-import * as import14 from '@angular/core/src/linker/element_ref';
-import * as import15 from '@angular/core/src/security';
+import * as import13 from '../../app/music-app.component';
+import * as import14 from './music-app.component.ngfactory';
+import * as import15 from '@angular/core/src/change_detection/change_detection_util';
+import * as import16 from '@angular/core/src/linker/element_ref';
+import * as import17 from '@angular/core/src/security';
 export class Wrapper_AppComponent {
   /*private*/ _eventHandler:Function;
   context:import0.AppComponent;
@@ -106,21 +108,25 @@ export class View_AppComponent0 extends import1.AppView<import0.AppComponent> {
   _text_16:any;
   _text_17:any;
   _text_18:any;
-  /*private*/ _expr_23:any;
+  _el_19:any;
+  compView_19:import1.AppView<import13.MusicAppComponent>;
+  _MusicAppComponent_19_3:import14.Wrapper_MusicAppComponent;
+  _text_20:any;
+  /*private*/ _expr_27:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any) {
     super(View_AppComponent0,renderType_AppComponent,import5.ViewType.COMPONENT,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways);
-    this._expr_23 = import13.UNINITIALIZED;
+    this._expr_27 = import15.UNINITIALIZED;
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
     this._text_0 = this.renderer.createText(parentRenderNode,'\n      ',(null as any));
     this._el_1 = import3.createRenderElement(this.renderer,parentRenderNode,'md-toolbar',import3.EMPTY_INLINE_ARRAY,(null as any));
     this.compView_1 = new import10.View_MdToolbar0(this.viewUtils,this,1,this._el_1);
-    this._MdToolbar_1_3 = new import10.Wrapper_MdToolbar(new import14.ElementRef(this._el_1),this.renderer);
+    this._MdToolbar_1_3 = new import10.Wrapper_MdToolbar(new import16.ElementRef(this._el_1),this.renderer);
     this._text_2 = this.renderer.createText((null as any),'\n           ',(null as any));
     this._el_3 = import3.createRenderElement(this.renderer,(null as any),'span',import3.EMPTY_INLINE_ARRAY,(null as any));
     this._text_4 = this.renderer.createText(this._el_3,' ',(null as any));
-    this._el_5 = import3.createRenderElement(this.renderer,this._el_3,'img',new import3.InlineArray8(6,'alt','genesis logo','src','genesis.png','style','height: 36px'),(null as any));
+    this._el_5 = import3.createRenderElement(this.renderer,this._el_3,'img',new import3.InlineArray8(6,'alt','genesis logo','src','genesis_thicker.png','style','height: 36px'),(null as any));
     this._text_6 = this.renderer.createText(this._el_3,'\n            Genesis ',(null as any));
     this._text_7 = this.renderer.createText((null as any),'  \n              ',(null as any));
     this._el_8 = import3.createRenderElement(this.renderer,(null as any),'span',new import3.InlineArray2(2,'style','flex: 1 1 auto'),(null as any));
@@ -129,7 +135,7 @@ export class View_AppComponent0 extends import1.AppView<import0.AppComponent> {
     this._text_11 = this.renderer.createText(this._el_10,'\n          ',(null as any));
     this._el_12 = import3.createRenderElement(this.renderer,this._el_10,'button',new import3.InlineArray8(8,'id','','md-button','','name','','value',''),(null as any));
     this.compView_12 = new import12.View_MdButton0(this.viewUtils,this,12,this._el_12);
-    this._MdButton_12_3 = new import12.Wrapper_MdButton(new import14.ElementRef(this._el_12),this.renderer);
+    this._MdButton_12_3 = new import12.Wrapper_MdButton(new import16.ElementRef(this._el_12),this.renderer);
     this._text_13 = this.renderer.createText((null as any),'\n             ',(null as any));
     this._el_14 = import3.createRenderElement(this.renderer,(null as any),'img',new import3.InlineArray2(2,'style','height: 36px'),(null as any));
     this._text_15 = this.renderer.createText((null as any),'\n         ',(null as any));
@@ -137,7 +143,12 @@ export class View_AppComponent0 extends import1.AppView<import0.AppComponent> {
     this._text_16 = this.renderer.createText(this._el_10,'\n          ',(null as any));
     this._text_17 = this.renderer.createText((null as any),'\n      ',(null as any));
     this.compView_1.create(this._MdToolbar_1_3.context);
-    this._text_18 = this.renderer.createText(parentRenderNode,'\n\n            \n      ',(null as any));
+    this._text_18 = this.renderer.createText(parentRenderNode,'\n      ',(null as any));
+    this._el_19 = import3.createRenderElement(this.renderer,parentRenderNode,'musicApp',import3.EMPTY_INLINE_ARRAY,(null as any));
+    this.compView_19 = new import14.View_MusicAppComponent0(this.viewUtils,this,19,this._el_19);
+    this._MusicAppComponent_19_3 = new import14.Wrapper_MusicAppComponent(this.parentView.injectorGet(import8.DBService,this.parentIndex));
+    this.compView_19.create(this._MusicAppComponent_19_3.context);
+    this._text_20 = this.renderer.createText(parentRenderNode,'\n            \n      ',(null as any));
     var disposable_0:Function = import3.subscribeToRenderElement(this,this._el_12,new import3.InlineArray8(8,'click',(null as any),'mousedown',(null as any),'focus',(null as any),'blur',(null as any)),this.eventHandler(this.handleEvent_12));
     this.init((null as any),((<any>this.renderer).directRenderer? (null as any): [
       this._text_0,
@@ -158,7 +169,9 @@ export class View_AppComponent0 extends import1.AppView<import0.AppComponent> {
       this._text_15,
       this._text_16,
       this._text_17,
-      this._text_18
+      this._text_18,
+      this._el_19,
+      this._text_20
     ]
     ),[disposable_0]);
     return (null as any);
@@ -166,23 +179,27 @@ export class View_AppComponent0 extends import1.AppView<import0.AppComponent> {
   injectorGetInternal(token:any,requestNodeIndex:number,notFoundResult:any):any {
     if (((token === import11.MdButton) && ((12 <= requestNodeIndex) && (requestNodeIndex <= 15)))) { return this._MdButton_12_3.context; }
     if (((token === import9.MdToolbar) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 17)))) { return this._MdToolbar_1_3.context; }
+    if (((token === import13.MusicAppComponent) && (19 === requestNodeIndex))) { return this._MusicAppComponent_19_3.context; }
     return notFoundResult;
   }
   detectChangesInternal(throwOnChange:boolean):void {
     if (this._MdToolbar_1_3.ngDoCheck(this,this._el_1,throwOnChange)) { this.compView_1.markAsCheckOnce(); }
     if (this._MdButton_12_3.ngDoCheck(this,this._el_12,throwOnChange)) { this.compView_12.markAsCheckOnce(); }
+    this._MusicAppComponent_19_3.ngDoCheck(this,this._el_19,throwOnChange);
     this._MdButton_12_3.checkHost(this,this.compView_12,this._el_12,throwOnChange);
-    const currVal_23:any = import3.inlineInterpolate(1,'',this.context.button_img,'');
-    if (import3.checkBinding(throwOnChange,this._expr_23,currVal_23)) {
-      this.renderer.setElementProperty(this._el_14,'src',this.viewUtils.sanitizer.sanitize(import15.SecurityContext.URL,currVal_23));
-      this._expr_23 = currVal_23;
+    const currVal_27:any = import3.inlineInterpolate(1,'',this.context.button_img,'');
+    if (import3.checkBinding(throwOnChange,this._expr_27,currVal_27)) {
+      this.renderer.setElementProperty(this._el_14,'src',this.viewUtils.sanitizer.sanitize(import17.SecurityContext.URL,currVal_27));
+      this._expr_27 = currVal_27;
     }
     this.compView_1.internalDetectChanges(throwOnChange);
     this.compView_12.internalDetectChanges(throwOnChange);
+    this.compView_19.internalDetectChanges(throwOnChange);
   }
   destroyInternal():void {
     this.compView_1.destroy();
     this.compView_12.destroy();
+    this.compView_19.destroy();
   }
   visitProjectableNodesInternal(nodeIndex:number,ngContentIndex:number,cb:any,ctx:any):void {
     if (((nodeIndex == 1) && (ngContentIndex == 0))) {
