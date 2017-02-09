@@ -23,8 +23,9 @@
   },
   "devDependencies": {
     "@angular/compiler-cli": "",
-    "express": "^4.14.0",
+    "@types/hammerjs": "^2.0.34",
     "compression": "^1.6.2",
+    "express": "^4.14.0",
     "jspm": "^0.16.48",
     "reflect-metadata": "^0.1.8",
     "rollup": "^0.36.4",
@@ -44,6 +45,7 @@
     "@angular/platform-browser-dynamic": "",
     "@angular/router": "",
     "@types/hammerjs": "",
+    "hammerjs": "^2.0.8",
     "rxjs": "",
     "zone.js": ""
   }
