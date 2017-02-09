@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-//import { DBService } from './services/db.service'
+import { DBService } from './services/db.service'
 
 
 @Component({
@@ -25,7 +25,7 @@ export class AppComponent {
   button_img: string = "btn_google_signin_light_normal_web.png"
   user: any = null
 
-  /*
+  
   constructor(private dbService: DBService) {
     dbService.register((user:any) => {
       this.user = user
@@ -43,7 +43,7 @@ export class AppComponent {
     this.dbService.signIn()
     console.log("signing in")
   }
-  */
+  
 
 /*
   visibility() {
