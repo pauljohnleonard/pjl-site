@@ -1,9 +1,10 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 //import { MaterialModule } from '@angular/material';
 import { DBService } from '../services/db.service'
+import { SamplesService } from '../services/samples.service'
 import { AI } from './ai';
 import { PlayerAI } from './player-ai';
-import { Drumkit } from './drumkit'
+import { Metro } from './metro'
 import { PlayerDetailComponent } from './player-detail.component';
 import { Mapper,MappedPlayer } from './mapper';
 import { Instrument } from './instrument'
@@ -15,8 +16,7 @@ import { Ramper } from "./ramper"
 @Component({
     selector: "music",
     template: `
- 
-      <!--drumkit></drumkit-->
+
        <md-card>             
             <div style="width: 100%">
 
@@ -75,12 +75,12 @@ export class MusicComponent implements OnInit {
     pulse:Pulse
     selectedPlayer:Player
     ticksArr:Array<Array<number>>
-    drumkit:Drumkit
+    metro:Metro
 
 //    constructor(){}
     
     
-    constructor(private dbService: DBService) {
+    constructor(private dbService: DBService,private samplesService:SamplesService) {
 
       console.log("Hello X")
       var self=this
@@ -116,8 +116,8 @@ export class MusicComponent implements OnInit {
         //var stack3 = [0, 2, 4, 6, 8, 10, 12]
 
 
-        this.drumkit=new Drumkit(this.pulse)
-        this.pulse.clients.push(this.drumkit)
+        this.metro=new Metro(this.pulse,this.samplesService)
+        this.pulse.clients.push(this.metro)
         
         this.addAIPlayer("marimba")
 

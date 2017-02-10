@@ -14,38 +14,39 @@ import * as import5 from '@angular/core/src/linker/view_type';
 import * as import6 from '@angular/core/src/change_detection/constants';
 import * as import7 from '@angular/core/src/linker/component_factory';
 import * as import8 from '../../../app/services/db.service';
-import * as import9 from '@angular/material/menu/menu-item';
-import * as import10 from '../../node_modules/@angular/material/menu/menu-item.ngfactory';
-import * as import11 from '@angular/core/src/linker/view_container';
-import * as import12 from '@angular/core/src/change_detection/change_detection_util';
-import * as import13 from '@angular/core/src/linker/element_ref';
-import * as import14 from '../../../app/music/player-detail.component';
-import * as import15 from './player-detail.component.ngfactory';
-import * as import16 from '@angular/material/card/card';
-import * as import17 from '../../node_modules/@angular/material/card/card.ngfactory';
-import * as import18 from '@angular/material/button/button';
-import * as import19 from '../../node_modules/@angular/material/button/button.ngfactory';
-import * as import20 from '../../node_modules/@angular/material/menu/menu-trigger.ngfactory';
-import * as import21 from '@angular/material/icon/icon';
-import * as import22 from '../../node_modules/@angular/material/icon/icon.ngfactory';
-import * as import23 from '@angular/material/menu/menu-directive';
-import * as import24 from '../../node_modules/@angular/material/menu/menu-directive.ngfactory';
-import * as import25 from '@angular/core/src/linker/query_list';
-import * as import26 from '../../node_modules/@angular/common/src/directives/ng_for.ngfactory';
-import * as import27 from '@angular/material/core/overlay/overlay';
-import * as import28 from '@angular/material/core/rtl/dir';
-import * as import29 from '@angular/material/icon/icon-registry';
-import * as import30 from '@angular/core/src/linker/template_ref';
-import * as import31 from '@angular/core/src/change_detection/differs/iterable_differs';
-import * as import32 from '@angular/material/menu/menu-trigger';
-import * as import33 from '@angular/common/src/directives/ng_for';
+import * as import9 from '../../../app/services/samples.service';
+import * as import10 from '@angular/material/menu/menu-item';
+import * as import11 from '../../node_modules/@angular/material/menu/menu-item.ngfactory';
+import * as import12 from '@angular/core/src/linker/view_container';
+import * as import13 from '@angular/core/src/change_detection/change_detection_util';
+import * as import14 from '@angular/core/src/linker/element_ref';
+import * as import15 from '../../../app/music/player-detail.component';
+import * as import16 from './player-detail.component.ngfactory';
+import * as import17 from '@angular/material/card/card';
+import * as import18 from '../../node_modules/@angular/material/card/card.ngfactory';
+import * as import19 from '@angular/material/button/button';
+import * as import20 from '../../node_modules/@angular/material/button/button.ngfactory';
+import * as import21 from '../../node_modules/@angular/material/menu/menu-trigger.ngfactory';
+import * as import22 from '@angular/material/icon/icon';
+import * as import23 from '../../node_modules/@angular/material/icon/icon.ngfactory';
+import * as import24 from '@angular/material/menu/menu-directive';
+import * as import25 from '../../node_modules/@angular/material/menu/menu-directive.ngfactory';
+import * as import26 from '@angular/core/src/linker/query_list';
+import * as import27 from '../../node_modules/@angular/common/src/directives/ng_for.ngfactory';
+import * as import28 from '@angular/material/core/overlay/overlay';
+import * as import29 from '@angular/material/core/rtl/dir';
+import * as import30 from '@angular/material/icon/icon-registry';
+import * as import31 from '@angular/core/src/linker/template_ref';
+import * as import32 from '@angular/core/src/change_detection/differs/iterable_differs';
+import * as import33 from '@angular/material/menu/menu-trigger';
+import * as import34 from '@angular/common/src/directives/ng_for';
 export class Wrapper_MusicComponent {
   /*private*/ _eventHandler:Function;
   context:import0.MusicComponent;
   /*private*/ _changed:boolean;
-  constructor(p0:any) {
+  constructor(p0:any,p1:any) {
     this._changed = false;
-    this.context = new import0.MusicComponent(p0);
+    this.context = new import0.MusicComponent(p0,p1);
   }
   ngOnDetach(view:import1.AppView<any>,componentView:import1.AppView<any>,el:any):void {
   }
@@ -78,7 +79,7 @@ class View_MusicComponent_Host0 extends import1.AppView<any> {
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     this._el_0 = import3.selectOrCreateRenderHostElement(this.renderer,'music',import3.EMPTY_INLINE_ARRAY,rootSelector,(null as any));
     this.compView_0 = new View_MusicComponent0(this.viewUtils,this,0,this._el_0);
-    this._MusicComponent_0_3 = new Wrapper_MusicComponent(this.injectorGet(import8.DBService,this.parentIndex));
+    this._MusicComponent_0_3 = new Wrapper_MusicComponent(this.injectorGet(import8.DBService,this.parentIndex),this.injectorGet(import9.SamplesService,this.parentIndex));
     this.compView_0.create(this._MusicComponent_0_3.context);
     this.init(this._el_0,((<any>this.renderer).directRenderer? (null as any): [this._el_0]),(null as any));
     return new import7.ComponentRef_<any>(0,this,this._el_0,this._MusicComponent_0_3.context);
@@ -103,20 +104,20 @@ export const MusicComponentNgFactory:import7.ComponentFactory<import0.MusicCompo
 const styles_MusicComponent:any[] = ([] as any[]);
 class View_MusicComponent1 extends import1.AppView<any> {
   _el_0:any;
-  compView_0:import1.AppView<import9.MdMenuItem>;
-  _MdMenuItem_0_3:import10.Wrapper_MdMenuItem;
+  compView_0:import1.AppView<import10.MdMenuItem>;
+  _MdMenuItem_0_3:import11.Wrapper_MdMenuItem;
   _text_1:any;
   /*private*/ _expr_4:any;
   /*private*/ _expr_5:any;
-  constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import11.ViewContainer) {
+  constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import12.ViewContainer) {
     super(View_MusicComponent1,renderType_MusicComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
-    this._expr_4 = import12.UNINITIALIZED;
-    this._expr_5 = import12.UNINITIALIZED;
+    this._expr_4 = import13.UNINITIALIZED;
+    this._expr_5 = import13.UNINITIALIZED;
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     this._el_0 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray4(4,'md-menu-item','','role','menuitem'),(null as any));
-    this.compView_0 = new import10.View_MdMenuItem0(this.viewUtils,this,0,this._el_0);
-    this._MdMenuItem_0_3 = new import10.Wrapper_MdMenuItem(this.renderer,new import13.ElementRef(this._el_0));
+    this.compView_0 = new import11.View_MdMenuItem0(this.viewUtils,this,0,this._el_0);
+    this._MdMenuItem_0_3 = new import11.Wrapper_MdMenuItem(this.renderer,new import14.ElementRef(this._el_0));
     this._text_1 = this.renderer.createText((null as any),'',(null as any));
     this.compView_0.create(this._MdMenuItem_0_3.context);
     var disposable_0:Function = import3.subscribeToRenderElement(this,this._el_0,new import3.InlineArray2(2,'click',(null as any)),this.eventHandler(this.handleEvent_0));
@@ -128,7 +129,7 @@ class View_MusicComponent1 extends import1.AppView<any> {
     return (null as any);
   }
   injectorGetInternal(token:any,requestNodeIndex:number,notFoundResult:any):any {
-    if (((token === import9.MdMenuItem) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 1)))) { return this._MdMenuItem_0_3.context; }
+    if (((token === import10.MdMenuItem) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 1)))) { return this._MdMenuItem_0_3.context; }
     return notFoundResult;
   }
   detectChangesInternal(throwOnChange:boolean):void {
@@ -173,19 +174,19 @@ class View_MusicComponent2 extends import1.AppView<any> {
   _el_0:any;
   _text_1:any;
   _el_2:any;
-  compView_2:import1.AppView<import14.PlayerDetailComponent>;
-  _PlayerDetailComponent_2_3:import15.Wrapper_PlayerDetailComponent;
+  compView_2:import1.AppView<import15.PlayerDetailComponent>;
+  _PlayerDetailComponent_2_3:import16.Wrapper_PlayerDetailComponent;
   _text_3:any;
   _text_4:any;
-  constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import11.ViewContainer) {
+  constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import12.ViewContainer) {
     super(View_MusicComponent2,renderType_MusicComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     this._el_0 = import3.createRenderElement(this.renderer,(null as any),'div',import3.EMPTY_INLINE_ARRAY,(null as any));
     this._text_1 = this.renderer.createText(this._el_0,'\n               ',(null as any));
     this._el_2 = import3.createRenderElement(this.renderer,this._el_0,'player-detail',import3.EMPTY_INLINE_ARRAY,(null as any));
-    this.compView_2 = new import15.View_PlayerDetailComponent0(this.viewUtils,this,2,this._el_2);
-    this._PlayerDetailComponent_2_3 = new import15.Wrapper_PlayerDetailComponent();
+    this.compView_2 = new import16.View_PlayerDetailComponent0(this.viewUtils,this,2,this._el_2);
+    this._PlayerDetailComponent_2_3 = new import16.Wrapper_PlayerDetailComponent();
     this._text_3 = this.renderer.createText((null as any),' ',(null as any));
     this.compView_2.create(this._PlayerDetailComponent_2_3.context);
     this._text_4 = this.renderer.createText(this._el_0,'\n            ',(null as any));
@@ -202,7 +203,7 @@ class View_MusicComponent2 extends import1.AppView<any> {
     return (null as any);
   }
   injectorGetInternal(token:any,requestNodeIndex:number,notFoundResult:any):any {
-    if (((token === import14.PlayerDetailComponent) && ((2 <= requestNodeIndex) && (requestNodeIndex <= 3)))) { return this._PlayerDetailComponent_2_3.context; }
+    if (((token === import15.PlayerDetailComponent) && ((2 <= requestNodeIndex) && (requestNodeIndex <= 3)))) { return this._PlayerDetailComponent_2_3.context; }
     return notFoundResult;
   }
   detectChangesInternal(throwOnChange:boolean):void {
@@ -232,34 +233,34 @@ var renderType_MusicComponent:import2.RenderComponentType = import3.createRender
 export class View_MusicComponent0 extends import1.AppView<import0.MusicComponent> {
   _text_0:any;
   _el_1:any;
-  compView_1:import1.AppView<import16.MdCard>;
-  _MdCard_1_3:import17.Wrapper_MdCard;
+  compView_1:import1.AppView<import17.MdCard>;
+  _MdCard_1_3:import18.Wrapper_MdCard;
   _text_2:any;
   _el_3:any;
   _text_4:any;
   _text_5:any;
   _el_6:any;
-  /*private*/ _vc_6:import11.ViewContainer;
-  compView_6:import1.AppView<import18.MdButton>;
-  _MdButton_6_5:import19.Wrapper_MdButton;
-  _MdMenuTrigger_6_6:import20.Wrapper_MdMenuTrigger;
+  /*private*/ _vc_6:import12.ViewContainer;
+  compView_6:import1.AppView<import19.MdButton>;
+  _MdButton_6_5:import20.Wrapper_MdButton;
+  _MdMenuTrigger_6_6:import21.Wrapper_MdMenuTrigger;
   _text_7:any;
   _text_8:any;
   _el_9:any;
-  compView_9:import1.AppView<import21.MdIcon>;
-  _MdIcon_9_3:import22.Wrapper_MdIcon;
+  compView_9:import1.AppView<import22.MdIcon>;
+  _MdIcon_9_3:import23.Wrapper_MdIcon;
   _text_10:any;
   _text_11:any;
   _text_12:any;
   _el_13:any;
-  compView_13:import1.AppView<import23.MdMenu>;
-  _MdMenu_13_3:import24.Wrapper_MdMenu;
-  _query_MdMenuItem_13_0:import25.QueryList<any>;
+  compView_13:import1.AppView<import24.MdMenu>;
+  _MdMenu_13_3:import25.Wrapper_MdMenu;
+  _query_MdMenuItem_13_0:import26.QueryList<any>;
   _text_14:any;
   _anchor_15:any;
-  /*private*/ _vc_15:import11.ViewContainer;
+  /*private*/ _vc_15:import12.ViewContainer;
   _TemplateRef_15_5:any;
-  _NgFor_15_6:import26.Wrapper_NgFor;
+  _NgFor_15_6:import27.Wrapper_NgFor;
   _text_16:any;
   _text_17:any;
   _text_18:any;
@@ -268,9 +269,9 @@ export class View_MusicComponent0 extends import1.AppView<import0.MusicComponent
   _el_21:any;
   _text_22:any;
   _anchor_23:any;
-  /*private*/ _vc_23:import11.ViewContainer;
+  /*private*/ _vc_23:import12.ViewContainer;
   _TemplateRef_23_5:any;
-  _NgFor_23_6:import26.Wrapper_NgFor;
+  _NgFor_23_6:import27.Wrapper_NgFor;
   _text_24:any;
   _text_25:any;
   _text_26:any;
@@ -280,38 +281,38 @@ export class View_MusicComponent0 extends import1.AppView<import0.MusicComponent
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
-    this._text_0 = this.renderer.createText(parentRenderNode,'\n \n       ',(null as any));
+    this._text_0 = this.renderer.createText(parentRenderNode,'\n\n       ',(null as any));
     this._el_1 = import3.createRenderElement(this.renderer,parentRenderNode,'md-card',import3.EMPTY_INLINE_ARRAY,(null as any));
-    this.compView_1 = new import17.View_MdCard0(this.viewUtils,this,1,this._el_1);
-    this._MdCard_1_3 = new import17.Wrapper_MdCard();
+    this.compView_1 = new import18.View_MdCard0(this.viewUtils,this,1,this._el_1);
+    this._MdCard_1_3 = new import18.Wrapper_MdCard();
     this._text_2 = this.renderer.createText((null as any),'             \n            ',(null as any));
     this._el_3 = import3.createRenderElement(this.renderer,(null as any),'div',new import3.InlineArray2(2,'style','width: 100%'),(null as any));
     this._text_4 = this.renderer.createText(this._el_3,'\n\n             ',(null as any));
     this._text_5 = this.renderer.createText(this._el_3,'\n                ',(null as any));
     this._el_6 = import3.createRenderElement(this.renderer,this._el_3,'button',new import3.InlineArray4(4,'aria-haspopup','true','md-mini-fab',''),(null as any));
-    this._vc_6 = new import11.ViewContainer(6,3,this,this._el_6);
-    this.compView_6 = new import19.View_MdButton0(this.viewUtils,this,6,this._el_6);
-    this._MdButton_6_5 = new import19.Wrapper_MdButton(new import13.ElementRef(this._el_6),this.renderer);
-    this._MdMenuTrigger_6_6 = new import20.Wrapper_MdMenuTrigger(this.parentView.injectorGet(import27.Overlay,this.parentIndex),new import13.ElementRef(this._el_6),this._vc_6.vcRef,this.renderer,this.parentView.injectorGet(import28.Dir,this.parentIndex,(null as any)));
+    this._vc_6 = new import12.ViewContainer(6,3,this,this._el_6);
+    this.compView_6 = new import20.View_MdButton0(this.viewUtils,this,6,this._el_6);
+    this._MdButton_6_5 = new import20.Wrapper_MdButton(new import14.ElementRef(this._el_6),this.renderer);
+    this._MdMenuTrigger_6_6 = new import21.Wrapper_MdMenuTrigger(this.parentView.injectorGet(import28.Overlay,this.parentIndex),new import14.ElementRef(this._el_6),this._vc_6.vcRef,this.renderer,this.parentView.injectorGet(import29.Dir,this.parentIndex,(null as any)));
     this._text_7 = this.renderer.createText((null as any),' ',(null as any));
     this._text_8 = this.renderer.createText((null as any),'\n                      ',(null as any));
     this._el_9 = import3.createRenderElement(this.renderer,(null as any),'md-icon',new import3.InlineArray2(2,'role','img'),(null as any));
-    this.compView_9 = new import22.View_MdIcon0(this.viewUtils,this,9,this._el_9);
-    this._MdIcon_9_3 = new import22.Wrapper_MdIcon(new import13.ElementRef(this._el_9),this.renderer,this.parentView.injectorGet(import29.MdIconRegistry,this.parentIndex));
+    this.compView_9 = new import23.View_MdIcon0(this.viewUtils,this,9,this._el_9);
+    this._MdIcon_9_3 = new import23.Wrapper_MdIcon(new import14.ElementRef(this._el_9),this.renderer,this.parentView.injectorGet(import30.MdIconRegistry,this.parentIndex));
     this._text_10 = this.renderer.createText((null as any),'add',(null as any));
     this.compView_9.create(this._MdIcon_9_3.context);
     this._text_11 = this.renderer.createText((null as any),'\n                 ',(null as any));
     this.compView_6.create(this._MdButton_6_5.context);
     this._text_12 = this.renderer.createText(this._el_3,' \n                 ',(null as any));
     this._el_13 = import3.createRenderElement(this.renderer,this._el_3,'md-menu',new import3.InlineArray2(2,'role','menu'),(null as any));
-    this.compView_13 = new import24.View_MdMenu0(this.viewUtils,this,13,this._el_13);
-    this._MdMenu_13_3 = new import24.Wrapper_MdMenu((null as any),(null as any));
-    this._query_MdMenuItem_13_0 = new import25.QueryList<any>();
+    this.compView_13 = new import25.View_MdMenu0(this.viewUtils,this,13,this._el_13);
+    this._MdMenu_13_3 = new import25.Wrapper_MdMenu((null as any),(null as any));
+    this._query_MdMenuItem_13_0 = new import26.QueryList<any>();
     this._text_14 = this.renderer.createText((null as any),'\n                         ',(null as any));
     this._anchor_15 = this.renderer.createTemplateAnchor((null as any),(null as any));
-    this._vc_15 = new import11.ViewContainer(15,13,this,this._anchor_15);
-    this._TemplateRef_15_5 = new import30.TemplateRef_(this,15,this._anchor_15);
-    this._NgFor_15_6 = new import26.Wrapper_NgFor(this._vc_15.vcRef,this._TemplateRef_15_5,this.parentView.injectorGet(import31.IterableDiffers,this.parentIndex),this.ref);
+    this._vc_15 = new import12.ViewContainer(15,13,this,this._anchor_15);
+    this._TemplateRef_15_5 = new import31.TemplateRef_(this,15,this._anchor_15);
+    this._NgFor_15_6 = new import27.Wrapper_NgFor(this._vc_15.vcRef,this._TemplateRef_15_5,this.parentView.injectorGet(import32.IterableDiffers,this.parentIndex),this.ref);
     this._text_16 = this.renderer.createText((null as any),'\n\n                ',(null as any));
     this.compView_13.create(this._MdMenu_13_3.context);
     this._text_17 = this.renderer.createText(this._el_3,'\n              \n            ',(null as any));
@@ -321,9 +322,9 @@ export class View_MusicComponent0 extends import1.AppView<import0.MusicComponent
     this._el_21 = import3.createRenderElement(this.renderer,this._el_3,'br',import3.EMPTY_INLINE_ARRAY,(null as any));
     this._text_22 = this.renderer.createText(this._el_3,'\n            ',(null as any));
     this._anchor_23 = this.renderer.createTemplateAnchor(this._el_3,(null as any));
-    this._vc_23 = new import11.ViewContainer(23,3,this,this._anchor_23);
-    this._TemplateRef_23_5 = new import30.TemplateRef_(this,23,this._anchor_23);
-    this._NgFor_23_6 = new import26.Wrapper_NgFor(this._vc_23.vcRef,this._TemplateRef_23_5,this.parentView.injectorGet(import31.IterableDiffers,this.parentIndex),this.ref);
+    this._vc_23 = new import12.ViewContainer(23,3,this,this._anchor_23);
+    this._TemplateRef_23_5 = new import31.TemplateRef_(this,23,this._anchor_23);
+    this._NgFor_23_6 = new import27.Wrapper_NgFor(this._vc_23.vcRef,this._TemplateRef_23_5,this.parentView.injectorGet(import32.IterableDiffers,this.parentIndex),this.ref);
     this._text_24 = this.renderer.createText(this._el_3,'\n 	       	',(null as any));
     this._text_25 = this.renderer.createText(this._el_3,'        \n        	',(null as any));
     this._text_26 = this.renderer.createText((null as any),'    \n       ',(null as any));
@@ -364,15 +365,15 @@ export class View_MusicComponent0 extends import1.AppView<import0.MusicComponent
     return (null as any);
   }
   injectorGetInternal(token:any,requestNodeIndex:number,notFoundResult:any):any {
-    if (((token === import21.MdIcon) && ((9 <= requestNodeIndex) && (requestNodeIndex <= 10)))) { return this._MdIcon_9_3.context; }
-    if (((token === import18.MdButton) && ((6 <= requestNodeIndex) && (requestNodeIndex <= 11)))) { return this._MdButton_6_5.context; }
-    if (((token === import32.MdMenuTrigger) && ((6 <= requestNodeIndex) && (requestNodeIndex <= 11)))) { return this._MdMenuTrigger_6_6.context; }
-    if (((token === import30.TemplateRef) && (15 === requestNodeIndex))) { return this._TemplateRef_15_5; }
-    if (((token === import33.NgFor) && (15 === requestNodeIndex))) { return this._NgFor_15_6.context; }
-    if (((token === import23.MdMenu) && ((13 <= requestNodeIndex) && (requestNodeIndex <= 16)))) { return this._MdMenu_13_3.context; }
-    if (((token === import30.TemplateRef) && (23 === requestNodeIndex))) { return this._TemplateRef_23_5; }
-    if (((token === import33.NgFor) && (23 === requestNodeIndex))) { return this._NgFor_23_6.context; }
-    if (((token === import16.MdCard) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 26)))) { return this._MdCard_1_3.context; }
+    if (((token === import22.MdIcon) && ((9 <= requestNodeIndex) && (requestNodeIndex <= 10)))) { return this._MdIcon_9_3.context; }
+    if (((token === import19.MdButton) && ((6 <= requestNodeIndex) && (requestNodeIndex <= 11)))) { return this._MdButton_6_5.context; }
+    if (((token === import33.MdMenuTrigger) && ((6 <= requestNodeIndex) && (requestNodeIndex <= 11)))) { return this._MdMenuTrigger_6_6.context; }
+    if (((token === import31.TemplateRef) && (15 === requestNodeIndex))) { return this._TemplateRef_15_5; }
+    if (((token === import34.NgFor) && (15 === requestNodeIndex))) { return this._NgFor_15_6.context; }
+    if (((token === import24.MdMenu) && ((13 <= requestNodeIndex) && (requestNodeIndex <= 16)))) { return this._MdMenu_13_3.context; }
+    if (((token === import31.TemplateRef) && (23 === requestNodeIndex))) { return this._TemplateRef_23_5; }
+    if (((token === import34.NgFor) && (23 === requestNodeIndex))) { return this._NgFor_23_6.context; }
+    if (((token === import17.MdCard) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 26)))) { return this._MdCard_1_3.context; }
     return notFoundResult;
   }
   detectChangesInternal(throwOnChange:boolean):void {

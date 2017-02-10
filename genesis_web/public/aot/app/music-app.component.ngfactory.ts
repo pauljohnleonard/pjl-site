@@ -35,7 +35,8 @@ import * as import26 from '../../app/music/music.component';
 import * as import27 from './music/music.component.ngfactory';
 import * as import28 from '@angular/core/src/change_detection/change_detection_util';
 import * as import29 from '@angular/core/src/linker/template_ref';
-import * as import30 from '@angular/common/src/directives/ng_if';
+import * as import30 from '../../app/services/samples.service';
+import * as import31 from '@angular/common/src/directives/ng_if';
 export class Wrapper_MusicAppComponent {
   /*private*/ _eventHandler:Function;
   context:import0.MusicAppComponent;
@@ -493,7 +494,7 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
     this._text_29 = this.renderer.createText(parentRenderNode,'\n        ',(null as any));
     this._el_30 = import3.createRenderElement(this.renderer,parentRenderNode,'music',import3.EMPTY_INLINE_ARRAY,(null as any));
     this.compView_30 = new import27.View_MusicComponent0(this.viewUtils,this,30,this._el_30);
-    this._MusicComponent_30_3 = new import27.Wrapper_MusicComponent(this.parentView.injectorGet(import8.DBService,this.parentIndex));
+    this._MusicComponent_30_3 = new import27.Wrapper_MusicComponent(this.parentView.injectorGet(import8.DBService,this.parentIndex),this.parentView.injectorGet(import30.SamplesService,this.parentIndex));
     this._text_31 = this.renderer.createText((null as any),' ',(null as any));
     this.compView_30.create(this._MusicComponent_30_3.context);
     this._text_32 = this.renderer.createText(parentRenderNode,'\n    ',(null as any));
@@ -548,11 +549,11 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
     if (((token === import22.MdButton) && ((8 <= requestNodeIndex) && (requestNodeIndex <= 12)))) { return this._MdButton_8_5.context; }
     if (((token === import21.MdTooltip) && ((8 <= requestNodeIndex) && (requestNodeIndex <= 12)))) { return this._MdTooltip_8_6.context; }
     if (((token === import29.TemplateRef) && (14 === requestNodeIndex))) { return this._TemplateRef_14_5; }
-    if (((token === import30.NgIf) && (14 === requestNodeIndex))) { return this._NgIf_14_6.context; }
+    if (((token === import31.NgIf) && (14 === requestNodeIndex))) { return this._NgIf_14_6.context; }
     if (((token === import29.TemplateRef) && (16 === requestNodeIndex))) { return this._TemplateRef_16_5; }
-    if (((token === import30.NgIf) && (16 === requestNodeIndex))) { return this._NgIf_16_6.context; }
+    if (((token === import31.NgIf) && (16 === requestNodeIndex))) { return this._NgIf_16_6.context; }
     if (((token === import29.TemplateRef) && (18 === requestNodeIndex))) { return this._TemplateRef_18_5; }
-    if (((token === import30.NgIf) && (18 === requestNodeIndex))) { return this._NgIf_18_6.context; }
+    if (((token === import31.NgIf) && (18 === requestNodeIndex))) { return this._NgIf_18_6.context; }
     if (((token === import13.MdIcon) && ((22 <= requestNodeIndex) && (requestNodeIndex <= 23)))) { return this._MdIcon_22_3.context; }
     if (((token === import22.MdButton) && ((20 <= requestNodeIndex) && (requestNodeIndex <= 24)))) { return this._MdButton_20_5.context; }
     if (((token === import21.MdTooltip) && ((20 <= requestNodeIndex) && (requestNodeIndex <= 24)))) { return this._MdTooltip_20_6.context; }

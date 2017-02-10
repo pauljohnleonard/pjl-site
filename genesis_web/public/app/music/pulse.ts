@@ -22,15 +22,17 @@ export class Pulse {
     }
 
     tick() {
+        
         if (this.running) {
             var delta = audioContext.currentTime - this.time
             var nextBeat = this.beat + delta * this.beatsPerSec
             while (this.beat + this.tickLen <= nextBeat) {
                 this.state = []
-                this.beat += this.tickLen
-                this.time += this.tickLen / this.beatsPerSec
+             
                 this.clients.forEach((client) => { client.tick() })
-            }
+                this.beat += this.tickLen
+                this.time += this.tickLen / this.beatsPerSec    
+        }
         }
     }
 
