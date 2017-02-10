@@ -3,6 +3,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { DBService } from '../services/db.service'
 import { AI } from './ai';
 import { PlayerAI } from './player-ai';
+import { Drumkit } from './drumkit'
 import { PlayerDetailComponent } from './player-detail.component';
 import { Mapper,MappedPlayer } from './mapper';
 import { Instrument } from './instrument'
@@ -15,7 +16,7 @@ import { Ramper } from "./ramper"
     selector: "music",
     template: `
  
-      <drumkit></drumkit>
+      <!--drumkit></drumkit-->
        <md-card>             
             <div style="width: 100%">
 
@@ -74,7 +75,7 @@ export class MusicComponent implements OnInit {
     pulse:Pulse
     selectedPlayer:Player
     ticksArr:Array<Array<number>>
-  
+    drumkit:Drumkit
 
 //    constructor(){}
     
@@ -115,6 +116,9 @@ export class MusicComponent implements OnInit {
         //var stack3 = [0, 2, 4, 6, 8, 10, 12]
 
 
+        this.drumkit=new Drumkit(this.pulse)
+        this.pulse.clients.push(this.drumkit)
+        
         this.addAIPlayer("marimba")
 
        // this.addAIPlayer("vibraphone")

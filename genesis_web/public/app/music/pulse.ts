@@ -9,26 +9,26 @@ export class Pulse {
     beat:number
     tickLen:number
     clients:Array<Ticker>=[]
-    lastTime:number
+    time:number
     state:Array<number>
     pauseTime:number
-    
+
+
     constructor(ticksPerBeat:number, beatsPerSec:number) {
         this.beatsPerSec = beatsPerSec
         this.beat = 0
         this.tickLen = 1 / ticksPerBeat
         this.clients = []   
-
     }
-    tick() {
 
+    tick() {
         if (this.running) {
-            var delta = audioContext.currentTime - this.lastTime
+            var delta = audioContext.currentTime - this.time
             var nextBeat = this.beat + delta * this.beatsPerSec
             while (this.beat + this.tickLen <= nextBeat) {
                 this.state = []
                 this.beat += this.tickLen
-                this.lastTime += this.tickLen / this.beatsPerSec
+                this.time += this.tickLen / this.beatsPerSec
                 this.clients.forEach((client) => { client.tick() })
             }
         }
@@ -41,7 +41,7 @@ export class Pulse {
 
     start() {
         this.beat = 0
-        this.lastTime = audioContext.currentTime
+        this.time = audioContext.currentTime
         this.running = true
 
         this.clients.forEach((c) => {
@@ -58,7 +58,7 @@ export class Pulse {
             this.pauseTime = audioContext.currentTime
             this.running = false
         } else {
-            this.lastTime += audioContext.currentTime - this.pauseTime
+            this.time += audioContext.currentTime - this.pauseTime
             this.running = true
         }
     }
