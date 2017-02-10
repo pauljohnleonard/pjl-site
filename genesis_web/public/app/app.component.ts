@@ -6,7 +6,7 @@ import { DBService } from './services/db.service'
   selector: 'my-app',
   template: `
       <md-toolbar>
-           <span> <img src="genesis_thicker.png" style="height: 36px" alt="genesis logo" />
+           <span> <img src="images/genesis_thicker.png" style="height: 36px" alt="genesis logo" />
             Genesis </span>  
               <span style="flex: 1 1 auto"></span>
            <span>
@@ -22,7 +22,7 @@ import { DBService } from './services/db.service'
 
 export class AppComponent {
 
-  button_img: string = "btn_google_signin_light_normal_web.png"
+  button_img: string = "images/btn_google_signin_light_normal_web.png"
   user: any = null
 
   
@@ -32,7 +32,7 @@ export class AppComponent {
       if (this.user != null) {
         this.button_img = user.photoURL
       } else {
-        this.button_img = "btn_google_signin_light_normal_web.png"
+        this.button_img = "images/åbtn_google_signin_light_normal_web.png"
       }
     })
 

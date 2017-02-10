@@ -57,7 +57,7 @@ import { AI } from './ai'
 export class PlayerDetailComponent {
   @Input() player: Player;
   @Output() playerSelected = new EventEmitter();
-  pianoButImg: string = "PIANO_ICON.png"
+  pianoButImg: string = "images/PIANO_ICON.png"
 
   constructor() {
 
@@ -95,9 +95,9 @@ export class PlayerDetailComponent {
     inst.midiIn = !inst.midiIn;
 
     if (inst.midiIn) {
-      this.pianoButImg = "PIANO_ICON_ACTIVE.png"
+      this.pianoButImg = "images/PIANO_ICON_ACTIVE.png"
     } else {
-      this.pianoButImg = "PIANO_ICON.png"
+      this.pianoButImg = "images/PIANO_ICON.png"
     }
 
 

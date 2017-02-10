@@ -1,19 +1,17 @@
-#Angular 2 quick start templates
+#Genesis evolutionary music web interface
 
-Here's a simple example [Angular 2](https://angular.io) application with [angular2-materials](https://material.angular.io/).
-We've chosen to use [JSPM](http://jspm.io/) for development setup since transpiling in the browser is convenient when developing,
-and JSPM is straightforward to configure.
+Uses:
 
-The example also shows how to create an [Ahead Of Time](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) production bundle,
-that ensures fast loading in production.
+## [Angular 2](https://angular.io) application with [angular2-materials](https://material.angular.io/).
+## [JSPM](http://jspm.io/) for development setup
+## [Ahead Of Time](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) production bundle,
+      that ensures fast loading in production.
+## [Firebase][https://firebase.google.com/] is used for the database and hosting 
+
 
 ## Setup
 
-Go into the materials folder:
-
-```
-cd materials
-```
+Go into the genesis_web/public folder:
 
 For development remember to run:
 

@@ -126,7 +126,7 @@ export class View_AppComponent0 extends import1.AppView<import0.AppComponent> {
     this._text_2 = this.renderer.createText((null as any),'\n           ',(null as any));
     this._el_3 = import3.createRenderElement(this.renderer,(null as any),'span',import3.EMPTY_INLINE_ARRAY,(null as any));
     this._text_4 = this.renderer.createText(this._el_3,' ',(null as any));
-    this._el_5 = import3.createRenderElement(this.renderer,this._el_3,'img',new import3.InlineArray8(6,'alt','genesis logo','src','genesis_thicker.png','style','height: 36px'),(null as any));
+    this._el_5 = import3.createRenderElement(this.renderer,this._el_3,'img',new import3.InlineArray8(6,'alt','genesis logo','src','images/genesis_thicker.png','style','height: 36px'),(null as any));
     this._text_6 = this.renderer.createText(this._el_3,'\n            Genesis ',(null as any));
     this._text_7 = this.renderer.createText((null as any),'  \n              ',(null as any));
     this._el_8 = import3.createRenderElement(this.renderer,(null as any),'span',new import3.InlineArray2(2,'style','flex: 1 1 auto'),(null as any));
