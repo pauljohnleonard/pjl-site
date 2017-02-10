@@ -15,6 +15,7 @@ import { Ramper } from "./ramper"
     selector: "music",
     template: `
  
+      <drumkit></drumkit>
        <md-card>             
             <div style="width: 100%">
 

@@ -9,7 +9,7 @@ import { AppComponent }   from './app.component';
 import { AIDetailComponent } from './music/ai-detail.component';
 import { PlayerDetailComponent } from './music/player-detail.component';
 import { InstrumentDetailComponent } from './music/instrument-detail.component';
-
+import { DrumkitComponent} from './music/drumkit.component'
 import { MusicComponent } from './music/music.component';
 import { MusicAppComponent } from './music-app.component';
 import { DBService } from './services/db.service';
@@ -23,7 +23,7 @@ import { SFService } from './services/sf.service';
     MaterialModule.forRoot()  
   ],
   declarations: [ AppComponent,AIDetailComponent,InstrumentDetailComponent,PlayerDetailComponent,
-        MusicComponent,MusicAppComponent],
+        MusicComponent,MusicAppComponent,DrumkitComponent],
   providers: [DBService,SFService],
   bootstrap:    [ AppComponent ]
 })

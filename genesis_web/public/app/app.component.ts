@@ -32,7 +32,7 @@ export class AppComponent {
       if (this.user != null) {
         this.button_img = user.photoURL
       } else {
-        this.button_img = "images/åbtn_google_signin_light_normal_web.png"
+        this.button_img = "images/btn_google_signin_light_normal_web.png"
       }
     })
 
