@@ -21,7 +21,7 @@ import { Ramper } from "./ramper"
        <md-card>             
             <div style="width: 100%">
 
-             <!--md-card-title-->
+  
                 <button md-mini-fab  [md-menu-trigger-for]="menu"> <!-- style="float:right;"-->
                       <md-icon>add</md-icon>
                  </button> 
@@ -32,15 +32,11 @@ import { Ramper } from "./ramper"
 
                 </md-menu>
               
-            <!--/md-card-title-->
-
-            <!--md-card-content-->
-            <br><br>
-            <div *ngFor="let p of players">
-               <player-detail [player]="p" (playerSelected)="slectedPlayer=p"> </player-detail>
-            </div>
- 	       	<!--/md-card-content-->        
-        	</div>    
+                <br><br>
+                <div *ngFor="let p of players">
+                   <player-detail [player]="p" (playerSelected)="slectedPlayer=p"> </player-detail>
+                </div>
+               </div>    
        </md-card>
     ` //,
     //styleUrls: ["css/mystyles.css"]
@@ -111,7 +107,7 @@ export class MusicComponent implements OnInit {
         this.pulse = new Pulse(ticksPerBeat, beatsPerSec)
 
 
-        this.ticksArr = [[0, 8] , [0, 4], [0, 2], [0, 1], [0, 0.5]]
+        this.ticksArr = [[0,16],[0, 1.5, 3, 4]]
   
         this.ticksArr.forEach((ticks:Array<number>) => { new Ramper(ticks, this.pulse) })
 
@@ -120,7 +116,7 @@ export class MusicComponent implements OnInit {
 
 
         this.metro=new Metro(this.pulse,this.samplesService)
-        this.pulse.clients.push(this.metro)
+ 
         
         this.addAIPlayer("marimba")
 
@@ -159,21 +155,19 @@ export class MusicComponent implements OnInit {
     addAIPlayer(name:any) {
         let nOut:number = 20
         let nHidden:number = 20
- 
         let nIn = this.ticksArr.length
       
         let player=new Player()
         this.players.push(player)
 
         let ai=new AI(this.dbService,this.netService)
+        
         player.details.ai=ai
 
         this.selectedPlayer=player
         
         ai.init(this.pulse, nIn, nHidden, nOut)
         
-        this.pulse.clients.push(ai)
-
         if (name === undefined) name="marimba"
         player.details.name=name
         
@@ -187,8 +181,9 @@ export class MusicComponent implements OnInit {
 
         var mapPlayer = new MappedPlayer(inst, mapper)
         
-        let playerAI = new PlayerAI(ai, mapPlayer)
-        this.pulse.clients.push(playerAI)
+        let playerAI = new PlayerAI(ai, mapPlayer,this.pulse)
+      //  this.pulse.clients.push(playerAI)
+    
     }
     
 

@@ -6,10 +6,17 @@ import { Perceptron,Elman,Jordan } from '../music/net'
 @Injectable()
 export class NetService {
 
-    types:Array<any>=[Perceptron,Elman,Jordan]
+    types:Array<any>=[]
+    names:Array<string>=[]
     
     constructor() {
+        this.types["Perceptron"]=Perceptron
+        this.types["Elman"]=Elman
+        this.types["Jordan"]=Jordan
 
+        for (let n in this.types) {
+            this.names.push(n)
+        }
     }
    
 }

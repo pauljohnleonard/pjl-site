@@ -4,19 +4,19 @@ import { SamplesService } from "../services/samples.service"
 
 declare var audioContext: any
 
-
+var TOL: number = 0.0001
 
 export class Metro implements Ticker {
 
-    nDivs: number
-    currentIndex = 0
+    beatNext: number = 0
     accent: any
     ord: any
     active: boolean = false
-
+    nDivs:number = 16
+    currentIndex:number = 0
     constructor(public pulse: Pulse, private samplesService: SamplesService) {
-        this.nDivs = 16
-        this.currentIndex = 0
+  
+        this.pulse.clients.push(this)
 
         samplesService.load("sounds/metro/1.wav").then((source: any) => {
             this.accent = source
@@ -33,38 +33,43 @@ export class Metro implements Ticker {
 
 
     start() {
-        this.currentIndex = 0
+        this.beatNext = 0
     }
-    stop() { }
+
+    stop() { 
+
+
+    }
 
 
 
     tick() {
 
-
         //console.log(this.pulse.beat)
-        var indexBig = Math.floor(0.5 + this.pulse.beat);
+        var beatNow:number = Math.floor(this.pulse.beat + TOL);
 
-        while (this.currentIndex <= indexBig) {
-            var rhythmIndex = this.currentIndex % this.nDivs
-            this.currentIndex += 1
-            if (this.active && (rhythmIndex % 2 == 0)) {
+
+        while (beatNow >= this.beatNext) {
+
+
+            if (this.active) {
                 var source: any = audioContext.createBufferSource();
-                if ((rhythmIndex % 8 == 0)) {
+                if ((this.beatNext % 4 === 0)) {
                     source.buffer = this.accent
+                    console.log("A " + this.pulse.beat + " " + this.beatNext)
                 } else {
                     source.buffer = this.ord
+                    console.log("O " + this.pulse.beat + " " + this.beatNext)
                 }
-                
+
                 if (source.buffer) {
                     source.connect(audioContext.destination);
                     source.start()
                 }
-                // Convert noteTime to audioContext time.
             }
-
+            this.beatNext++
+            // Convert noteTime to audioContext time.
         }
+        
     }
-
-
 }

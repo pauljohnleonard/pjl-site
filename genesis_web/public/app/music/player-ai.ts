@@ -1,27 +1,28 @@
-
 import { Mapper, MappedPlayer } from "./mapper"
 import { Ticker }  from "./ticker"
-
 import { AI } from  "./ai"
+import { Pulse } from  "./pulse"
 
 export class PlayerAI implements Ticker {
 
-        ai:AI
-        player:MappedPlayer
+        //ai:AI
+        //player:MappedPlayer
         last:Array<number>
         thresh:number
         state:Array<number>
         playing:boolean    
 
-    constructor(ai:AI, player:MappedPlayer) {
-        this.ai = ai
-        this.player = player
-        this.last = ai.out
+    constructor(public ai:AI, public player:MappedPlayer, public pulse:Pulse) {
+
+      //  this.ai = ai
+      //  this.player = player
+        this.last = ai.net.out
         this.thresh = 0.5
         this.state = new Array(this.last.length)
     
         //this.cnt = 0
         this.playing = true
+        this.pulse.clients.push(this)
     }
 
 
@@ -33,10 +34,17 @@ export class PlayerAI implements Ticker {
 
     stop(){}
 
+
+  
     tick() {
-        var out = this.ai.out
+
+       
+       
+        
+        var out = this.ai.net.activate(this.pulse.state)
+        
         // TODO implement resets for all tickers
-        if (this.ai.activateCnt < 2) {
+        if (this.ai.net.activateCnt < 2) {
             this.state.fill(1)
             this.last = out
             return
@@ -48,6 +56,8 @@ export class PlayerAI implements Ticker {
                 if (this.playing) {
                     this.player.playNote(i, vel)
                     this.state[i] = vel
+                    console.log("P "+ this.pulse.beat + " " +this.pulse.state[0])
+
                 }
             } else if (v < this.thresh && this.state[i] !== 0) {
                 this.player.playNote(i, 0)

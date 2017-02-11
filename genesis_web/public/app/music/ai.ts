@@ -8,10 +8,9 @@ import { Pulse } from './pulse'
 
 
 
-export class AI implements Ticker{
+export class AI {
 
-    types = ["Jordan", "Elman"];
-    nHidden:any
+
     out:Array<number>
     saved:boolean
     activateCnt:number=0
@@ -52,12 +51,8 @@ export class AI implements Ticker{
         this.implant({nHidden:[nHidden]})
     }
 
-    tick() {
-        this.out = this.net.activate(this.pulse.state)
-        this.activateCnt++
-        // console.log("OUT", this.out)   
-    }
 
+ 
 
 	
     implant(params:any) {
@@ -65,7 +60,7 @@ export class AI implements Ticker{
 
         delete this.net
 
-        if (params.type === undefined) params.type=this.netService.types[0]
+        if (params.type === undefined) params.type=this.netService.types["Elman"]
 
         this.net=Object.create(params.type.prototype);
         

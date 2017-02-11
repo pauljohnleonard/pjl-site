@@ -139,7 +139,7 @@
 	                                         NEURON
 	*******************************************************************************************/
 
-	function Neuron() {
+	function Neuron(bias) {
 	  this.ID = Neuron.uid();
 	  this.label = null;
 	  this.connections = {
@@ -163,7 +163,11 @@
 	  this.selfconnection = new Neuron.connection(this, this, 0); // weight = 0 -> not connected
 	  this.squash = Neuron.squash.LOGISTIC;
 	  this.neighboors = {};
-	  this.bias = Math.random() * .2 - .1;
+	  if (bias === undefined) {
+	    this.bias = Math.random() * .2 - .1;
+	  } else {
+	    this.bias=bias
+	  }
 	}
 
 	Neuron.prototype = {
@@ -962,14 +966,17 @@
 	                                            LAYER
 	*******************************************************************************************/
 
-	function Layer(size, label) {
+	function Layer(size, label,bias) {
 	  this.size = size | 0;
 	  this.list = [];
 	  this.label = label || null;
 	  this.connectedTo = [];
 
+	  var cnt=0;
 	  while (size--) {
-	    var neuron = new Neuron();
+	    
+	    if (typeof bias === "Array") var neuron = new Neuron(bias[cnt++]);
+	    else  var neuron = new Neuron(bias);
 	    this.list.push(neuron);
 	  }
 	}

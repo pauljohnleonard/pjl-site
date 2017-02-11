@@ -30,6 +30,8 @@ export class Pulse {
                 this.state = []
              
                 this.clients.forEach((client) => { client.tick() })
+
+                
                 this.beat += this.tickLen
                 this.time += this.tickLen / this.beatsPerSec    
         }
@@ -39,6 +41,11 @@ export class Pulse {
 
     stop() {
         this.running = false
+          this.clients.forEach((c) => {
+            if (c.stop !== undefined) {
+                c.stop()
+            }
+        })
     }
 
     start() {

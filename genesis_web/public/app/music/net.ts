@@ -15,28 +15,48 @@ function createWeights(nFrom: number, nTo: number, scale:number): Array<Array<nu
     return weights
 }
 
-
-export class  Net {
-    weights: Array<Array<Array<number>>>=[]
-    
-    constructor(public name:string,public nHidden:Array<number>) {
-
-    }
-
-    activate(x: Array<number>) :Array<number> {return null}
-
+export interface Net {
+    out: Array<number>
+    weights: Array<Array<Array<number>>>
+    activateCnt:number;
+    nIn:number;
+    netname:string
+    nHidden:Array<number>    
+    activate(x: Array<number>) :Array<number> 
 } 
 
-export class Perceptron extends Net {
+export class NetBase implements Net{
+    out: Array<number>=[]
+    weights: Array<Array<Array<number>>>=[]
+    activateCnt:number=0;
+    nIn:number;
+    netname:string
+    nHidden:Array<number>=[]    
 
-  
-    out: Array<number>
+    constructor(nHidden:Array<number>){
+        this.nHidden=nHidden
+    }
+
+    activate(x: Array<number>) :Array<number> {
+        this.activateCnt++
+        return this._activate(x)
+    }
+
+    _activate(x: Array<number>):Array<number> {
+        return null;
+    }
+}
+
+
+export class Perceptron extends NetBase {
+
     hiddenL:Array<any>=[]
     outL: any
     inL: any
+    netname:string="Perceptron"
 
     constructor(nIn: number, nHidden:Array<number>, nOut: number) {
-        super("Perceptron",nHidden)
+        super(nHidden)
         this.nIn=nIn
         this.out = new Array(nOut)
         this.out.fill(0.5)
@@ -46,7 +66,7 @@ export class Perceptron extends Net {
         var nPrev:number=1
      
         nHidden.forEach((n:any)=>{
-            var hidL:any=new Layer(n)
+            var hidL:any=new Layer(n,undefined,0)
             this.hiddenL.push(hidL)  
             var w1 = createWeights(nPrev, n,10)
             prevL.project(hidL, Layer.connectionType.ALL_TO_ALL, w1);
@@ -55,33 +75,34 @@ export class Perceptron extends Net {
         })
         
 
-        this.outL = new Layer(nOut);
+        this.outL = new Layer(nOut,undefined, 0.5);
         var w2 = createWeights(nPrev, nOut,10)
         this.hiddenL[this.hiddenL.length-1].project(this.outL, Layer.connectionType.ALL_TO_ALL, w2);
     }
 
-    activate(x: Array<number>) {
+    _activate(x: Array<number>) {
+        
         this.inL.activate(x)
-        this.hiddenL.forEach((l:any){
+        this.hiddenL.forEach((l:any)=>{
             l.activate()
         })
         this.out = this.outL.activate()
-        console.log(this.out)
+      //  console.log(this.out)
         return this.out
     }
 }
 
 
-export class Jordan extends Net {
+export class Jordan extends NetBase {
 
-  
-    out: Array<number>
+
     hiddenL: any
     outL: any
     inL: any
-
+    netname:string="Jordan"
+   
     constructor(nIn: number, nHidden: Array<number>, nOut: number) {
-        super("Jordan",[nHidden])
+        super(nHidden)
         nIn = nIn + nOut
         this.out = new Array(nOut)
         this.out.fill(0.5)
@@ -95,7 +116,8 @@ export class Jordan extends Net {
         this.weights = [w1, w2]
     }
 
-    activate(x: Array<number>) {
+    _activate(x: Array<number>) {
+
         let input = x.concat(this.out)
         let x1 = this.inL.activate(input)
         let x2 = this.hiddenL.activate()
@@ -104,16 +126,16 @@ export class Jordan extends Net {
     }
 }
 
-export class Elman extends Net  {
+export class Elman extends NetBase  {
 
-    out: Array<number>
     hid: Array<number>
     hiddenL: any
     outL: any
     inL: any
-
+    netname:string="Elman"
+   
     constructor(nIn: number, nHidden:Array<number>, nOut: number) {
-        super("Elman",[nHidden])
+        super(nHidden)
         nIn = nIn + nHidden[0]
         this.out = new Array(nOut)
         this.out.fill(0.5)
@@ -130,7 +152,7 @@ export class Elman extends Net  {
 
     }
 
-    activate(x: Array<number>) {
+    _activate(x: Array<number>) {
         let input = x.concat(this.hid)
         let x1 = this.inL.activate(input)
         this.hid = this.hiddenL.activate()

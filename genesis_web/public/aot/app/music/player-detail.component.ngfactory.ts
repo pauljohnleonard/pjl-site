@@ -17,24 +17,25 @@ import * as import8 from '@angular/core/src/linker/component_factory';
 import * as import9 from '../../../app/music/ai-detail.component';
 import * as import10 from './ai-detail.component.ngfactory';
 import * as import11 from '@angular/core/src/linker/view_container';
-import * as import12 from '@angular/material/card/card';
-import * as import13 from '../../node_modules/@angular/material/card/card.ngfactory';
-import * as import14 from '@angular/material/grid-list/grid-list';
-import * as import15 from '../../node_modules/@angular/material/grid-list/grid-list.ngfactory';
-import * as import16 from '@angular/core/src/linker/query_list';
-import * as import17 from '@angular/material/grid-list/grid-tile';
-import * as import18 from '../../node_modules/@angular/material/grid-list/grid-tile.ngfactory';
-import * as import19 from '@angular/material/button/button';
-import * as import20 from '../../node_modules/@angular/material/button/button.ngfactory';
-import * as import21 from '../../../app/music/instrument-detail.component';
-import * as import22 from './instrument-detail.component.ngfactory';
-import * as import23 from '../../node_modules/@angular/common/src/directives/ng_if.ngfactory';
-import * as import24 from '@angular/core/src/linker/element_ref';
-import * as import25 from '@angular/material/core/rtl/dir';
-import * as import26 from '../../../app/services/sf.service';
-import * as import27 from '@angular/core/src/linker/template_ref';
-import * as import28 from '@angular/common/src/directives/ng_if';
-import * as import29 from '@angular/core/src/security';
+import * as import12 from '../../../app/services/net.service';
+import * as import13 from '@angular/material/card/card';
+import * as import14 from '../../node_modules/@angular/material/card/card.ngfactory';
+import * as import15 from '@angular/material/grid-list/grid-list';
+import * as import16 from '../../node_modules/@angular/material/grid-list/grid-list.ngfactory';
+import * as import17 from '@angular/core/src/linker/query_list';
+import * as import18 from '@angular/material/grid-list/grid-tile';
+import * as import19 from '../../node_modules/@angular/material/grid-list/grid-tile.ngfactory';
+import * as import20 from '@angular/material/button/button';
+import * as import21 from '../../node_modules/@angular/material/button/button.ngfactory';
+import * as import22 from '../../../app/music/instrument-detail.component';
+import * as import23 from './instrument-detail.component.ngfactory';
+import * as import24 from '../../node_modules/@angular/common/src/directives/ng_if.ngfactory';
+import * as import25 from '@angular/core/src/linker/element_ref';
+import * as import26 from '@angular/material/core/rtl/dir';
+import * as import27 from '../../../app/services/sf.service';
+import * as import28 from '@angular/core/src/linker/template_ref';
+import * as import29 from '@angular/common/src/directives/ng_if';
+import * as import30 from '@angular/core/src/security';
 export class Wrapper_PlayerDetailComponent {
   /*private*/ _eventHandler:Function;
   context:import0.PlayerDetailComponent;
@@ -124,7 +125,7 @@ class View_PlayerDetailComponent1 extends import2.AppView<any> {
     this._text_1 = this.renderer.createText(this._el_0,'\n    ',(null as any));
     this._el_2 = import3.createRenderElement(this.renderer,this._el_0,'ai-detail',import3.EMPTY_INLINE_ARRAY,(null as any));
     this.compView_2 = new import10.View_AIDetailComponent0(this.viewUtils,this,2,this._el_2);
-    this._AIDetailComponent_2_3 = new import10.Wrapper_AIDetailComponent();
+    this._AIDetailComponent_2_3 = new import10.Wrapper_AIDetailComponent(this.parentView.parentView.injectorGet(import12.NetService,this.parentView.parentIndex));
     this._text_3 = this.renderer.createText((null as any),' ',(null as any));
     this.compView_2.create(this._AIDetailComponent_2_3.context);
     this._text_4 = this.renderer.createText(this._el_0,' \n    ',(null as any));
@@ -159,52 +160,52 @@ var renderType_PlayerDetailComponent:import4.RenderComponentType = import3.creat
 export class View_PlayerDetailComponent0 extends import2.AppView<import0.PlayerDetailComponent> {
   _text_0:any;
   _el_1:any;
-  compView_1:import2.AppView<import12.MdCard>;
-  _MdCard_1_3:import13.Wrapper_MdCard;
+  compView_1:import2.AppView<import13.MdCard>;
+  _MdCard_1_3:import14.Wrapper_MdCard;
   _text_2:any;
   _text_3:any;
   _el_4:any;
-  compView_4:import2.AppView<import14.MdGridList>;
-  _MdGridList_4_3:import15.Wrapper_MdGridList;
-  _query_MdGridTile_4_0:import16.QueryList<any>;
+  compView_4:import2.AppView<import15.MdGridList>;
+  _MdGridList_4_3:import16.Wrapper_MdGridList;
+  _query_MdGridTile_4_0:import17.QueryList<any>;
   _text_5:any;
   _el_6:any;
-  compView_6:import2.AppView<import17.MdGridTile>;
-  _MdGridTile_6_3:import18.Wrapper_MdGridTile;
+  compView_6:import2.AppView<import18.MdGridTile>;
+  _MdGridTile_6_3:import19.Wrapper_MdGridTile;
   _text_7:any;
   _el_8:any;
-  compView_8:import2.AppView<import19.MdButton>;
-  _MdButton_8_3:import20.Wrapper_MdButton;
+  compView_8:import2.AppView<import20.MdButton>;
+  _MdButton_8_3:import21.Wrapper_MdButton;
   _el_9:any;
   _text_10:any;
   _text_11:any;
   _el_12:any;
-  compView_12:import2.AppView<import17.MdGridTile>;
-  _MdGridTile_12_3:import18.Wrapper_MdGridTile;
+  compView_12:import2.AppView<import18.MdGridTile>;
+  _MdGridTile_12_3:import19.Wrapper_MdGridTile;
   _text_13:any;
   _el_14:any;
-  compView_14:import2.AppView<import21.InstrumentDetailComponent>;
-  _InstrumentDetailComponent_14_3:import22.Wrapper_InstrumentDetailComponent;
+  compView_14:import2.AppView<import22.InstrumentDetailComponent>;
+  _InstrumentDetailComponent_14_3:import23.Wrapper_InstrumentDetailComponent;
   _text_15:any;
   _text_16:any;
   _text_17:any;
   _el_18:any;
-  compView_18:import2.AppView<import17.MdGridTile>;
-  _MdGridTile_18_3:import18.Wrapper_MdGridTile;
+  compView_18:import2.AppView<import18.MdGridTile>;
+  _MdGridTile_18_3:import19.Wrapper_MdGridTile;
   _text_19:any;
   _el_20:any;
-  compView_20:import2.AppView<import19.MdButton>;
-  _MdButton_20_3:import20.Wrapper_MdButton;
+  compView_20:import2.AppView<import20.MdButton>;
+  _MdButton_20_3:import21.Wrapper_MdButton;
   _text_21:any;
   _text_22:any;
   _text_23:any;
   _el_24:any;
-  compView_24:import2.AppView<import17.MdGridTile>;
-  _MdGridTile_24_3:import18.Wrapper_MdGridTile;
+  compView_24:import2.AppView<import18.MdGridTile>;
+  _MdGridTile_24_3:import19.Wrapper_MdGridTile;
   _text_25:any;
   _el_26:any;
-  compView_26:import2.AppView<import19.MdButton>;
-  _MdButton_26_3:import20.Wrapper_MdButton;
+  compView_26:import2.AppView<import20.MdButton>;
+  _MdButton_26_3:import21.Wrapper_MdButton;
   _text_27:any;
   _text_28:any;
   _text_29:any;
@@ -214,7 +215,7 @@ export class View_PlayerDetailComponent0 extends import2.AppView<import0.PlayerD
   _anchor_33:any;
   /*private*/ _vc_33:import11.ViewContainer;
   _TemplateRef_33_5:any;
-  _NgIf_33_6:import23.Wrapper_NgIf;
+  _NgIf_33_6:import24.Wrapper_NgIf;
   _text_34:any;
   _text_35:any;
   /*private*/ _expr_60:any;
@@ -226,58 +227,58 @@ export class View_PlayerDetailComponent0 extends import2.AppView<import0.PlayerD
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
     this._text_0 = this.renderer.createText(parentRenderNode,' \n\n',(null as any));
     this._el_1 = import3.createRenderElement(this.renderer,parentRenderNode,'md-card',new import3.InlineArray2(2,'style','background:#F0F0FF'),(null as any));
-    this.compView_1 = new import13.View_MdCard0(this.viewUtils,this,1,this._el_1);
-    this._MdCard_1_3 = new import13.Wrapper_MdCard();
+    this.compView_1 = new import14.View_MdCard0(this.viewUtils,this,1,this._el_1);
+    this._MdCard_1_3 = new import14.Wrapper_MdCard();
     this._text_2 = this.renderer.createText((null as any),'\n    ',(null as any));
     this._text_3 = this.renderer.createText((null as any),'\n\n    \n    ',(null as any));
     this._el_4 = import3.createRenderElement(this.renderer,(null as any),'md-grid-list',new import3.InlineArray4(4,'cols','8','role','list'),(null as any));
-    this.compView_4 = new import15.View_MdGridList0(this.viewUtils,this,4,this._el_4);
-    this._MdGridList_4_3 = new import15.Wrapper_MdGridList(this.renderer,new import24.ElementRef(this._el_4),this.parentView.injectorGet(import25.Dir,this.parentIndex,(null as any)));
-    this._query_MdGridTile_4_0 = new import16.QueryList<any>();
+    this.compView_4 = new import16.View_MdGridList0(this.viewUtils,this,4,this._el_4);
+    this._MdGridList_4_3 = new import16.Wrapper_MdGridList(this.renderer,new import25.ElementRef(this._el_4),this.parentView.injectorGet(import26.Dir,this.parentIndex,(null as any)));
+    this._query_MdGridTile_4_0 = new import17.QueryList<any>();
     this._text_5 = this.renderer.createText((null as any),'\n    ',(null as any));
     this._el_6 = import3.createRenderElement(this.renderer,(null as any),'md-grid-tile',new import3.InlineArray2(2,'role','listitem'),(null as any));
-    this.compView_6 = new import18.View_MdGridTile0(this.viewUtils,this,6,this._el_6);
-    this._MdGridTile_6_3 = new import18.Wrapper_MdGridTile(this.renderer,new import24.ElementRef(this._el_6));
+    this.compView_6 = new import19.View_MdGridTile0(this.viewUtils,this,6,this._el_6);
+    this._MdGridTile_6_3 = new import19.Wrapper_MdGridTile(this.renderer,new import25.ElementRef(this._el_6));
     this._text_7 = this.renderer.createText((null as any),'\n      ',(null as any));
     this._el_8 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray2(2,'md-button',''),(null as any));
-    this.compView_8 = new import20.View_MdButton0(this.viewUtils,this,8,this._el_8);
-    this._MdButton_8_3 = new import20.Wrapper_MdButton(new import24.ElementRef(this._el_8),this.renderer);
+    this.compView_8 = new import21.View_MdButton0(this.viewUtils,this,8,this._el_8);
+    this._MdButton_8_3 = new import21.Wrapper_MdButton(new import25.ElementRef(this._el_8),this.renderer);
     this._el_9 = import3.createRenderElement(this.renderer,(null as any),'img',new import3.InlineArray4(4,'alt','midiin','style','height: 32px'),(null as any));
     this.compView_8.create(this._MdButton_8_3.context);
     this._text_10 = this.renderer.createText((null as any),'          \n    ',(null as any));
     this.compView_6.create(this._MdGridTile_6_3.context);
     this._text_11 = this.renderer.createText((null as any),'\n \n    ',(null as any));
     this._el_12 = import3.createRenderElement(this.renderer,(null as any),'md-grid-tile',new import3.InlineArray2(2,'role','listitem'),(null as any));
-    this.compView_12 = new import18.View_MdGridTile0(this.viewUtils,this,12,this._el_12);
-    this._MdGridTile_12_3 = new import18.Wrapper_MdGridTile(this.renderer,new import24.ElementRef(this._el_12));
+    this.compView_12 = new import19.View_MdGridTile0(this.viewUtils,this,12,this._el_12);
+    this._MdGridTile_12_3 = new import19.Wrapper_MdGridTile(this.renderer,new import25.ElementRef(this._el_12));
     this._text_13 = this.renderer.createText((null as any),'\n      ',(null as any));
     this._el_14 = import3.createRenderElement(this.renderer,(null as any),'instrument-detail',import3.EMPTY_INLINE_ARRAY,(null as any));
-    this.compView_14 = new import22.View_InstrumentDetailComponent0(this.viewUtils,this,14,this._el_14);
-    this._InstrumentDetailComponent_14_3 = new import22.Wrapper_InstrumentDetailComponent(this.parentView.injectorGet(import26.SFService,this.parentIndex));
+    this.compView_14 = new import23.View_InstrumentDetailComponent0(this.viewUtils,this,14,this._el_14);
+    this._InstrumentDetailComponent_14_3 = new import23.Wrapper_InstrumentDetailComponent(this.parentView.injectorGet(import27.SFService,this.parentIndex));
     this._text_15 = this.renderer.createText((null as any),' ',(null as any));
     this.compView_14.create(this._InstrumentDetailComponent_14_3.context);
     this._text_16 = this.renderer.createText((null as any),'          \n    ',(null as any));
     this.compView_12.create(this._MdGridTile_12_3.context);
     this._text_17 = this.renderer.createText((null as any),'\n    ',(null as any));
     this._el_18 = import3.createRenderElement(this.renderer,(null as any),'md-grid-tile',new import3.InlineArray2(2,'role','listitem'),(null as any));
-    this.compView_18 = new import18.View_MdGridTile0(this.viewUtils,this,18,this._el_18);
-    this._MdGridTile_18_3 = new import18.Wrapper_MdGridTile(this.renderer,new import24.ElementRef(this._el_18));
+    this.compView_18 = new import19.View_MdGridTile0(this.viewUtils,this,18,this._el_18);
+    this._MdGridTile_18_3 = new import19.Wrapper_MdGridTile(this.renderer,new import25.ElementRef(this._el_18));
     this._text_19 = this.renderer.createText((null as any),'\n            ',(null as any));
     this._el_20 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray2(2,'md-button',''),(null as any));
-    this.compView_20 = new import20.View_MdButton0(this.viewUtils,this,20,this._el_20);
-    this._MdButton_20_3 = new import20.Wrapper_MdButton(new import24.ElementRef(this._el_20),this.renderer);
+    this.compView_20 = new import21.View_MdButton0(this.viewUtils,this,20,this._el_20);
+    this._MdButton_20_3 = new import21.Wrapper_MdButton(new import25.ElementRef(this._el_20),this.renderer);
     this._text_21 = this.renderer.createText((null as any),'S',(null as any));
     this.compView_20.create(this._MdButton_20_3.context);
     this._text_22 = this.renderer.createText((null as any),'\n     ',(null as any));
     this.compView_18.create(this._MdGridTile_18_3.context);
     this._text_23 = this.renderer.createText((null as any),'\n     \n     ',(null as any));
     this._el_24 = import3.createRenderElement(this.renderer,(null as any),'md-grid-tile',new import3.InlineArray2(2,'role','listitem'),(null as any));
-    this.compView_24 = new import18.View_MdGridTile0(this.viewUtils,this,24,this._el_24);
-    this._MdGridTile_24_3 = new import18.Wrapper_MdGridTile(this.renderer,new import24.ElementRef(this._el_24));
+    this.compView_24 = new import19.View_MdGridTile0(this.viewUtils,this,24,this._el_24);
+    this._MdGridTile_24_3 = new import19.Wrapper_MdGridTile(this.renderer,new import25.ElementRef(this._el_24));
     this._text_25 = this.renderer.createText((null as any),'\n            ',(null as any));
     this._el_26 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray2(2,'md-button',''),(null as any));
-    this.compView_26 = new import20.View_MdButton0(this.viewUtils,this,26,this._el_26);
-    this._MdButton_26_3 = new import20.Wrapper_MdButton(new import24.ElementRef(this._el_26),this.renderer);
+    this.compView_26 = new import21.View_MdButton0(this.viewUtils,this,26,this._el_26);
+    this._MdButton_26_3 = new import21.Wrapper_MdButton(new import25.ElementRef(this._el_26),this.renderer);
     this._text_27 = this.renderer.createText((null as any),'M',(null as any));
     this.compView_26.create(this._MdButton_26_3.context);
     this._text_28 = this.renderer.createText((null as any),' \n     ',(null as any));
@@ -289,8 +290,8 @@ export class View_PlayerDetailComponent0 extends import2.AppView<import0.PlayerD
     this._text_32 = this.renderer.createText((null as any),' \n\n    ',(null as any));
     this._anchor_33 = this.renderer.createTemplateAnchor((null as any),(null as any));
     this._vc_33 = new import11.ViewContainer(33,1,this,this._anchor_33);
-    this._TemplateRef_33_5 = new import27.TemplateRef_(this,33,this._anchor_33);
-    this._NgIf_33_6 = new import23.Wrapper_NgIf(this._vc_33.vcRef,this._TemplateRef_33_5);
+    this._TemplateRef_33_5 = new import28.TemplateRef_(this,33,this._anchor_33);
+    this._NgIf_33_6 = new import24.Wrapper_NgIf(this._vc_33.vcRef,this._TemplateRef_33_5);
     this._text_34 = this.renderer.createText((null as any),'\n',(null as any));
     this.compView_1.create(this._MdCard_1_3.context);
     this._text_35 = this.renderer.createText(parentRenderNode,'\n',(null as any));
@@ -344,18 +345,18 @@ export class View_PlayerDetailComponent0 extends import2.AppView<import0.PlayerD
     return (null as any);
   }
   injectorGetInternal(token:any,requestNodeIndex:number,notFoundResult:any):any {
-    if (((token === import19.MdButton) && ((8 <= requestNodeIndex) && (requestNodeIndex <= 9)))) { return this._MdButton_8_3.context; }
-    if (((token === import17.MdGridTile) && ((6 <= requestNodeIndex) && (requestNodeIndex <= 10)))) { return this._MdGridTile_6_3.context; }
-    if (((token === import21.InstrumentDetailComponent) && ((14 <= requestNodeIndex) && (requestNodeIndex <= 15)))) { return this._InstrumentDetailComponent_14_3.context; }
-    if (((token === import17.MdGridTile) && ((12 <= requestNodeIndex) && (requestNodeIndex <= 16)))) { return this._MdGridTile_12_3.context; }
-    if (((token === import19.MdButton) && ((20 <= requestNodeIndex) && (requestNodeIndex <= 21)))) { return this._MdButton_20_3.context; }
-    if (((token === import17.MdGridTile) && ((18 <= requestNodeIndex) && (requestNodeIndex <= 22)))) { return this._MdGridTile_18_3.context; }
-    if (((token === import19.MdButton) && ((26 <= requestNodeIndex) && (requestNodeIndex <= 27)))) { return this._MdButton_26_3.context; }
-    if (((token === import17.MdGridTile) && ((24 <= requestNodeIndex) && (requestNodeIndex <= 28)))) { return this._MdGridTile_24_3.context; }
-    if (((token === import14.MdGridList) && ((4 <= requestNodeIndex) && (requestNodeIndex <= 29)))) { return this._MdGridList_4_3.context; }
-    if (((token === import27.TemplateRef) && (33 === requestNodeIndex))) { return this._TemplateRef_33_5; }
-    if (((token === import28.NgIf) && (33 === requestNodeIndex))) { return this._NgIf_33_6.context; }
-    if (((token === import12.MdCard) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 34)))) { return this._MdCard_1_3.context; }
+    if (((token === import20.MdButton) && ((8 <= requestNodeIndex) && (requestNodeIndex <= 9)))) { return this._MdButton_8_3.context; }
+    if (((token === import18.MdGridTile) && ((6 <= requestNodeIndex) && (requestNodeIndex <= 10)))) { return this._MdGridTile_6_3.context; }
+    if (((token === import22.InstrumentDetailComponent) && ((14 <= requestNodeIndex) && (requestNodeIndex <= 15)))) { return this._InstrumentDetailComponent_14_3.context; }
+    if (((token === import18.MdGridTile) && ((12 <= requestNodeIndex) && (requestNodeIndex <= 16)))) { return this._MdGridTile_12_3.context; }
+    if (((token === import20.MdButton) && ((20 <= requestNodeIndex) && (requestNodeIndex <= 21)))) { return this._MdButton_20_3.context; }
+    if (((token === import18.MdGridTile) && ((18 <= requestNodeIndex) && (requestNodeIndex <= 22)))) { return this._MdGridTile_18_3.context; }
+    if (((token === import20.MdButton) && ((26 <= requestNodeIndex) && (requestNodeIndex <= 27)))) { return this._MdButton_26_3.context; }
+    if (((token === import18.MdGridTile) && ((24 <= requestNodeIndex) && (requestNodeIndex <= 28)))) { return this._MdGridTile_24_3.context; }
+    if (((token === import15.MdGridList) && ((4 <= requestNodeIndex) && (requestNodeIndex <= 29)))) { return this._MdGridList_4_3.context; }
+    if (((token === import28.TemplateRef) && (33 === requestNodeIndex))) { return this._TemplateRef_33_5; }
+    if (((token === import29.NgIf) && (33 === requestNodeIndex))) { return this._NgIf_33_6.context; }
+    if (((token === import13.MdCard) && ((1 <= requestNodeIndex) && (requestNodeIndex <= 34)))) { return this._MdCard_1_3.context; }
     return notFoundResult;
   }
   detectChangesInternal(throwOnChange:boolean):void {
@@ -414,7 +415,7 @@ export class View_PlayerDetailComponent0 extends import2.AppView<import0.PlayerD
     this._MdButton_8_3.checkHost(this,this.compView_8,this._el_8,throwOnChange);
     const currVal_60:any = import3.inlineInterpolate(1,'',this.context.pianoButImg,'');
     if (import3.checkBinding(throwOnChange,this._expr_60,currVal_60)) {
-      this.renderer.setElementProperty(this._el_9,'src',this.viewUtils.sanitizer.sanitize(import29.SecurityContext.URL,currVal_60));
+      this.renderer.setElementProperty(this._el_9,'src',this.viewUtils.sanitizer.sanitize(import30.SecurityContext.URL,currVal_60));
       this._expr_60 = currVal_60;
     }
     this._MdButton_20_3.checkHost(this,this.compView_20,this._el_20,throwOnChange);

@@ -6,17 +6,16 @@ import { NetService } from '../services/net.service'
 @Component({
     selector: "ai-detail",
     template: 
-     `<div *ngIf="ai">
-
-      <md-card>
+     `
+      <md-card *ngIf="ai && ai.net">
           <md-card-actions>
-                 <button md-button   [md-menu-trigger-for]="menu"> <!-- style="float:right;"-->
-                    {{aiType.name}}
+                 <button md-button  *ngIf="aiName" [md-menu-trigger-for]="menu"> 
+                    {{aiName}}
                  </button> 
 
                  <md-menu #menu="mdMenu" >
-                        <button md-menu-item *ngFor="let net of netService.types" [value]="ai.net.name" (click)="aiType=net">
-                          {{ net.name }}
+                        <button md-menu-item *ngFor="let n of netService.names" [value]="ai.net.name" (click)="aiName=n">
+                          {{ n }}
                    </button>
                 </md-menu>
    
@@ -26,31 +25,35 @@ import { NetService } from '../services/net.service'
               <button md-icon-button (click)="implant()" [disabled]="false"><md-icon>system_update_alt</md-icon> </button>
           </md-card-actions>
       </md-card>
-    </div>` 
+    ` 
     //styleUrls: ["../css/mystyle.css"]
 })
 
 export class AIDetailComponent {
    @Input() ai: AI;
-   aiType:any
-   nHidden:Array<number>
+   
+   aiName:any=null
+   nHidden:Array<number>=[]
     
    constructor(private netService:NetService){
-       
+
+      
    }
 
    ngOnInit() {
-       for (let net of this.netService.types){
-           if (net.name === this.ai.net.name) {
-             this.aiType=net
+    console.log("NGINIT")
+       for (let name in this.netService.types) {
+      
+           if (name === this.ai.net.netname) {
+             this.aiName=name
+             console.log("DONE")
            }
        }
-       this.nHidden=this.ai.net.nHidden
-
+       this.nHidden=this.ai.net.nHidden 
        //  console.log("HELLO"+this.ai.out)
   }
 
     implant() {
-        this.ai.implant({type:this.aiType,nHidden:this.nHidden})
+        this.ai.implant({type:this.netService.types[this.aiName],nHidden:this.nHidden})
     }
 }
