@@ -8,10 +8,6 @@ declare var audioContext:any
 @Component({
 	selector: 'musicApp',
 	template: `
-
-		<!--md-card>             
-        <md-card-content-->
-        
         <div style="width: 100%">
   			<div class="button-row">
                 <div class="btn-group">
@@ -19,9 +15,9 @@ declare var audioContext:any
                           <md-icon> {{play_stop_icon}} </md-icon>
                     </button>
                     
-                    <md-button-toggle *ngIf="pauseable" md-tooltip="pause/resume" md-raised-button  (click)="pause()">
+                    <button *ngIf="pauseable" md-tooltip="pause/resume" md-raised-button color={{pause_text}} (click)="pause()">
                          <md-icon>pause</md-icon>
-                    </md-button-toggle>
+                    </button>
                      
                     <button  *ngIf="!recording" md-raised-button (click)="record()"   md-tooltip="START RECORDING" style="color:#FF0000;">     
                           <md-icon>play_circle_filled</md-icon>
@@ -30,9 +26,18 @@ declare var audioContext:any
                      <button  *ngIf="recording" md-raised-button (click)="record()"   md-tooltip="STOP RECORDING" style="color:#FFFFFF;background-color:#FF0000;">     
                           <md-icon>play_circle_filled</md-icon>
                     </button>
+
+					        
+                  	<button  *ngIf="music && music.metro.active" md-raised-button (click)="music.metro.active=false"  color='accent'  md-tooltip="METRO OFF"> <!-- style="color:#FFFFFF;background-color:#FF0000;"-->     
+                            <img src="images/tempo.png" style="height: 32px" alt="midiin" />
+                    </button>
+                
+				  	<button  *ngIf="music && !music.metro.active" md-raised-button (click)="music.metro.active=true"   md-tooltip="METRO ON">     
+                            <img src="images/tempo_off.png" style="height: 32px" alt="midiin" />
+                    </button>
                     
                 
-                    <button md-raised-button md-tooltip="SAVE" (click)="save()"  style="float: right">
+                    <button md-raised-button md-tooltip="SAVEX" (click)="save()"  style="float: right">
                        <md-icon>save</md-icon> 
                     </button>
                 </div>
@@ -40,9 +45,7 @@ declare var audioContext:any
      	</div>
 
      
-     	<!--/md-card-content>        
-        </md-card-->
-        <music> </music>
+     	<music> </music>
     `//,
     //   styleUrls: ["css/mystyles.css"]
 })
@@ -61,7 +64,7 @@ export class MusicAppComponent {
 	playstopTip="PLAY"
  	play_stop_icon:string="play_arrow"
  	pauseable:boolean=false
- 	pause_text:string="pause"
+ 	pause_text:string=""
  	recStyle:string="color:#FF0000;" 
  	recording:boolean=false
 
@@ -130,9 +133,9 @@ export class MusicAppComponent {
 	pause() {
 		this.music.pause()
 		if (this.music.isRunning()) {
-			this.pause_text="pause"
+			this.pause_text=""
 		} else {
-			this.pause_text="resume"
+			this.pause_text="accent"
 		}
 	}
 

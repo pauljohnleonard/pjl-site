@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 //import { MaterialModule } from '@angular/material';
 import { DBService } from '../services/db.service'
+import { NetService } from '../services/net.service'
 import { SamplesService } from '../services/samples.service'
 import { AI } from './ai';
 import { PlayerAI } from './player-ai';
@@ -80,7 +81,7 @@ export class MusicComponent implements OnInit {
 //    constructor(){}
     
     
-    constructor(private dbService: DBService,private samplesService:SamplesService) {
+    constructor(private dbService: DBService,private samplesService:SamplesService,private netService:NetService) {
 
       console.log("Hello X")
       var self=this
@@ -96,6 +97,8 @@ export class MusicComponent implements OnInit {
                 }
 		    })
       })
+
+      this.constructorX()
     }
 
 
@@ -108,7 +111,7 @@ export class MusicComponent implements OnInit {
         this.pulse = new Pulse(ticksPerBeat, beatsPerSec)
 
 
-        this.ticksArr = [[0, 8], [0, 4], [0, 2], [0, 1], [0, 0.5]]
+        this.ticksArr = [[0, 8] , [0, 4], [0, 2], [0, 1], [0, 0.5]]
   
         this.ticksArr.forEach((ticks:Array<number>) => { new Ramper(ticks, this.pulse) })
 
@@ -162,7 +165,7 @@ export class MusicComponent implements OnInit {
         let player=new Player()
         this.players.push(player)
 
-        let ai=new AI(this.dbService)
+        let ai=new AI(this.dbService,this.netService)
         player.details.ai=ai
 
         this.selectedPlayer=player
@@ -222,7 +225,7 @@ export class MusicComponent implements OnInit {
 
     
     ngAfterViewInit() {
-        this.constructorX()
+     //   this.constructorX()
     }
     
     setPlayerType(t:string) {

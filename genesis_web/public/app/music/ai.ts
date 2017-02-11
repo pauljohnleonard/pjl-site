@@ -1,11 +1,15 @@
 import { DBService } from '../services/db.service'
-import { Net,Elman,Jordan } from './net'
+import { NetService } from '../services/net.service'
+import { Net } from './net'
 import { Ticker } from './ticker'
 import { Pulse } from './pulse'
 
+
+
+
+
 export class AI implements Ticker{
 
-	
     types = ["Jordan", "Elman"];
     nHidden:any
     out:Array<number>
@@ -16,7 +20,7 @@ export class AI implements Ticker{
     net:Net
     pulse:Pulse
 
-    constructor(private dbService:DBService){
+    constructor(private dbService:DBService,private netService:NetService){
 
     }
 
@@ -45,7 +49,7 @@ export class AI implements Ticker{
         this.pulse = pulse
         this.out = new Array(this.nOut)
         this.out.fill(0.5)
-        this.implant({type:"Jordan",nHidden:nHidden})
+        this.implant({nHidden:[nHidden]})
     }
 
     tick() {
@@ -60,6 +64,14 @@ export class AI implements Ticker{
 	 
 
         delete this.net
+
+        if (params.type === undefined) params.type=this.netService.types[0]
+
+        this.net=Object.create(params.type.prototype);
+        
+        this.net.constructor(this.nIn,params.nHidden,this.nOut)
+
+        /*
         switch (params.type) {
             case "Elman":
                 this.net = new Elman(this.nIn, params.nHidden, this.nOut)
@@ -67,6 +79,8 @@ export class AI implements Ticker{
             case "Jordan":
                 this.net = new Jordan(this.nIn, params.nHidden, this.nOut)
         }
+        */
+
         this.out.fill(0.5)
         this.activateCnt = 0
     }
