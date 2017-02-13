@@ -7,7 +7,7 @@ export class Player {
     soloed:boolean = false
     tmpMuted:boolean = false
     muted:boolean = false
-
+ 
     details:any={}
            
     constructor() {
@@ -48,5 +48,4 @@ export class Player {
             })
         }
     }
-
 }

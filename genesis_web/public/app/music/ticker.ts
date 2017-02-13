@@ -1,7 +1,7 @@
 
 export interface Ticker {
-    tick():any
-    start():any
-    stop():any
+    tick():void
+    start():void
+    stop():void
 
 }

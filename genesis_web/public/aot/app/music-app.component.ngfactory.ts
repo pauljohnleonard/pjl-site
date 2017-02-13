@@ -195,194 +195,12 @@ class View_MusicAppComponent2 extends import1.AppView<any> {
   _MdButton_0_5:import11.Wrapper_MdButton;
   _MdTooltip_0_6:import12.Wrapper_MdTooltip;
   _text_1:any;
-  _el_2:any;
-  compView_2:import1.AppView<import13.MdIcon>;
-  _MdIcon_2_3:import14.Wrapper_MdIcon;
-  _text_3:any;
-  _text_4:any;
-  _el_5:any;
-  constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import9.ViewContainer) {
-    super(View_MusicAppComponent2,renderType_MusicAppComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
-  }
-  createInternal(rootSelector:string):import7.ComponentRef<any> {
-    this._el_0 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray8(6,'md-raised-button','','md-tooltip','START RECORDING','style','color:#FF0000;'),(null as any));
-    this._vc_0 = new import9.ViewContainer(0,(null as any),this,this._el_0);
-    this.compView_0 = new import11.View_MdButton0(this.viewUtils,this,0,this._el_0);
-    this._MdButton_0_5 = new import11.Wrapper_MdButton(new import15.ElementRef(this._el_0),this.renderer);
-    this._MdTooltip_0_6 = new import12.Wrapper_MdTooltip(this.parentView.parentView.injectorGet(import16.Overlay,this.parentView.parentIndex),new import15.ElementRef(this._el_0),this._vc_0.vcRef,this.parentView.parentView.injectorGet(import17.NgZone,this.parentView.parentIndex),this.parentView.parentView.injectorGet(import18.Dir,this.parentView.parentIndex,(null as any)));
-    this._text_1 = this.renderer.createText((null as any),'     \n                          ',(null as any));
-    this._el_2 = import3.createRenderElement(this.renderer,(null as any),'md-icon',new import3.InlineArray2(2,'role','img'),(null as any));
-    this.compView_2 = new import14.View_MdIcon0(this.viewUtils,this,2,this._el_2);
-    this._MdIcon_2_3 = new import14.Wrapper_MdIcon(new import15.ElementRef(this._el_2),this.renderer,this.parentView.parentView.injectorGet(import19.MdIconRegistry,this.parentView.parentIndex));
-    this._text_3 = this.renderer.createText((null as any),'play_circle_filled',(null as any));
-    this.compView_2.create(this._MdIcon_2_3.context);
-    this._text_4 = this.renderer.createText((null as any),'\n                    ',(null as any));
-    this.compView_0.create(this._MdButton_0_5.context);
-    this._el_5 = this.renderer.createTemplateAnchor((null as any),(null as any));
-    var disposable_0:Function = import3.subscribeToRenderElement(this,this._el_0,new import3.InlineArray16(16,'click',(null as any),'mousedown',(null as any),'focus',(null as any),'blur',(null as any),'longpress',(null as any),'touchend',(null as any),'mouseenter',(null as any),'mouseleave',(null as any)),this.eventHandler(this.handleEvent_0));
-    this.init(this._el_5,((<any>this.renderer).directRenderer? (null as any): [
-      this._el_0,
-      this._text_1,
-      this._el_2,
-      this._text_3,
-      this._text_4
-    ]
-    ),[disposable_0]);
-    return (null as any);
-  }
-  injectorGetInternal(token:any,requestNodeIndex:number,notFoundResult:any):any {
-    if (((token === import13.MdIcon) && ((2 <= requestNodeIndex) && (requestNodeIndex <= 3)))) { return this._MdIcon_2_3.context; }
-    if (((token === import10.MdButton) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 4)))) { return this._MdButton_0_5.context; }
-    if (((token === import20.MdTooltip) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 4)))) { return this._MdTooltip_0_6.context; }
-    return notFoundResult;
-  }
-  detectChangesInternal(throwOnChange:boolean):void {
-    if (this._MdButton_0_5.ngDoCheck(this,this._el_0,throwOnChange)) { this.compView_0.markAsCheckOnce(); }
-    const currVal_0_1_0:any = 'START RECORDING';
-    this._MdTooltip_0_6.check__deprecatedMessage(currVal_0_1_0,throwOnChange,false);
-    this._MdTooltip_0_6.ngDoCheck(this,this._el_0,throwOnChange);
-    if (this._MdIcon_2_3.ngDoCheck(this,this._el_2,throwOnChange)) { this.compView_2.markAsCheckOnce(); }
-    this._vc_0.detectChangesInNestedViews(throwOnChange);
-    this._MdButton_0_5.checkHost(this,this.compView_0,this._el_0,throwOnChange);
-    this.compView_0.internalDetectChanges(throwOnChange);
-    this.compView_2.internalDetectChanges(throwOnChange);
-    if (!throwOnChange) { this._MdIcon_2_3.context.ngAfterViewChecked(); }
-  }
-  destroyInternal():void {
-    this._vc_0.destroyNestedViews();
-    this.compView_0.destroy();
-    this.compView_2.destroy();
-    this._MdTooltip_0_6.ngOnDestroy();
-  }
-  visitRootNodesInternal(cb:any,ctx:any):void {
-    cb(this._vc_0.nativeElement,ctx);
-    this._vc_0.visitNestedViewRootNodes(cb,ctx);
-    cb(this._el_5,ctx);
-  }
-  visitProjectableNodesInternal(nodeIndex:number,ngContentIndex:number,cb:any,ctx:any):void {
-    if (((nodeIndex == 0) && (ngContentIndex == 0))) {
-      cb(this._text_1,ctx);
-      cb(this._el_2,ctx);
-      cb(this._text_4,ctx);
-    }
-    if (((nodeIndex == 2) && (ngContentIndex == 0))) { cb(this._text_3,ctx); }
-  }
-  handleEvent_0(eventName:string,$event:any):boolean {
-    this.compView_0.markPathToRootAsCheckOnce();
-    var result:boolean = true;
-    result = (this._MdButton_0_5.handleEvent(eventName,$event) && result);
-    result = (this._MdTooltip_0_6.handleEvent(eventName,$event) && result);
-    if ((eventName == 'click')) {
-      const pd_sub_0:any = ((<any>this.parentView.context.record()) !== false);
-      result = (pd_sub_0 && result);
-    }
-    return result;
-  }
-}
-class View_MusicAppComponent3 extends import1.AppView<any> {
-  _el_0:any;
-  /*private*/ _vc_0:import9.ViewContainer;
-  compView_0:import1.AppView<import10.MdButton>;
-  _MdButton_0_5:import11.Wrapper_MdButton;
-  _MdTooltip_0_6:import12.Wrapper_MdTooltip;
-  _text_1:any;
-  _el_2:any;
-  compView_2:import1.AppView<import13.MdIcon>;
-  _MdIcon_2_3:import14.Wrapper_MdIcon;
-  _text_3:any;
-  _text_4:any;
-  _el_5:any;
-  constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import9.ViewContainer) {
-    super(View_MusicAppComponent3,renderType_MusicAppComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
-  }
-  createInternal(rootSelector:string):import7.ComponentRef<any> {
-    this._el_0 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray8(6,'md-raised-button','','md-tooltip','STOP RECORDING','style','color:#FFFFFF;background-color:#FF0000;'),(null as any));
-    this._vc_0 = new import9.ViewContainer(0,(null as any),this,this._el_0);
-    this.compView_0 = new import11.View_MdButton0(this.viewUtils,this,0,this._el_0);
-    this._MdButton_0_5 = new import11.Wrapper_MdButton(new import15.ElementRef(this._el_0),this.renderer);
-    this._MdTooltip_0_6 = new import12.Wrapper_MdTooltip(this.parentView.parentView.injectorGet(import16.Overlay,this.parentView.parentIndex),new import15.ElementRef(this._el_0),this._vc_0.vcRef,this.parentView.parentView.injectorGet(import17.NgZone,this.parentView.parentIndex),this.parentView.parentView.injectorGet(import18.Dir,this.parentView.parentIndex,(null as any)));
-    this._text_1 = this.renderer.createText((null as any),'     \n                          ',(null as any));
-    this._el_2 = import3.createRenderElement(this.renderer,(null as any),'md-icon',new import3.InlineArray2(2,'role','img'),(null as any));
-    this.compView_2 = new import14.View_MdIcon0(this.viewUtils,this,2,this._el_2);
-    this._MdIcon_2_3 = new import14.Wrapper_MdIcon(new import15.ElementRef(this._el_2),this.renderer,this.parentView.parentView.injectorGet(import19.MdIconRegistry,this.parentView.parentIndex));
-    this._text_3 = this.renderer.createText((null as any),'play_circle_filled',(null as any));
-    this.compView_2.create(this._MdIcon_2_3.context);
-    this._text_4 = this.renderer.createText((null as any),'\n                    ',(null as any));
-    this.compView_0.create(this._MdButton_0_5.context);
-    this._el_5 = this.renderer.createTemplateAnchor((null as any),(null as any));
-    var disposable_0:Function = import3.subscribeToRenderElement(this,this._el_0,new import3.InlineArray16(16,'click',(null as any),'mousedown',(null as any),'focus',(null as any),'blur',(null as any),'longpress',(null as any),'touchend',(null as any),'mouseenter',(null as any),'mouseleave',(null as any)),this.eventHandler(this.handleEvent_0));
-    this.init(this._el_5,((<any>this.renderer).directRenderer? (null as any): [
-      this._el_0,
-      this._text_1,
-      this._el_2,
-      this._text_3,
-      this._text_4
-    ]
-    ),[disposable_0]);
-    return (null as any);
-  }
-  injectorGetInternal(token:any,requestNodeIndex:number,notFoundResult:any):any {
-    if (((token === import13.MdIcon) && ((2 <= requestNodeIndex) && (requestNodeIndex <= 3)))) { return this._MdIcon_2_3.context; }
-    if (((token === import10.MdButton) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 4)))) { return this._MdButton_0_5.context; }
-    if (((token === import20.MdTooltip) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 4)))) { return this._MdTooltip_0_6.context; }
-    return notFoundResult;
-  }
-  detectChangesInternal(throwOnChange:boolean):void {
-    if (this._MdButton_0_5.ngDoCheck(this,this._el_0,throwOnChange)) { this.compView_0.markAsCheckOnce(); }
-    const currVal_0_1_0:any = 'STOP RECORDING';
-    this._MdTooltip_0_6.check__deprecatedMessage(currVal_0_1_0,throwOnChange,false);
-    this._MdTooltip_0_6.ngDoCheck(this,this._el_0,throwOnChange);
-    if (this._MdIcon_2_3.ngDoCheck(this,this._el_2,throwOnChange)) { this.compView_2.markAsCheckOnce(); }
-    this._vc_0.detectChangesInNestedViews(throwOnChange);
-    this._MdButton_0_5.checkHost(this,this.compView_0,this._el_0,throwOnChange);
-    this.compView_0.internalDetectChanges(throwOnChange);
-    this.compView_2.internalDetectChanges(throwOnChange);
-    if (!throwOnChange) { this._MdIcon_2_3.context.ngAfterViewChecked(); }
-  }
-  destroyInternal():void {
-    this._vc_0.destroyNestedViews();
-    this.compView_0.destroy();
-    this.compView_2.destroy();
-    this._MdTooltip_0_6.ngOnDestroy();
-  }
-  visitRootNodesInternal(cb:any,ctx:any):void {
-    cb(this._vc_0.nativeElement,ctx);
-    this._vc_0.visitNestedViewRootNodes(cb,ctx);
-    cb(this._el_5,ctx);
-  }
-  visitProjectableNodesInternal(nodeIndex:number,ngContentIndex:number,cb:any,ctx:any):void {
-    if (((nodeIndex == 0) && (ngContentIndex == 0))) {
-      cb(this._text_1,ctx);
-      cb(this._el_2,ctx);
-      cb(this._text_4,ctx);
-    }
-    if (((nodeIndex == 2) && (ngContentIndex == 0))) { cb(this._text_3,ctx); }
-  }
-  handleEvent_0(eventName:string,$event:any):boolean {
-    this.compView_0.markPathToRootAsCheckOnce();
-    var result:boolean = true;
-    result = (this._MdButton_0_5.handleEvent(eventName,$event) && result);
-    result = (this._MdTooltip_0_6.handleEvent(eventName,$event) && result);
-    if ((eventName == 'click')) {
-      const pd_sub_0:any = ((<any>this.parentView.context.record()) !== false);
-      result = (pd_sub_0 && result);
-    }
-    return result;
-  }
-}
-class View_MusicAppComponent4 extends import1.AppView<any> {
-  _el_0:any;
-  /*private*/ _vc_0:import9.ViewContainer;
-  compView_0:import1.AppView<import10.MdButton>;
-  _MdButton_0_5:import11.Wrapper_MdButton;
-  _MdTooltip_0_6:import12.Wrapper_MdTooltip;
-  _text_1:any;
   _text_2:any;
   _el_3:any;
   _text_4:any;
   _el_5:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import9.ViewContainer) {
-    super(View_MusicAppComponent4,renderType_MusicAppComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
+    super(View_MusicAppComponent2,renderType_MusicAppComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     this._el_0 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray8(6,'color','accent','md-raised-button','','md-tooltip','METRO OFF'),(null as any));
@@ -453,7 +271,7 @@ class View_MusicAppComponent4 extends import1.AppView<any> {
     return result;
   }
 }
-class View_MusicAppComponent5 extends import1.AppView<any> {
+class View_MusicAppComponent3 extends import1.AppView<any> {
   _el_0:any;
   /*private*/ _vc_0:import9.ViewContainer;
   compView_0:import1.AppView<import10.MdButton>;
@@ -464,7 +282,7 @@ class View_MusicAppComponent5 extends import1.AppView<any> {
   _text_3:any;
   _el_4:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import9.ViewContainer) {
-    super(View_MusicAppComponent5,renderType_MusicAppComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
+    super(View_MusicAppComponent3,renderType_MusicAppComponent,import5.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     this._el_0 = import3.createRenderElement(this.renderer,(null as any),'button',new import3.InlineArray4(4,'md-raised-button','','md-tooltip','METRO ON'),(null as any));
@@ -557,50 +375,53 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
   _TemplateRef_13_5:any;
   _NgIf_13_6:import22.Wrapper_NgIf;
   _text_14:any;
-  _anchor_15:any;
+  _el_15:any;
   /*private*/ _vc_15:import9.ViewContainer;
-  _TemplateRef_15_5:any;
-  _NgIf_15_6:import22.Wrapper_NgIf;
+  compView_15:import1.AppView<import10.MdButton>;
+  _MdButton_15_5:import11.Wrapper_MdButton;
+  _MdTooltip_15_6:import12.Wrapper_MdTooltip;
   _text_16:any;
-  _anchor_17:any;
-  /*private*/ _vc_17:import9.ViewContainer;
-  _TemplateRef_17_5:any;
-  _NgIf_17_6:import22.Wrapper_NgIf;
+  _el_17:any;
+  compView_17:import1.AppView<import13.MdIcon>;
+  _MdIcon_17_3:import14.Wrapper_MdIcon;
   _text_18:any;
-  _anchor_19:any;
-  /*private*/ _vc_19:import9.ViewContainer;
-  _TemplateRef_19_5:any;
-  _NgIf_19_6:import22.Wrapper_NgIf;
+  _text_19:any;
   _text_20:any;
-  _anchor_21:any;
-  /*private*/ _vc_21:import9.ViewContainer;
-  _TemplateRef_21_5:any;
-  _NgIf_21_6:import22.Wrapper_NgIf;
-  _text_22:any;
-  _el_23:any;
-  /*private*/ _vc_23:import9.ViewContainer;
-  compView_23:import1.AppView<import10.MdButton>;
-  _MdButton_23_5:import11.Wrapper_MdButton;
-  _MdTooltip_23_6:import12.Wrapper_MdTooltip;
-  _text_24:any;
-  _el_25:any;
-  compView_25:import1.AppView<import13.MdIcon>;
-  _MdIcon_25_3:import14.Wrapper_MdIcon;
-  _text_26:any;
+  _text_21:any;
+  _anchor_22:any;
+  /*private*/ _vc_22:import9.ViewContainer;
+  _TemplateRef_22_5:any;
+  _NgIf_22_6:import22.Wrapper_NgIf;
+  _text_23:any;
+  _anchor_24:any;
+  /*private*/ _vc_24:import9.ViewContainer;
+  _TemplateRef_24_5:any;
+  _NgIf_24_6:import22.Wrapper_NgIf;
+  _text_25:any;
+  _el_26:any;
+  /*private*/ _vc_26:import9.ViewContainer;
+  compView_26:import1.AppView<import10.MdButton>;
+  _MdButton_26_5:import11.Wrapper_MdButton;
+  _MdTooltip_26_6:import12.Wrapper_MdTooltip;
   _text_27:any;
-  _text_28:any;
+  _el_28:any;
+  compView_28:import1.AppView<import13.MdIcon>;
+  _MdIcon_28_3:import14.Wrapper_MdIcon;
   _text_29:any;
   _text_30:any;
   _text_31:any;
-  _el_32:any;
-  compView_32:import1.AppView<import23.MusicComponent>;
-  _MusicComponent_32_3:import24.Wrapper_MusicComponent;
+  _text_32:any;
   _text_33:any;
   _text_34:any;
-  /*private*/ _expr_65:any;
+  _el_35:any;
+  compView_35:import1.AppView<import23.MusicComponent>;
+  _MusicComponent_35_3:import24.Wrapper_MusicComponent;
+  _text_36:any;
+  _text_37:any;
+  /*private*/ _expr_68:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import1.AppView<any>,parentIndex:number,parentElement:any) {
     super(View_MusicAppComponent0,renderType_MusicAppComponent,import5.ViewType.COMPONENT,viewUtils,parentView,parentIndex,parentElement,import6.ChangeDetectorStatus.CheckAlways);
-    this._expr_65 = import25.UNINITIALIZED;
+    this._expr_68 = import25.UNINITIALIZED;
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
@@ -631,52 +452,58 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
     this._TemplateRef_13_5 = new import26.TemplateRef_(this,13,this._anchor_13);
     this._NgIf_13_6 = new import22.Wrapper_NgIf(this._vc_13.vcRef,this._TemplateRef_13_5);
     this._text_14 = this.renderer.createText(this._el_5,'\n                     \n                    ',(null as any));
-    this._anchor_15 = this.renderer.createTemplateAnchor(this._el_5,(null as any));
-    this._vc_15 = new import9.ViewContainer(15,5,this,this._anchor_15);
-    this._TemplateRef_15_5 = new import26.TemplateRef_(this,15,this._anchor_15);
-    this._NgIf_15_6 = new import22.Wrapper_NgIf(this._vc_15.vcRef,this._TemplateRef_15_5);
-    this._text_16 = this.renderer.createText(this._el_5,'\n                    \n                     ',(null as any));
-    this._anchor_17 = this.renderer.createTemplateAnchor(this._el_5,(null as any));
-    this._vc_17 = new import9.ViewContainer(17,5,this,this._anchor_17);
-    this._TemplateRef_17_5 = new import26.TemplateRef_(this,17,this._anchor_17);
-    this._NgIf_17_6 = new import22.Wrapper_NgIf(this._vc_17.vcRef,this._TemplateRef_17_5);
-    this._text_18 = this.renderer.createText(this._el_5,'\n\n					        \n                  	',(null as any));
-    this._anchor_19 = this.renderer.createTemplateAnchor(this._el_5,(null as any));
-    this._vc_19 = new import9.ViewContainer(19,5,this,this._anchor_19);
-    this._TemplateRef_19_5 = new import26.TemplateRef_(this,19,this._anchor_19);
-    this._NgIf_19_6 = new import22.Wrapper_NgIf(this._vc_19.vcRef,this._TemplateRef_19_5);
-    this._text_20 = this.renderer.createText(this._el_5,'\n                \n				  	',(null as any));
-    this._anchor_21 = this.renderer.createTemplateAnchor(this._el_5,(null as any));
-    this._vc_21 = new import9.ViewContainer(21,5,this,this._anchor_21);
-    this._TemplateRef_21_5 = new import26.TemplateRef_(this,21,this._anchor_21);
-    this._NgIf_21_6 = new import22.Wrapper_NgIf(this._vc_21.vcRef,this._TemplateRef_21_5);
-    this._text_22 = this.renderer.createText(this._el_5,'\n                    \n                \n                    ',(null as any));
-    this._el_23 = import3.createRenderElement(this.renderer,this._el_5,'button',new import3.InlineArray8(6,'md-raised-button','','md-tooltip','SAVEX','style','float: right'),(null as any));
-    this._vc_23 = new import9.ViewContainer(23,5,this,this._el_23);
-    this.compView_23 = new import11.View_MdButton0(this.viewUtils,this,23,this._el_23);
-    this._MdButton_23_5 = new import11.Wrapper_MdButton(new import15.ElementRef(this._el_23),this.renderer);
-    this._MdTooltip_23_6 = new import12.Wrapper_MdTooltip(this.parentView.injectorGet(import16.Overlay,this.parentIndex),new import15.ElementRef(this._el_23),this._vc_23.vcRef,this.parentView.injectorGet(import17.NgZone,this.parentIndex),this.parentView.injectorGet(import18.Dir,this.parentIndex,(null as any)));
-    this._text_24 = this.renderer.createText((null as any),'\n                       ',(null as any));
-    this._el_25 = import3.createRenderElement(this.renderer,(null as any),'md-icon',new import3.InlineArray2(2,'role','img'),(null as any));
-    this.compView_25 = new import14.View_MdIcon0(this.viewUtils,this,25,this._el_25);
-    this._MdIcon_25_3 = new import14.Wrapper_MdIcon(new import15.ElementRef(this._el_25),this.renderer,this.parentView.injectorGet(import19.MdIconRegistry,this.parentIndex));
-    this._text_26 = this.renderer.createText((null as any),'save',(null as any));
-    this.compView_25.create(this._MdIcon_25_3.context);
-    this._text_27 = this.renderer.createText((null as any),' \n                    ',(null as any));
-    this.compView_23.create(this._MdButton_23_5.context);
-    this._text_28 = this.renderer.createText(this._el_5,'\n                ',(null as any));
-    this._text_29 = this.renderer.createText(this._el_3,'\n         	',(null as any));
-    this._text_30 = this.renderer.createText(this._el_1,'\n     	',(null as any));
-    this._text_31 = this.renderer.createText(parentRenderNode,'\n\n     \n     	',(null as any));
-    this._el_32 = import3.createRenderElement(this.renderer,parentRenderNode,'music',import3.EMPTY_INLINE_ARRAY,(null as any));
-    this.compView_32 = new import24.View_MusicComponent0(this.viewUtils,this,32,this._el_32);
-    this._MusicComponent_32_3 = new import24.Wrapper_MusicComponent(this.parentView.injectorGet(import8.DBService,this.parentIndex),this.parentView.injectorGet(import27.SamplesService,this.parentIndex),this.parentView.injectorGet(import28.NetService,this.parentIndex));
-    this._text_33 = this.renderer.createText((null as any),' ',(null as any));
-    this.compView_32.create(this._MusicComponent_32_3.context);
-    this._text_34 = this.renderer.createText(parentRenderNode,'\n    ',(null as any));
+    this._el_15 = import3.createRenderElement(this.renderer,this._el_5,'button',new import3.InlineArray8(6,'md-raised-button','','md-tooltip','START RECORDING','style','color:#FF0000;'),(null as any));
+    this._vc_15 = new import9.ViewContainer(15,5,this,this._el_15);
+    this.compView_15 = new import11.View_MdButton0(this.viewUtils,this,15,this._el_15);
+    this._MdButton_15_5 = new import11.Wrapper_MdButton(new import15.ElementRef(this._el_15),this.renderer);
+    this._MdTooltip_15_6 = new import12.Wrapper_MdTooltip(this.parentView.injectorGet(import16.Overlay,this.parentIndex),new import15.ElementRef(this._el_15),this._vc_15.vcRef,this.parentView.injectorGet(import17.NgZone,this.parentIndex),this.parentView.injectorGet(import18.Dir,this.parentIndex,(null as any)));
+    this._text_16 = this.renderer.createText((null as any),'     \n                          ',(null as any));
+    this._el_17 = import3.createRenderElement(this.renderer,(null as any),'md-icon',new import3.InlineArray2(2,'role','img'),(null as any));
+    this.compView_17 = new import14.View_MdIcon0(this.viewUtils,this,17,this._el_17);
+    this._MdIcon_17_3 = new import14.Wrapper_MdIcon(new import15.ElementRef(this._el_17),this.renderer,this.parentView.injectorGet(import19.MdIconRegistry,this.parentIndex));
+    this._text_18 = this.renderer.createText((null as any),'fiber_manual_record',(null as any));
+    this.compView_17.create(this._MdIcon_17_3.context);
+    this._text_19 = this.renderer.createText((null as any),'\n                    ',(null as any));
+    this.compView_15.create(this._MdButton_15_5.context);
+    this._text_20 = this.renderer.createText(this._el_5,'\n                    \n                     ',(null as any));
+    this._text_21 = this.renderer.createText(this._el_5,'\n\n					        \n                  	',(null as any));
+    this._anchor_22 = this.renderer.createTemplateAnchor(this._el_5,(null as any));
+    this._vc_22 = new import9.ViewContainer(22,5,this,this._anchor_22);
+    this._TemplateRef_22_5 = new import26.TemplateRef_(this,22,this._anchor_22);
+    this._NgIf_22_6 = new import22.Wrapper_NgIf(this._vc_22.vcRef,this._TemplateRef_22_5);
+    this._text_23 = this.renderer.createText(this._el_5,'\n                \n				  	',(null as any));
+    this._anchor_24 = this.renderer.createTemplateAnchor(this._el_5,(null as any));
+    this._vc_24 = new import9.ViewContainer(24,5,this,this._anchor_24);
+    this._TemplateRef_24_5 = new import26.TemplateRef_(this,24,this._anchor_24);
+    this._NgIf_24_6 = new import22.Wrapper_NgIf(this._vc_24.vcRef,this._TemplateRef_24_5);
+    this._text_25 = this.renderer.createText(this._el_5,'\n                    \n                \n                    ',(null as any));
+    this._el_26 = import3.createRenderElement(this.renderer,this._el_5,'button',new import3.InlineArray8(6,'md-raised-button','','md-tooltip','SAVEX','style','float: right'),(null as any));
+    this._vc_26 = new import9.ViewContainer(26,5,this,this._el_26);
+    this.compView_26 = new import11.View_MdButton0(this.viewUtils,this,26,this._el_26);
+    this._MdButton_26_5 = new import11.Wrapper_MdButton(new import15.ElementRef(this._el_26),this.renderer);
+    this._MdTooltip_26_6 = new import12.Wrapper_MdTooltip(this.parentView.injectorGet(import16.Overlay,this.parentIndex),new import15.ElementRef(this._el_26),this._vc_26.vcRef,this.parentView.injectorGet(import17.NgZone,this.parentIndex),this.parentView.injectorGet(import18.Dir,this.parentIndex,(null as any)));
+    this._text_27 = this.renderer.createText((null as any),'\n                       ',(null as any));
+    this._el_28 = import3.createRenderElement(this.renderer,(null as any),'md-icon',new import3.InlineArray2(2,'role','img'),(null as any));
+    this.compView_28 = new import14.View_MdIcon0(this.viewUtils,this,28,this._el_28);
+    this._MdIcon_28_3 = new import14.Wrapper_MdIcon(new import15.ElementRef(this._el_28),this.renderer,this.parentView.injectorGet(import19.MdIconRegistry,this.parentIndex));
+    this._text_29 = this.renderer.createText((null as any),'save',(null as any));
+    this.compView_28.create(this._MdIcon_28_3.context);
+    this._text_30 = this.renderer.createText((null as any),' \n                    ',(null as any));
+    this.compView_26.create(this._MdButton_26_5.context);
+    this._text_31 = this.renderer.createText(this._el_5,'\n                ',(null as any));
+    this._text_32 = this.renderer.createText(this._el_3,'\n         	',(null as any));
+    this._text_33 = this.renderer.createText(this._el_1,'\n     	',(null as any));
+    this._text_34 = this.renderer.createText(parentRenderNode,'\n\n     \n     	',(null as any));
+    this._el_35 = import3.createRenderElement(this.renderer,parentRenderNode,'music',import3.EMPTY_INLINE_ARRAY,(null as any));
+    this.compView_35 = new import24.View_MusicComponent0(this.viewUtils,this,35,this._el_35);
+    this._MusicComponent_35_3 = new import24.Wrapper_MusicComponent(this.parentView.injectorGet(import8.DBService,this.parentIndex),this.parentView.injectorGet(import27.SamplesService,this.parentIndex),this.parentView.injectorGet(import28.NetService,this.parentIndex));
+    this._text_36 = this.renderer.createText((null as any),' ',(null as any));
+    this.compView_35.create(this._MusicComponent_35_3.context);
+    this._text_37 = this.renderer.createText(parentRenderNode,'\n    ',(null as any));
     var disposable_0:Function = import3.subscribeToRenderElement(this,this._el_7,new import3.InlineArray16(16,'click',(null as any),'mousedown',(null as any),'focus',(null as any),'blur',(null as any),'longpress',(null as any),'touchend',(null as any),'mouseenter',(null as any),'mouseleave',(null as any)),this.eventHandler(this.handleEvent_7));
-    var disposable_1:Function = import3.subscribeToRenderElement(this,this._el_23,new import3.InlineArray16(16,'click',(null as any),'mousedown',(null as any),'focus',(null as any),'blur',(null as any),'longpress',(null as any),'touchend',(null as any),'mouseenter',(null as any),'mouseleave',(null as any)),this.eventHandler(this.handleEvent_23));
-    this._viewQuery_MusicComponent_0.reset([this._MusicComponent_32_3.context]);
+    var disposable_1:Function = import3.subscribeToRenderElement(this,this._el_15,new import3.InlineArray16(16,'click',(null as any),'mousedown',(null as any),'focus',(null as any),'blur',(null as any),'longpress',(null as any),'touchend',(null as any),'mouseenter',(null as any),'mouseleave',(null as any)),this.eventHandler(this.handleEvent_15));
+    var disposable_2:Function = import3.subscribeToRenderElement(this,this._el_26,new import3.InlineArray16(16,'click',(null as any),'mousedown',(null as any),'focus',(null as any),'blur',(null as any),'longpress',(null as any),'touchend',(null as any),'mouseenter',(null as any),'mouseleave',(null as any)),this.eventHandler(this.handleEvent_26));
+    this._viewQuery_MusicComponent_0.reset([this._MusicComponent_35_3.context]);
     this.context.music = this._viewQuery_MusicComponent_0.first;
     this.init((null as any),((<any>this.renderer).directRenderer? (null as any): [
       this._text_0,
@@ -694,30 +521,34 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
       this._text_12,
       this._anchor_13,
       this._text_14,
-      this._anchor_15,
+      this._el_15,
       this._text_16,
-      this._anchor_17,
+      this._el_17,
       this._text_18,
-      this._anchor_19,
+      this._text_19,
       this._text_20,
-      this._anchor_21,
-      this._text_22,
-      this._el_23,
-      this._text_24,
-      this._el_25,
-      this._text_26,
+      this._text_21,
+      this._anchor_22,
+      this._text_23,
+      this._anchor_24,
+      this._text_25,
+      this._el_26,
       this._text_27,
-      this._text_28,
+      this._el_28,
       this._text_29,
       this._text_30,
       this._text_31,
-      this._el_32,
+      this._text_32,
       this._text_33,
-      this._text_34
+      this._text_34,
+      this._el_35,
+      this._text_36,
+      this._text_37
     ]
     ),[
       disposable_0,
-      disposable_1
+      disposable_1,
+      disposable_2
     ]
     );
     return (null as any);
@@ -728,18 +559,17 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
     if (((token === import20.MdTooltip) && ((7 <= requestNodeIndex) && (requestNodeIndex <= 11)))) { return this._MdTooltip_7_6.context; }
     if (((token === import26.TemplateRef) && (13 === requestNodeIndex))) { return this._TemplateRef_13_5; }
     if (((token === import29.NgIf) && (13 === requestNodeIndex))) { return this._NgIf_13_6.context; }
-    if (((token === import26.TemplateRef) && (15 === requestNodeIndex))) { return this._TemplateRef_15_5; }
-    if (((token === import29.NgIf) && (15 === requestNodeIndex))) { return this._NgIf_15_6.context; }
-    if (((token === import26.TemplateRef) && (17 === requestNodeIndex))) { return this._TemplateRef_17_5; }
-    if (((token === import29.NgIf) && (17 === requestNodeIndex))) { return this._NgIf_17_6.context; }
-    if (((token === import26.TemplateRef) && (19 === requestNodeIndex))) { return this._TemplateRef_19_5; }
-    if (((token === import29.NgIf) && (19 === requestNodeIndex))) { return this._NgIf_19_6.context; }
-    if (((token === import26.TemplateRef) && (21 === requestNodeIndex))) { return this._TemplateRef_21_5; }
-    if (((token === import29.NgIf) && (21 === requestNodeIndex))) { return this._NgIf_21_6.context; }
-    if (((token === import13.MdIcon) && ((25 <= requestNodeIndex) && (requestNodeIndex <= 26)))) { return this._MdIcon_25_3.context; }
-    if (((token === import10.MdButton) && ((23 <= requestNodeIndex) && (requestNodeIndex <= 27)))) { return this._MdButton_23_5.context; }
-    if (((token === import20.MdTooltip) && ((23 <= requestNodeIndex) && (requestNodeIndex <= 27)))) { return this._MdTooltip_23_6.context; }
-    if (((token === import23.MusicComponent) && ((32 <= requestNodeIndex) && (requestNodeIndex <= 33)))) { return this._MusicComponent_32_3.context; }
+    if (((token === import13.MdIcon) && ((17 <= requestNodeIndex) && (requestNodeIndex <= 18)))) { return this._MdIcon_17_3.context; }
+    if (((token === import10.MdButton) && ((15 <= requestNodeIndex) && (requestNodeIndex <= 19)))) { return this._MdButton_15_5.context; }
+    if (((token === import20.MdTooltip) && ((15 <= requestNodeIndex) && (requestNodeIndex <= 19)))) { return this._MdTooltip_15_6.context; }
+    if (((token === import26.TemplateRef) && (22 === requestNodeIndex))) { return this._TemplateRef_22_5; }
+    if (((token === import29.NgIf) && (22 === requestNodeIndex))) { return this._NgIf_22_6.context; }
+    if (((token === import26.TemplateRef) && (24 === requestNodeIndex))) { return this._TemplateRef_24_5; }
+    if (((token === import29.NgIf) && (24 === requestNodeIndex))) { return this._NgIf_24_6.context; }
+    if (((token === import13.MdIcon) && ((28 <= requestNodeIndex) && (requestNodeIndex <= 29)))) { return this._MdIcon_28_3.context; }
+    if (((token === import10.MdButton) && ((26 <= requestNodeIndex) && (requestNodeIndex <= 30)))) { return this._MdButton_26_5.context; }
+    if (((token === import20.MdTooltip) && ((26 <= requestNodeIndex) && (requestNodeIndex <= 30)))) { return this._MdTooltip_26_6.context; }
+    if (((token === import23.MusicComponent) && ((35 <= requestNodeIndex) && (requestNodeIndex <= 36)))) { return this._MusicComponent_35_3.context; }
     return notFoundResult;
   }
   detectChangesInternal(throwOnChange:boolean):void {
@@ -751,64 +581,69 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
     const currVal_13_0_0:any = this.context.pauseable;
     this._NgIf_13_6.check_ngIf(currVal_13_0_0,throwOnChange,false);
     this._NgIf_13_6.ngDoCheck(this,this._anchor_13,throwOnChange);
-    const currVal_15_0_0:boolean = !this.context.recording;
-    this._NgIf_15_6.check_ngIf(currVal_15_0_0,throwOnChange,false);
-    this._NgIf_15_6.ngDoCheck(this,this._anchor_15,throwOnChange);
-    const currVal_17_0_0:any = this.context.recording;
-    this._NgIf_17_6.check_ngIf(currVal_17_0_0,throwOnChange,false);
-    this._NgIf_17_6.ngDoCheck(this,this._anchor_17,throwOnChange);
-    const currVal_19_0_0:any = (this.context.music && this.context.music.metro.active);
-    this._NgIf_19_6.check_ngIf(currVal_19_0_0,throwOnChange,false);
-    this._NgIf_19_6.ngDoCheck(this,this._anchor_19,throwOnChange);
-    const currVal_21_0_0:any = (this.context.music && !this.context.music.metro.active);
-    this._NgIf_21_6.check_ngIf(currVal_21_0_0,throwOnChange,false);
-    this._NgIf_21_6.ngDoCheck(this,this._anchor_21,throwOnChange);
-    if (this._MdButton_23_5.ngDoCheck(this,this._el_23,throwOnChange)) { this.compView_23.markAsCheckOnce(); }
-    const currVal_23_1_0:any = 'SAVEX';
-    this._MdTooltip_23_6.check__deprecatedMessage(currVal_23_1_0,throwOnChange,false);
-    this._MdTooltip_23_6.ngDoCheck(this,this._el_23,throwOnChange);
-    if (this._MdIcon_25_3.ngDoCheck(this,this._el_25,throwOnChange)) { this.compView_25.markAsCheckOnce(); }
-    this._MusicComponent_32_3.ngDoCheck(this,this._el_32,throwOnChange);
+    const currVal_15_0_0:any = import3.inlineInterpolate(1,'',this.context.recordColor,'');
+    this._MdButton_15_5.check_color(currVal_15_0_0,throwOnChange,false);
+    if (this._MdButton_15_5.ngDoCheck(this,this._el_15,throwOnChange)) { this.compView_15.markAsCheckOnce(); }
+    const currVal_15_1_0:any = 'START RECORDING';
+    this._MdTooltip_15_6.check__deprecatedMessage(currVal_15_1_0,throwOnChange,false);
+    this._MdTooltip_15_6.ngDoCheck(this,this._el_15,throwOnChange);
+    if (this._MdIcon_17_3.ngDoCheck(this,this._el_17,throwOnChange)) { this.compView_17.markAsCheckOnce(); }
+    const currVal_22_0_0:any = (this.context.music && this.context.music.metro.active);
+    this._NgIf_22_6.check_ngIf(currVal_22_0_0,throwOnChange,false);
+    this._NgIf_22_6.ngDoCheck(this,this._anchor_22,throwOnChange);
+    const currVal_24_0_0:any = (this.context.music && !this.context.music.metro.active);
+    this._NgIf_24_6.check_ngIf(currVal_24_0_0,throwOnChange,false);
+    this._NgIf_24_6.ngDoCheck(this,this._anchor_24,throwOnChange);
+    if (this._MdButton_26_5.ngDoCheck(this,this._el_26,throwOnChange)) { this.compView_26.markAsCheckOnce(); }
+    const currVal_26_1_0:any = 'SAVEX';
+    this._MdTooltip_26_6.check__deprecatedMessage(currVal_26_1_0,throwOnChange,false);
+    this._MdTooltip_26_6.ngDoCheck(this,this._el_26,throwOnChange);
+    if (this._MdIcon_28_3.ngDoCheck(this,this._el_28,throwOnChange)) { this.compView_28.markAsCheckOnce(); }
+    this._MusicComponent_35_3.ngDoCheck(this,this._el_35,throwOnChange);
     this._vc_7.detectChangesInNestedViews(throwOnChange);
     this._vc_13.detectChangesInNestedViews(throwOnChange);
     this._vc_15.detectChangesInNestedViews(throwOnChange);
-    this._vc_17.detectChangesInNestedViews(throwOnChange);
-    this._vc_19.detectChangesInNestedViews(throwOnChange);
-    this._vc_21.detectChangesInNestedViews(throwOnChange);
-    this._vc_23.detectChangesInNestedViews(throwOnChange);
+    this._vc_22.detectChangesInNestedViews(throwOnChange);
+    this._vc_24.detectChangesInNestedViews(throwOnChange);
+    this._vc_26.detectChangesInNestedViews(throwOnChange);
     this._MdButton_7_5.checkHost(this,this.compView_7,this._el_7,throwOnChange);
-    const currVal_65:any = import3.inlineInterpolate(1,' ',this.context.play_stop_icon,' ');
-    if (import3.checkBinding(throwOnChange,this._expr_65,currVal_65)) {
-      this.renderer.setText(this._text_10,currVal_65);
-      this._expr_65 = currVal_65;
+    const currVal_68:any = import3.inlineInterpolate(1,' ',this.context.play_stop_icon,' ');
+    if (import3.checkBinding(throwOnChange,this._expr_68,currVal_68)) {
+      this.renderer.setText(this._text_10,currVal_68);
+      this._expr_68 = currVal_68;
     }
-    this._MdButton_23_5.checkHost(this,this.compView_23,this._el_23,throwOnChange);
+    this._MdButton_15_5.checkHost(this,this.compView_15,this._el_15,throwOnChange);
+    this._MdButton_26_5.checkHost(this,this.compView_26,this._el_26,throwOnChange);
     this.compView_7.internalDetectChanges(throwOnChange);
     this.compView_9.internalDetectChanges(throwOnChange);
-    this.compView_23.internalDetectChanges(throwOnChange);
-    this.compView_25.internalDetectChanges(throwOnChange);
-    this.compView_32.internalDetectChanges(throwOnChange);
+    this.compView_15.internalDetectChanges(throwOnChange);
+    this.compView_17.internalDetectChanges(throwOnChange);
+    this.compView_26.internalDetectChanges(throwOnChange);
+    this.compView_28.internalDetectChanges(throwOnChange);
+    this.compView_35.internalDetectChanges(throwOnChange);
     if (!throwOnChange) {
       this._MdIcon_9_3.context.ngAfterViewChecked();
-      this._MdIcon_25_3.context.ngAfterViewChecked();
-      if ((this.numberOfChecks === 0)) { this._MusicComponent_32_3.context.ngAfterViewInit(); }
+      this._MdIcon_17_3.context.ngAfterViewChecked();
+      this._MdIcon_28_3.context.ngAfterViewChecked();
     }
   }
   destroyInternal():void {
     this._vc_7.destroyNestedViews();
     this._vc_13.destroyNestedViews();
     this._vc_15.destroyNestedViews();
-    this._vc_17.destroyNestedViews();
-    this._vc_19.destroyNestedViews();
-    this._vc_21.destroyNestedViews();
-    this._vc_23.destroyNestedViews();
+    this._vc_22.destroyNestedViews();
+    this._vc_24.destroyNestedViews();
+    this._vc_26.destroyNestedViews();
     this.compView_7.destroy();
     this.compView_9.destroy();
-    this.compView_23.destroy();
-    this.compView_25.destroy();
-    this.compView_32.destroy();
+    this.compView_15.destroy();
+    this.compView_17.destroy();
+    this.compView_26.destroy();
+    this.compView_28.destroy();
+    this.compView_35.destroy();
     this._MdTooltip_7_6.ngOnDestroy();
-    this._MdTooltip_23_6.ngOnDestroy();
+    this._MdTooltip_15_6.ngOnDestroy();
+    this._MdTooltip_26_6.ngOnDestroy();
   }
   visitProjectableNodesInternal(nodeIndex:number,ngContentIndex:number,cb:any,ctx:any):void {
     if (((nodeIndex == 7) && (ngContentIndex == 0))) {
@@ -817,19 +652,23 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
       cb(this._text_11,ctx);
     }
     if (((nodeIndex == 9) && (ngContentIndex == 0))) { cb(this._text_10,ctx); }
-    if (((nodeIndex == 23) && (ngContentIndex == 0))) {
-      cb(this._text_24,ctx);
-      cb(this._el_25,ctx);
-      cb(this._text_27,ctx);
+    if (((nodeIndex == 15) && (ngContentIndex == 0))) {
+      cb(this._text_16,ctx);
+      cb(this._el_17,ctx);
+      cb(this._text_19,ctx);
     }
-    if (((nodeIndex == 25) && (ngContentIndex == 0))) { cb(this._text_26,ctx); }
+    if (((nodeIndex == 17) && (ngContentIndex == 0))) { cb(this._text_18,ctx); }
+    if (((nodeIndex == 26) && (ngContentIndex == 0))) {
+      cb(this._text_27,ctx);
+      cb(this._el_28,ctx);
+      cb(this._text_30,ctx);
+    }
+    if (((nodeIndex == 28) && (ngContentIndex == 0))) { cb(this._text_29,ctx); }
   }
   createEmbeddedViewInternal(nodeIndex:number):import1.AppView<any> {
     if ((nodeIndex == 13)) { return new View_MusicAppComponent1(this.viewUtils,this,13,this._anchor_13,this._vc_13); }
-    if ((nodeIndex == 15)) { return new View_MusicAppComponent2(this.viewUtils,this,15,this._anchor_15,this._vc_15); }
-    if ((nodeIndex == 17)) { return new View_MusicAppComponent3(this.viewUtils,this,17,this._anchor_17,this._vc_17); }
-    if ((nodeIndex == 19)) { return new View_MusicAppComponent4(this.viewUtils,this,19,this._anchor_19,this._vc_19); }
-    if ((nodeIndex == 21)) { return new View_MusicAppComponent5(this.viewUtils,this,21,this._anchor_21,this._vc_21); }
+    if ((nodeIndex == 22)) { return new View_MusicAppComponent2(this.viewUtils,this,22,this._anchor_22,this._vc_22); }
+    if ((nodeIndex == 24)) { return new View_MusicAppComponent3(this.viewUtils,this,24,this._anchor_24,this._vc_24); }
     return (null as any);
   }
   handleEvent_7(eventName:string,$event:any):boolean {
@@ -843,11 +682,22 @@ export class View_MusicAppComponent0 extends import1.AppView<import0.MusicAppCom
     }
     return result;
   }
-  handleEvent_23(eventName:string,$event:any):boolean {
-    this.compView_23.markPathToRootAsCheckOnce();
+  handleEvent_15(eventName:string,$event:any):boolean {
+    this.compView_15.markPathToRootAsCheckOnce();
     var result:boolean = true;
-    result = (this._MdButton_23_5.handleEvent(eventName,$event) && result);
-    result = (this._MdTooltip_23_6.handleEvent(eventName,$event) && result);
+    result = (this._MdButton_15_5.handleEvent(eventName,$event) && result);
+    result = (this._MdTooltip_15_6.handleEvent(eventName,$event) && result);
+    if ((eventName == 'click')) {
+      const pd_sub_0:any = ((<any>this.context.record()) !== false);
+      result = (pd_sub_0 && result);
+    }
+    return result;
+  }
+  handleEvent_26(eventName:string,$event:any):boolean {
+    this.compView_26.markPathToRootAsCheckOnce();
+    var result:boolean = true;
+    result = (this._MdButton_26_5.handleEvent(eventName,$event) && result);
+    result = (this._MdTooltip_26_6.handleEvent(eventName,$event) && result);
     if ((eventName == 'click')) {
       const pd_sub_0:any = ((<any>this.context.save()) !== false);
       result = (pd_sub_0 && result);

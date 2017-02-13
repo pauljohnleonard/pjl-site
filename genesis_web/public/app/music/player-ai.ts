@@ -11,6 +11,7 @@ export class PlayerAI implements Ticker {
         thresh:number
         state:Array<number>
         playing:boolean    
+        running:false
 
     constructor(public ai:AI, public player:MappedPlayer, public pulse:Pulse) {
 
@@ -36,11 +37,10 @@ export class PlayerAI implements Ticker {
 
 
   
+    
     tick() {
-
-       
-       
-        
+        var when=this.pulse.time
+          
         var out = this.ai.net.activate(this.pulse.state)
         
         // TODO implement resets for all tickers
@@ -54,13 +54,13 @@ export class PlayerAI implements Ticker {
             if (v > this.thresh && this.state[i] === 0) {
                 var vel = this.velCurve(v - this.last[i])
                 if (this.playing) {
-                    this.player.playNote(i, vel)
+                    this.player.playNote(i, vel,when)
                     this.state[i] = vel
-                    console.log("P "+ this.pulse.beat + " " +this.pulse.state[0])
+                  //  console.log("P "+ this.pulse.beat + " " +this.pulse.state[0])
 
                 }
             } else if (v < this.thresh && this.state[i] !== 0) {
-                this.player.playNote(i, 0)
+                this.player.playNote(i, 0,when)
                 this.state[i] = 0
             }
         }

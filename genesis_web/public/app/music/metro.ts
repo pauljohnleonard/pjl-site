@@ -14,6 +14,7 @@ export class Metro implements Ticker {
     active: boolean = false
     nDivs:number = 16
     currentIndex:number = 0
+
     constructor(public pulse: Pulse, private samplesService: SamplesService) {
   
         this.pulse.clients.push(this)
@@ -45,31 +46,30 @@ export class Metro implements Ticker {
 
     tick() {
 
+
+           
+        if (!this.active) return
+        
         //console.log(this.pulse.beat)
         var beatNow:number = Math.floor(this.pulse.beat + TOL);
+        var fract=this.pulse.beat-beatNow
 
+        if (Math.abs(fract) > 2*TOL) return
 
-        while (beatNow >= this.beatNext) {
-
-
-            if (this.active) {
                 var source: any = audioContext.createBufferSource();
-                if ((this.beatNext % 4 === 0)) {
+                if ((beatNow % 4) === 0) {
                     source.buffer = this.accent
-                    console.log("A " + this.pulse.beat + " " + this.beatNext)
+                //   console.log("A " + this.pulse.beat + " " + this.beatNext)
                 } else {
                     source.buffer = this.ord
-                    console.log("O " + this.pulse.beat + " " + this.beatNext)
+                //    console.log("O " + this.pulse.beat + " " + this.beatNext)
                 }
 
                 if (source.buffer) {
                     source.connect(audioContext.destination);
-                    source.start()
+                    source.start(this.pulse.time)
                 }
-            }
-            this.beatNext++
-            // Convert noteTime to audioContext time.
-        }
+        
         
     }
 }

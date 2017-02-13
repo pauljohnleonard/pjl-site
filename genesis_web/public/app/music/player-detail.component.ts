@@ -12,20 +12,18 @@ import { AI } from './ai'
 
 <md-card style="background:#F0F0FF">
     <!--md-card-actions-->
-
     
     <md-grid-list cols="8" >
-    <md-grid-tile
-      [colspan]="1"
-      [rowspan]=1>
-      <button md-button (click)="toggleMidi()" ><img src={{pianoButImg}} style="height: 32px" alt="midiin" /></button>          
-    </md-grid-tile>
- 
-    <md-grid-tile
-      [colspan]="5"
-      [rowspan]=1>
+   
+    <md-grid-tile    [colspan]="5"    [rowspan]=1>
       <instrument-detail [inst]="player.details.inst"> </instrument-detail>          
     </md-grid-tile>
+   
+    <md-grid-tile      [colspan]="1"  [rowspan]=1>
+      <button *ngIf="record" md-button (click)="toggleMidi()" style="color:#000000;background-color:#FF0000">R</button>          
+      <button *ngIf="!record" md-button (click)="toggleMidi()" style="color:#FF0000;">R</button>          
+    </md-grid-tile>
+ 
     <md-grid-tile
       [colspan]="1"
       [rowspan]=1>
@@ -57,8 +55,8 @@ import { AI } from './ai'
 export class PlayerDetailComponent {
   @Input() player: Player;
   @Output() playerSelected = new EventEmitter();
-  pianoButImg: string = "images/PIANO_ICON.png"
-
+  record:boolean=false
+  
   constructor() {
 
   }
@@ -93,13 +91,7 @@ export class PlayerDetailComponent {
 
     var inst = this.player.details.inst
     inst.midiIn = !inst.midiIn;
-
-    if (inst.midiIn) {
-      this.pianoButImg = "images/PIANO_ICON_ACTIVE.png"
-    } else {
-      this.pianoButImg = "images/PIANO_ICON.png"
-    }
-
+    this.record=inst.midiIn
 
   }
 }

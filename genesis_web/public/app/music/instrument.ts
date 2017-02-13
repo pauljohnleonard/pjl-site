@@ -27,7 +27,7 @@ export class Instrument {
         } else {
             this.inst.out.gain.value=this.gainValue 
         }
-        
+    
     }
 
     setInst(name:string) {
@@ -45,34 +45,34 @@ export class Instrument {
 
 
 
-    playNote(key:any , vel:number) {
+    playNote(key:any , vel:number, when:number) {
         if (this.inst === undefined) return
 
         if (vel > 0) {
-            this.started[key] = this.inst.play(key, 0, {
+            this.started[key] = this.inst.play(key, when, {
                 gain: vel
             })
         } else {
             if (this.started[key]) {
-                this.started[key].stop()
+                this.started[key].stop(when)
                 delete this.started[key]
             }
         }
     }
     
 
-    playEvent(event:Array<number>) {
+    playEvent(event:Array<number>,when:number) {
 
         var etype = event[0] &0xF0
         if (etype == 144) {
           //  console.log(etype)
             var key=event[1]
             var vel=event[2]
-            this.playNote(key,vel/127)
+            this.playNote(key,vel/127,when)
         } else if (etype == 128) {
          //   console.log(etype)
             var key=event[1]
-            this.playNote(key,0)
+            this.playNote(key,0,when)
         }
     }
 

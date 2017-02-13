@@ -29,23 +29,23 @@ export class MappedPlayer {
         this.state = []
     }
 
-    playNote(i: number, vel: number) {
+    playNote(i: number, vel: number, when:number):void {
         let key = this.mapper.map(i)
         if (this.state[i] !== undefined) {
             let keyLast = this.state[i]
             if (vel === 0) {
-                this.inst.playNote(keyLast, 0)
+                this.inst.playNote(keyLast, 0,when)
                 delete this.state[i]
                 this.state[i] === undefined
             } else if (key === keyLast) {
-                this.inst.playNote(keyLast, vel)
+                this.inst.playNote(keyLast, vel,when)
             } else {
-                this.inst.playNote(keyLast, 0)
-                this.inst.playNote(key, vel)
+                this.inst.playNote(keyLast, 0,when)
+                this.inst.playNote(key, vel,when)
                 this.state[i] = key
             }
         } else {
-            this.inst.playNote(key, vel)
+            this.inst.playNote(key, vel,when)
             this.state[i] = key
         }
     }

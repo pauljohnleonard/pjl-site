@@ -19,13 +19,13 @@ declare var audioContext:any
                          <md-icon>pause</md-icon>
                     </button>
                      
-                    <button  *ngIf="!recording" md-raised-button (click)="record()"   md-tooltip="START RECORDING" style="color:#FF0000;">     
-                          <md-icon>play_circle_filled</md-icon>
+                    <button  md-raised-button (click)="record()" color={{recordColor}}  md-tooltip="START RECORDING" style="color:#FF0000;">     
+                          <md-icon>fiber_manual_record</md-icon>
                     </button>
                     
-                     <button  *ngIf="recording" md-raised-button (click)="record()"   md-tooltip="STOP RECORDING" style="color:#FFFFFF;background-color:#FF0000;">     
-                          <md-icon>play_circle_filled</md-icon>
-                    </button>
+                     <!--button  *ngIf="recording" md-raised-button (click)="record()"   md-tooltip="STOP RECORDING" style="color:#FFFFFF;background-color:#FF0000;">     
+                          <md-icon>fiber_manual_record</md-icon>
+                    </button-->
 
 					        
                   	<button  *ngIf="music && music.metro.active" md-raised-button (click)="music.metro.active=false"  color='accent'  md-tooltip="METRO OFF"> <!-- style="color:#FFFFFF;background-color:#FF0000;"-->     
@@ -67,6 +67,7 @@ export class MusicAppComponent {
  	pause_text:string=""
  	recStyle:string="color:#FF0000;" 
  	recording:boolean=false
+	recordColor:string=""
 
     constructor(private dbService: DBService) {
 		//this.music=new MusicComponent(dbService)
@@ -92,16 +93,18 @@ export class MusicAppComponent {
 		self.lastTime = time
 
 		if (self.playing) {
-			self.music.tick(time)
+			self.music.tick()
 			self.tick();
 		} 
 	}
 
 
 	record() {
-
 		this.recording = !this.recording
+		if (this.recording) this.recordColor="accent"
+		else this.recordColor=""
 		this.setStyles()
+		this.music.record(this.recording)
 	}
 
 	setStyles() {
@@ -127,6 +130,7 @@ export class MusicAppComponent {
 			this.playstopTip="PLAY"
 			this.playing = false;
 			this.music.stop()
+			if (this.recording) this.record()
 		}
 	}
 

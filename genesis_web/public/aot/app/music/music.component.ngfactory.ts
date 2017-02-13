@@ -56,7 +56,6 @@ export class Wrapper_MusicComponent {
   ngDoCheck(view:import1.AppView<any>,el:any,throwOnChange:boolean):boolean {
     var changed:any = this._changed;
     this._changed = false;
-    if (!throwOnChange) { if ((view.numberOfChecks === 0)) { this.context.ngOnInit(); } }
     return changed;
   }
   checkHost(view:import1.AppView<any>,componentView:import1.AppView<any>,el:any,throwOnChange:boolean):void {
@@ -92,7 +91,6 @@ class View_MusicComponent_Host0 extends import1.AppView<any> {
   detectChangesInternal(throwOnChange:boolean):void {
     this._MusicComponent_0_3.ngDoCheck(this,this._el_0,throwOnChange);
     this.compView_0.internalDetectChanges(throwOnChange);
-    if (!throwOnChange) { if ((this.numberOfChecks === 0)) { this._MusicComponent_0_3.context.ngAfterViewInit(); } }
   }
   destroyInternal():void {
     this.compView_0.destroy();
@@ -278,13 +276,13 @@ export class View_MusicComponent0 extends import1.AppView<import0.MusicComponent
   }
   createInternal(rootSelector:string):import7.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
-    this._text_0 = this.renderer.createText(parentRenderNode,'\n\n       ',(null as any));
+    this._text_0 = this.renderer.createText(parentRenderNode,'\n       ',(null as any));
     this._el_1 = import3.createRenderElement(this.renderer,parentRenderNode,'md-card',import3.EMPTY_INLINE_ARRAY,(null as any));
     this.compView_1 = new import19.View_MdCard0(this.viewUtils,this,1,this._el_1);
     this._MdCard_1_3 = new import19.Wrapper_MdCard();
     this._text_2 = this.renderer.createText((null as any),'             \n            ',(null as any));
     this._el_3 = import3.createRenderElement(this.renderer,(null as any),'div',new import3.InlineArray2(2,'style','width: 100%'),(null as any));
-    this._text_4 = this.renderer.createText(this._el_3,'\n\n  \n                ',(null as any));
+    this._text_4 = this.renderer.createText(this._el_3,'\n                ',(null as any));
     this._el_5 = import3.createRenderElement(this.renderer,this._el_3,'button',new import3.InlineArray4(4,'aria-haspopup','true','md-mini-fab',''),(null as any));
     this._vc_5 = new import13.ViewContainer(5,3,this,this._el_5);
     this.compView_5 = new import21.View_MdButton0(this.viewUtils,this,5,this._el_5);
@@ -309,7 +307,7 @@ export class View_MusicComponent0 extends import1.AppView<import0.MusicComponent
     this._vc_14 = new import13.ViewContainer(14,12,this,this._anchor_14);
     this._TemplateRef_14_5 = new import32.TemplateRef_(this,14,this._anchor_14);
     this._NgFor_14_6 = new import28.Wrapper_NgFor(this._vc_14.vcRef,this._TemplateRef_14_5,this.parentView.injectorGet(import33.IterableDiffers,this.parentIndex),this.ref);
-    this._text_15 = this.renderer.createText((null as any),'\n\n                ',(null as any));
+    this._text_15 = this.renderer.createText((null as any),'\n                ',(null as any));
     this.compView_12.create(this._MdMenu_12_3.context);
     this._text_16 = this.renderer.createText(this._el_3,'\n              \n                ',(null as any));
     this._el_17 = import3.createRenderElement(this.renderer,this._el_3,'br',import3.EMPTY_INLINE_ARRAY,(null as any));

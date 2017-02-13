@@ -1,5 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-//import { MaterialModule } from '@angular/material';
+import { Component} from '@angular/core';
 import { DBService } from '../services/db.service'
 import { NetService } from '../services/net.service'
 import { SamplesService } from '../services/samples.service'
@@ -12,16 +11,13 @@ import { Instrument } from './instrument'
 import { Pulse } from './pulse'
 import { Player } from "./player"
 import { Ramper } from "./ramper"
-
+import { MidiPlayer } from './midiplayer'
 
 @Component({
     selector: "music",
     template: `
-
        <md-card>             
             <div style="width: 100%">
-
-  
                 <button md-mini-fab  [md-menu-trigger-for]="menu"> <!-- style="float:right;"-->
                       <md-icon>add</md-icon>
                  </button> 
@@ -29,7 +25,6 @@ import { Ramper } from "./ramper"
                          <button md-menu-item *ngFor="let t of playerTypes" [value]="playerType" (click)="addPlayerType(t)">
                           {{ t }}
                          </button>
-
                 </md-menu>
               
                 <br><br>
@@ -38,58 +33,47 @@ import { Ramper } from "./ramper"
                 </div>
                </div>    
        </md-card>
-    ` //,
-    //styleUrls: ["css/mystyles.css"]
+    `
 })
 
 
-/*
-function Displayer(music,element) {
-    this.music = music
-    this.element = element   
-}   	
-
-Displayer.prototype.tick = function () {
-
-    var str=""
-    this.music.pulse.clients.forEach((c)=>{
-         if (c !== this) { 
-             if (c.toHTML !== undefined)  
-                str +=c.toHTML()+"<br>"
-         }
-    })
-    this.element.innerHTML = str
- }
-*/
 
 
-export class MusicComponent implements OnInit {
+
+export class MusicComponent {
 
     playerType:string="AI"
     playerTypes:Array<string> =["AI","midi"]
-
     players:Array<Player>=[]
     pulse:Pulse
     selectedPlayer:Player
     ticksArr:Array<Array<number>>
     metro:Metro
-
-//    constructor(){}
-    
+    recording:boolean=false
+    recordBuffer:Array<any>=[]
+    playHead:number=0
     
     constructor(private dbService: DBService,private samplesService:SamplesService,private netService:NetService) {
 
-      console.log("Hello X")
+    console.log("musicComponent constructed")
+
       var self=this
       window.navigator["requestMIDIAccess"]().then(
-          function (midiAccess:any) {
+          (midiAccess:any) => {
 		     midiAccess.inputs.forEach(function (midiInput:any) {
-               // console.log(midiInput)
+                console.log(midiInput)
 		        midiInput.onmidimessage = function(event:any) {
                   //  console.log(event.data)
+                    
+                    if (self.recording && self.pulse.running) {
+                        let stamp = self.pulse.getBeatNow()
+                        self.recordBuffer.push([stamp,event.data])    
+                    }
+
                     self.players.forEach((p)=>{
-                         if (p.details.inst.midiIn) p.details.inst.playEvent(event.data)     
-                    })  
+                         if (p.details.inst.midiIn) p.details.inst.playEvent(event.data,0)     
+                    })
+
                 }
 		    })
       })
@@ -114,21 +98,9 @@ export class MusicComponent implements OnInit {
         //var majorSeed = [0, 2, 4, 5, 7, 9, 11]
         //var stack3 = [0, 2, 4, 6, 8, 10, 12]
 
-
         this.metro=new Metro(this.pulse,this.samplesService)
  
-        
-        this.addAIPlayer("marimba")
-
-       // this.addAIPlayer("vibraphone")
-
-        /*
-        if (pulse_el !== undefined) {
-            let disp = new Displayer(this, pulse_el)
-            this.pulse.clients.push(disp)
-        }
-        var self = this
-        */
+      
     }
 
 
@@ -150,6 +122,7 @@ export class MusicComponent implements OnInit {
         this.players.push(player)
         var inst = new Instrument("marimba")
         player.details.inst=inst
+        player.details.midiPlayer = new MidiPlayer(player,this.pulse)
     }
     
     addAIPlayer(name:any) {
@@ -187,15 +160,23 @@ export class MusicComponent implements OnInit {
     }
     
 
-    tick() {
+    tick():void {
+
+      
+
         try {
             this.pulse.tick()
         } catch (err) {
             console.log(err.stack)
         }
-    }
 
+      
+        this.playHead=this.pulse.beat
+    }
     
+    record(yes:boolean) {
+        this.recording=yes
+    }
 
     start() {
         this.pulse.start()
@@ -203,6 +184,13 @@ export class MusicComponent implements OnInit {
 
     stop() {
         this.pulse.stop()
+        if (this.recordBuffer.length > 0) {
+            this.players.forEach((p)=>{
+                if (p.details.inst.midiIn && p.details.midiPlayer ) {
+                    p.details.midiPlayer.setBuffer(this.recordBuffer)
+                }  
+            })
+        }
     }
 
     pause() {
@@ -214,15 +202,6 @@ export class MusicComponent implements OnInit {
     }
     
 
-    ngOnInit() {
-        //  console.log("HELLO"+this.ai.out)
-    }
-
-    
-    ngAfterViewInit() {
-     //   this.constructorX()
-    }
-    
     setPlayerType(t:string) {
         this.playerType=t
     }
