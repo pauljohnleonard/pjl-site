@@ -6,19 +6,19 @@
   },
   "jspm": {
     "dependencies": {
-      "@angular/common": "npm:@angular/common",
-      "@angular/core": "npm:@angular/core",
-      "@angular/forms": "npm:@angular/forms",
-      "@angular/http": "npm:@angular/http",
-      "@angular/material": "npm:@angular/material",
-      "@angular/platform-browser": "npm:@angular/platform-browser",
-      "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic",
-      "reflect-metadata": "npm:reflect-metadata",
-      "rxjs": "npm:rxjs",
-      "zone.js": "npm:zone.js"
+      "@angular/common": "npm:@angular/common@^2.4.7",
+      "@angular/core": "npm:@angular/core@^2.4.7",
+      "@angular/forms": "npm:@angular/forms@^2.4.7",
+      "@angular/http": "npm:@angular/http@^2.4.7",
+      "@angular/material": "npm:@angular/material@^2.0.0-beta.1",
+      "@angular/platform-browser": "npm:@angular/platform-browser@^2.4.7",
+      "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.4.7",
+      "reflect-metadata": "npm:reflect-metadata@^0.1.9",
+      "rxjs": "npm:rxjs@^5.1.1",
+      "zone.js": "npm:zone.js@^0.7.7"
     },
     "devDependencies": {
-      "typescript": "npm:typescript"
+      "typescript": "npm:typescript@^2.1.6"
     }
   },
   "devDependencies": {

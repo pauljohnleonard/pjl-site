@@ -3,7 +3,7 @@ import { Ticker }  from "./ticker"
 import { AI } from  "./ai"
 import { Pulse } from  "./pulse"
 
-export class PlayerAI implements Ticker {
+export class AISquencer implements Ticker {
 
         //ai:AI
         //player:MappedPlayer
@@ -13,17 +13,16 @@ export class PlayerAI implements Ticker {
         playing:boolean    
         running:false
 
-    constructor(public ai:AI, public player:MappedPlayer, public pulse:Pulse) {
+    constructor(public ai:AI, public player:MappedPlayer,public pulse:Pulse) {
 
       //  this.ai = ai
       //  this.player = player
         this.last = ai.net.out
         this.thresh = 0.5
-        this.state = new Array(this.last.length)
-    
+        this.state = new Array(this.last.length)   
         //this.cnt = 0
         this.playing = true
-        this.pulse.clients.push(this)
+        
     }
 
 
@@ -34,11 +33,9 @@ export class PlayerAI implements Ticker {
     start(){}
 
     stop(){}
-
-
   
-    
     tick() {
+
         var when=this.pulse.time
           
         var out = this.ai.net.activate(this.pulse.state)

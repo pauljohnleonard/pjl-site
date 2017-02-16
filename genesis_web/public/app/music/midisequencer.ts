@@ -1,22 +1,24 @@
 import { Player } from "./player"
 import { Pulse } from "./pulse"
 import { Ticker } from "./ticker"
+import { Savable } from './savable'
+import { MidiBuffer } from './midibuffer'
 
 
 const playAhead:number=0.5
 declare var audioContext:any
 
-export class MidiPlayer implements Ticker {
+export class MidiSequencer  implements Ticker {
 
     buffPtr: number = 0
-    midiBuff: Array<any> = null
+    midiBuff: MidiBuffer = null
     pulse:Pulse
     player:Player
 
-    constructor(player: Player,pulse: Pulse) {
+    constructor(player: Player) {
+
         this.player=player
-        this.pulse=pulse
-        this.pulse.clients.push(this)
+        this.pulse=player.music.pulse
     }
 
     tick():void {
@@ -25,9 +27,9 @@ export class MidiPlayer implements Ticker {
 
              var beatNow = this.pulse.getBeatNow()+playAhead
 
-             while ((this.buffPtr < this.midiBuff.length)) {
+             while ((this.buffPtr < this.midiBuff.buff.length)) {
              
-                let midiBeat=this.midiBuff[this.buffPtr][0]
+                let midiBeat=this.midiBuff.buff[this.buffPtr][0]
                 
                 let t = this.pulse.getTimeOfBeat(midiBeat)
 
@@ -35,7 +37,7 @@ export class MidiPlayer implements Ticker {
                     console.log(" UNDERRUN " + t + " " + audioContext.currentTime)
                 }
                 if (midiBeat > beatNow ) break
-                let ev = this.midiBuff[this.buffPtr][1]
+                let ev = this.midiBuff.buff[this.buffPtr][1]
                 this.player.details.inst.playEvent(ev, t)
                 this.buffPtr++
             }
@@ -43,10 +45,9 @@ export class MidiPlayer implements Ticker {
     }
 
 
-    setBuffer(buff:Array<any>){
-        // TODO DAVE PREV
-        this.midiBuff=buff
-
+    setBuffer(buff:Array<any>,id:any):void{
+        // TODO SAVE PREV
+        this.midiBuff = new MidiBuffer(buff,id)
     }
     
     start():void {
@@ -56,6 +57,7 @@ export class MidiPlayer implements Ticker {
     stop():void{
 
     }
+
 
 }
 

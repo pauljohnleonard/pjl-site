@@ -27,7 +27,7 @@ export class Ramper implements Ticker{
     constructor(ticks:Array<number>, pulse:Pulse) {
         this.ticks = ticks
         this.pulse = pulse
-        this.pulse.clients.push(this)
+        this.pulse.addClient(this)
     }
 
 

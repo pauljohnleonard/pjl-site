@@ -7,8 +7,8 @@ import { NetService } from '../services/net.service'
     selector: "ai-detail",
     template: 
      `
-      <md-card *ngIf="ai && ai.net">
-          <md-card-actions>
+      <md-card *ngIf="ai && ai.net" >
+          <md-card-content style="height:40px;">
                  <button md-button  *ngIf="aiName" [md-menu-trigger-for]="menu"> 
                     {{aiName}}
                  </button> 
@@ -22,11 +22,10 @@ import { NetService } from '../services/net.service'
        
                 <md-input *ngFor="let n of nHidden;let i = index"  [(ngModel)]="nHidden[i]"  type="number"  value="20" min="1" max="30"  > </md-input>
           
-              <button md-icon-button (click)="implant()" [disabled]="false"><md-icon>system_update_alt</md-icon> </button>
-          </md-card-actions>
+              <button md-icon-button (click)="implant()" [disabled]="false"  style="float:right" ><img src="images/die_roll.png" /> </button>
+          </md-card-content>
       </md-card>
     ` 
-    //styleUrls: ["../css/mystyle.css"]
 })
 
 export class AIDetailComponent {

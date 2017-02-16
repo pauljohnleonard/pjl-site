@@ -1,17 +1,39 @@
 import { Instrument } from './instrument'
+import { Ticker } from './ticker'
+import { Music } from './music'
+import { Savable } from './savable'
+import { MidiSequencer } from './midisequencer'
+
+
 
 var players:Array<Player>=[] 
 
-export class Player {
+export class Player extends Savable {
     
     soloed:boolean = false
     tmpMuted:boolean = false
     muted:boolean = false
- 
+    ticker:Ticker = null
+
     details:any={}
            
-    constructor() {
+    constructor(public music:Music) {
+        super()
         players.push(this)
+        this.music.pulse.addClient(this)
+    }
+
+    tick() {
+        if (this.ticker) this.ticker.tick()
+    }
+
+    start() {
+      if (this.ticker) this.ticker.start()
+  
+    }
+    
+    stop() {
+      if (this.ticker) this.ticker.stop()
     }
 
     mute()   {
@@ -48,4 +70,35 @@ export class Player {
             })
         }
     }
+
+    removeMe() {
+        setTimeout(()=>{
+            this.music.removePlayer(this)
+        },0);
+    }
+
+
+    saveDB(saver:any) : any {
+     
+         if (this.id !== null) return this.id 
+         
+         var postItems:any={}
+
+         if (this.ticker instanceof MidiSequencer) { 
+             postItems.type="MidiPlayer"
+             if (this.ticker.midiBuff !== null ) {        
+                var id=this.ticker.midiBuff.saveDB(saver)
+                if (id !==null) postItems.midi=id                  
+            } 
+         }
+
+         
+        postItems.inst=this.details.inst.name
+             
+        var id=saver.newIDItem('players',postItems)
+        return id
+ 
+        
+    }
+    
 }

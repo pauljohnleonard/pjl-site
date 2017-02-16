@@ -5,11 +5,12 @@ declare var firebase : any
 
 
 @Injectable()
-export class DBService {
+export class FirebaseDBService {
 
     user:any=null
     clients:Array<any>=[]
     provider:any
+
     constructor(){
          console.log(" MAKING A DBSERVICE")
          this.provider = new firebase.auth.GoogleAuthProvider();
@@ -23,7 +24,8 @@ export class DBService {
               return;
            }
            if (user) {
-            console.log("SIGNIN" + user.displayName)
+   
+            console.log("SIGNIN : " + user.displayName)
             self.user = user;
             self.writeUserData(user.uid, user.displayName, user.email, user.photoURL);
             } else {
@@ -33,26 +35,39 @@ export class DBService {
             });
     }
 
+
+    clean() {
+        
+        this.purge('weights')
+        this.purge('songs')
+        this.purge('songinfo')
+        this.purge('players')
+        this.purge('midi')
+
+    }
+    
+    purge(what:string) {
+
+        var newRef = firebase.database().ref().child(what)
+        newRef.remove().then(()=>{ console.log('OK')})
+        .catch((err:any)=>{ console.log(err)})
+
+    }
     register(cb:any) {
         this.clients.push(cb)
         cb(this.user)
     }
 
-    write(net:any) {
-        console.log(net)
-        if (this.user === null) return
-        
-        var postData = {
-            uid: this.user.uid,
-            weights: net,
-        };
-        // Get a key for a new Post.
-        var newKey = firebase.database().ref().child('weights').push().key;
-        // Write the new post's data simultaneously in the posts list and the user's post list.
-        var updates = {};
-        updates['/weights/' + newKey] = postData;
-        return firebase.database().ref().update(updates);
+    newIDItem(path:string,postData:any,key:any):any {
+          if (this.user === null) return null
+          var newKey = firebase.database().ref().child(path).push().key;
+          var updates = {};
+          if (key === undefined) key=newKey
+          updates[path +"/" + key] = postData;
+          firebase.database().ref().update(updates);     
+          return newKey  
     }
+
 
     signIn() {
             if (this.user === null) {
@@ -65,6 +80,8 @@ export class DBService {
     }
 
     onAuthStateChanged(user:any) {
+
+        console.log(user)
         // We ignore token refresh events.
      
     }

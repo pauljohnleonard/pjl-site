@@ -35,7 +35,7 @@ export class Pulse {
     running: boolean = false
     beatsPerSec: number
     tickLen: number
-    clients: Array<Ticker> = []
+    private clients: Array<Ticker> = []
     state: Array<number>
     pauseTime: number
     lookahead:number = 0.1
@@ -58,6 +58,25 @@ export class Pulse {
                 this.time += this.tickLen / this.beatsPerSec
             }
         }
+    }
+
+    
+
+    addClient(client:Ticker):void {
+        this.clients.push(client)
+    }
+    
+    removeClient(client:Ticker):void {
+
+        let index=0
+
+        for (let i=0;index<this.clients.length;index++) {
+            if (this.clients[index]===client) {    
+                 this.clients.splice(index, 1);
+                 return;
+            }
+        }
+
     }
 
 
@@ -111,7 +130,7 @@ export class Pulse {
         })
     }
 
-    pause() {
+    pause():void {
         if (this.running === true) {
             this.pauseTime = this.getTime()
             this.running = false

@@ -38,7 +38,7 @@ export class AI {
         var w = this.net.weights
         var data = JSON.stringify(w)
         this.saved = true
-        this.dbService.write(w)
+        //this.dbService.write(w)
     }
 
     //  ai;
@@ -52,12 +52,8 @@ export class AI {
     }
 
 
- 
-
-	
     implant(params:any) {
 	 
-
         delete this.net
 
         if (params.type === undefined) params.type=this.netService.types["Elman"]

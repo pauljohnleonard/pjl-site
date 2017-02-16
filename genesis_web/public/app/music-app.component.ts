@@ -1,84 +1,98 @@
 import { Component, ViewChild } from '@angular/core';
 import { MusicComponent } from './music/music.component';
 import { DBService } from './services/db.service'
+import { NetService } from './services/net.service'
+import { SamplesService } from './services/samples.service'
+import { Music } from './music/music'
 
-declare var audioContext:any
+declare var audioContext: any
 
 
 @Component({
 	selector: 'musicApp',
 	template: `
+
+	    <style> 
+		.btn1{
+    		min-width:20px;
+		}
+		</style>
+		
         <div style="width: 100%">
   			<div class="button-row">
                 <div class="btn-group">
-                    <button md-raised-button md-tooltip={{playstopTip}} (click)="play()" >     
+                    <button  class="btn1" md-raised-button md-tooltip={{playstopTip}} (click)="play()" >     
                           <md-icon> {{play_stop_icon}} </md-icon>
                     </button>
                     
-                    <button *ngIf="pauseable" md-tooltip="pause/resume" md-raised-button color={{pause_text}} (click)="pause()">
+                    <button *ngIf="pauseable" class="btn1" md-tooltip="pause/resume" md-raised-button color={{pause_text}} (click)="pause()">
                          <md-icon>pause</md-icon>
                     </button>
                      
-                    <button  md-raised-button (click)="record()" color={{recordColor}}  md-tooltip="START RECORDING" style="color:#FF0000;">     
+                    <button  md-raised-button class="btn1"(click)="record()" color={{recordColor}}  md-tooltip="START RECORDING" style="color:#FF0000;">     
                           <md-icon>fiber_manual_record</md-icon>
                     </button>
                     
-                     <!--button  *ngIf="recording" md-raised-button (click)="record()"   md-tooltip="STOP RECORDING" style="color:#FFFFFF;background-color:#FF0000;">     
+                     <!--button  *ngIf="recording" class="btn1" md-raised-button (click)="record()"   md-tooltip="STOP RECORDING" style="color:#FFFFFF;background-color:#FF0000;">     
                           <md-icon>fiber_manual_record</md-icon>
                     </button-->
 
 					        
-                  	<button  *ngIf="music && music.metro.active" md-raised-button (click)="music.metro.active=false"  color='accent'  md-tooltip="METRO OFF"> <!-- style="color:#FFFFFF;background-color:#FF0000;"-->     
+                  	<button class="btn1" *ngIf="music && music.metro.active" md-raised-button (click)="music.metro.active=false"  color='accent'  md-tooltip="METRO OFF"> <!-- style="color:#FFFFFF;background-color:#FF0000;"-->     
                             <img src="images/tempo.png" style="height: 32px" alt="midiin" />
                     </button>
                 
-				  	<button  *ngIf="music && !music.metro.active" md-raised-button (click)="music.metro.active=true"   md-tooltip="METRO ON">     
+				  	<button class="btn1" *ngIf="music && !music.metro.active" md-raised-button (click)="music.metro.active=true"   md-tooltip="METRO ON">     
                             <img src="images/tempo_off.png" style="height: 32px" alt="midiin" />
                     </button>
                     
                 
-                    <button md-raised-button md-tooltip="SAVEX" (click)="save()"  style="float: right">
-                       <md-icon>save</md-icon> 
-                    </button>
+                  
                 </div>
          	</div>
      	</div>
 
      
-     	<music> </music>
-    `//,
-    //   styleUrls: ["css/mystyles.css"]
+     	<music-comp [music]="music"> </music-comp>
+    `
 })
 
 
 export class MusicAppComponent {
-    
-    @ViewChild(MusicComponent) music: MusicComponent
-	startTime:number;
-	lastTime:number;
-	dMin:number = undefined;
-	dMax:number = undefined;
-	playing:boolean = false;
-	DELTA_T:number = 0.005;
 
-	playstopTip="PLAY"
- 	play_stop_icon:string="play_arrow"
- 	pauseable:boolean=false
- 	pause_text:string=""
- 	recStyle:string="color:#FF0000;" 
- 	recording:boolean=false
-	recordColor:string=""
+	//@ViewChild(MusicComponent) 
+	music: Music
+	startTime: number;
+	lastTime: number;
+	dMin: number = undefined;
+	dMax: number = undefined;
+	playing: boolean = false;
+	DELTA_T: number = 0.005;
 
-    constructor(private dbService: DBService) {
-		//this.music=new MusicComponent(dbService)
-    	this.setStyles();
-    }
-    
-	tick() {
-		setTimeout(this.playLoop, this.DELTA_T,this)
+	playstopTip = "PLAY"
+	play_stop_icon: string = "play_arrow"
+	pauseable: boolean = false
+	pause_text: string = ""
+	recStyle: string = "color:#FF0000;"
+	recording: boolean = false
+	recordColor: string = ""
+
+	constructor(private dbService: DBService, private samplesService: SamplesService, private netService: NetService) {
+		this.music = new Music(dbService, samplesService, netService)
+
 	}
 
-	playLoop(self:any) {
+
+
+	newMusic() {
+		this.music = new Music(this.dbService, this.samplesService, this.netService)
+	}
+
+	tick() {
+		setTimeout(this.playLoop, this.DELTA_T, this)
+	}
+
+	playLoop(self: any) {
 
 		let time = audioContext.currentTime
 
@@ -95,39 +109,34 @@ export class MusicAppComponent {
 		if (self.playing) {
 			self.music.tick()
 			self.tick();
-		} 
+		}
 	}
 
 
 	record() {
 		this.recording = !this.recording
-		if (this.recording) this.recordColor="accent"
-		else this.recordColor=""
-		this.setStyles()
+		if (this.recording) this.recordColor = "accent"
+		else this.recordColor = ""
 		this.music.record(this.recording)
 	}
 
-	setStyles() {
-		if (this.recording) this.recStyle="background-color:#FF0000;color:#000000;"
-		else this.recStyle="color:#FF0000;" 
-	}
 
 	play() {
 		if (!this.playing) {
 			this.playing = true;
-			this.play_stop_icon="stop"
-			this.playstopTip="STOP"
+			this.play_stop_icon = "stop"
+			this.playstopTip = "STOP"
 			this.dMin = undefined
 			this.dMax = undefined
 			this.lastTime = undefined
 			this.startTime = audioContext.currentTime;
 			this.music.start()
 			this.tick();
-			this.pauseable=true
+			this.pauseable = true
 		} else {
-			this.pauseable=false	
-			this.play_stop_icon="play_arrow"
-			this.playstopTip="PLAY"
+			this.pauseable = false
+			this.play_stop_icon = "play_arrow"
+			this.playstopTip = "PLAY"
 			this.playing = false;
 			this.music.stop()
 			if (this.recording) this.record()
@@ -137,14 +146,9 @@ export class MusicAppComponent {
 	pause() {
 		this.music.pause()
 		if (this.music.isRunning()) {
-			this.pause_text=""
+			this.pause_text = ""
 		} else {
-			this.pause_text="accent"
+			this.pause_text = "accent"
 		}
-	}
-
-	save() {
-		console.log(" IMPLEMENT ME SAVE")
-		
 	}
 }

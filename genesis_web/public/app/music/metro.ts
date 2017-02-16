@@ -17,7 +17,7 @@ export class Metro implements Ticker {
 
     constructor(public pulse: Pulse, private samplesService: SamplesService) {
   
-        this.pulse.clients.push(this)
+        this.pulse.addClient(this)
 
         samplesService.load("sounds/metro/1.wav").then((source: any) => {
             this.accent = source

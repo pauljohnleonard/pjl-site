@@ -1,34 +1,27 @@
-import { Component} from '@angular/core';
-import { DBService } from '../services/db.service'
-import { NetService } from '../services/net.service'
-import { SamplesService } from '../services/samples.service'
-import { AI } from './ai';
-import { PlayerAI } from './player-ai';
-import { Metro } from './metro'
-import { PlayerDetailComponent } from './player-detail.component';
-import { Mapper,MappedPlayer } from './mapper';
-import { Instrument } from './instrument'
-import { Pulse } from './pulse'
-import { Player } from "./player"
-import { Ramper } from "./ramper"
-import { MidiPlayer } from './midiplayer'
+import { Component,Input} from '@angular/core';
+import { Music } from './music'
 
 @Component({
-    selector: "music",
+    selector: "music-comp",
     template: `
        <md-card>             
             <div style="width: 100%">
-                <button md-mini-fab  [md-menu-trigger-for]="menu"> <!-- style="float:right;"-->
+              
+               <md-input-container>
+                    <input md-input  [(ngModel)]="music.title">
+                 </md-input-container>
+
+                <button md-mini-fab  [md-menu-trigger-for]="menu" style="float:right;">
                       <md-icon>add</md-icon>
-                 </button> 
+                 </button><br> 
                  <md-menu #menu="mdMenu" >
-                         <button md-menu-item *ngFor="let t of playerTypes" [value]="playerType" (click)="addPlayerType(t)">
+                         <button md-menu-item *ngFor="let t of music.playerTypes" [value]="playerType" (click)="addPlayerType(t)">
                           {{ t }}
                          </button>
                 </md-menu>
               
                 <br><br>
-                <div *ngFor="let p of players">
+                <div *ngFor="let p of music.players">
                    <player-detail [player]="p" (playerSelected)="slectedPlayer=p"> </player-detail>
                 </div>
                </div>    
@@ -41,177 +34,29 @@ import { MidiPlayer } from './midiplayer'
 
 
 export class MusicComponent {
-
-    playerType:string="AI"
-    playerTypes:Array<string> =["AI","midi"]
-    players:Array<Player>=[]
-    pulse:Pulse
-    selectedPlayer:Player
-    ticksArr:Array<Array<number>>
-    metro:Metro
-    recording:boolean=false
-    recordBuffer:Array<any>=[]
-    playHead:number=0
     
-    constructor(private dbService: DBService,private samplesService:SamplesService,private netService:NetService) {
-
-    console.log("musicComponent constructed")
-
-      var self=this
-      window.navigator["requestMIDIAccess"]().then(
-          (midiAccess:any) => {
-		     midiAccess.inputs.forEach(function (midiInput:any) {
-                console.log(midiInput)
-		        midiInput.onmidimessage = function(event:any) {
-                  //  console.log(event.data)
-                    
-                    if (self.recording && self.pulse.running) {
-                        let stamp = self.pulse.getBeatNow()
-                        self.recordBuffer.push([stamp,event.data])    
-                    }
-
-                    self.players.forEach((p)=>{
-                         if (p.details.inst.midiIn) p.details.inst.playEvent(event.data,0)     
-                    })
-
-                }
-		    })
-      })
-
-      this.constructorX()
-    }
-
-
-    constructorX() {
-       
-
-        let ticksPerBeat:number = 12
-        let beatsPerSec:number = 2
-        
-        this.pulse = new Pulse(ticksPerBeat, beatsPerSec)
-
-
-        this.ticksArr = [[0,16],[0, 1.5, 3, 4]]
+    @Input() music: Music;
+    
+    constructor() {
   
-        this.ticksArr.forEach((ticks:Array<number>) => { new Ramper(ticks, this.pulse) })
-
-        //var majorSeed = [0, 2, 4, 5, 7, 9, 11]
-        //var stack3 = [0, 2, 4, 6, 8, 10, 12]
-
-        this.metro=new Metro(this.pulse,this.samplesService)
- 
-      
     }
 
+
+  
 
     addPlayerType(t:string) {
 
         switch(t) {
           case "AI":
-            this.addAIPlayer(undefined)
+            this.music.addAIPlayer(undefined)
             break
           case "midi":
-            this.addMidiPlayer()
+            this.music.addMidiPlayer("marimba")
             break
         }
-
     }
 
-    addMidiPlayer() {
-        let player=new Player()
-        this.players.push(player)
-        var inst = new Instrument("marimba")
-        player.details.inst=inst
-        player.details.midiPlayer = new MidiPlayer(player,this.pulse)
-    }
-    
-    addAIPlayer(name:any) {
-        let nOut:number = 20
-        let nHidden:number = 20
-        let nIn = this.ticksArr.length
-      
-        let player=new Player()
-        this.players.push(player)
 
-        let ai=new AI(this.dbService,this.netService)
-        
-        player.details.ai=ai
 
-        this.selectedPlayer=player
-        
-        ai.init(this.pulse, nIn, nHidden, nOut)
-        
-        if (name === undefined) name="marimba"
-        player.details.name=name
-        
-        var inst = new Instrument(name)
-        player.details.inst=inst
-       
-        var base:Array<number> = [0, 3, 5, 7, 10]
-
-        var mapper = new Mapper(40, base)
-        player.details.mapper=mapper
-
-        var mapPlayer = new MappedPlayer(inst, mapper)
-        
-        let playerAI = new PlayerAI(ai, mapPlayer,this.pulse)
-      //  this.pulse.clients.push(playerAI)
-    
-    }
-    
-
-    tick():void {
-
-      
-
-        try {
-            this.pulse.tick()
-        } catch (err) {
-            console.log(err.stack)
-        }
-
-      
-        this.playHead=this.pulse.beat
-    }
-    
-    record(yes:boolean) {
-        this.recording=yes
-    }
-
-    start() {
-        this.pulse.start()
-    }
-
-    stop() {
-        this.pulse.stop()
-        if (this.recordBuffer.length > 0) {
-            this.players.forEach((p)=>{
-                if (p.details.inst.midiIn && p.details.midiPlayer ) {
-                    p.details.midiPlayer.setBuffer(this.recordBuffer)
-                }  
-            })
-        }
-    }
-
-    pause() {
-        this.pulse.pause()
-    }
-
-    isRunning():boolean {
-        return this.pulse.running
-    }
-    
-
-    setPlayerType(t:string) {
-        this.playerType=t
-    }
-
-    /*
-    window.navigator.requestMIDIAccess().then(function(midiAccess) {
-        midiAccess.inputs.forEach(function(midiInput) {
-            self.focusPlayer.listenToMidi(midiInput)
-        });
-    });
-    */
-
+  
 } 
