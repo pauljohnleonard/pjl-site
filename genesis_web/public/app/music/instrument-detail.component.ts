@@ -8,18 +8,23 @@ import { Instrument } from './instrument'
     template: 
     `
       <div *ngIf="inst">    
-                 <button md-button [md-menu-trigger-for]="menu" style="float:middle;" >
+                 <button md-button [md-menu-trigger-for]="list" style="float:middle;" >
                       {{inst.name}}
                  </button>
 
-                 <md-menu   #menu="mdMenu" >
-                   <button md-menu-item *ngFor="let t of sfService.names" [value]="instname" (click)="setInst(t)">
+                
+                 <md-menu   #list="mdMenu" >                    
+                    <md-list dense style="width:100%">
+                      <button md-list-item *ngFor="let t of sfService.names" [value]="instname" (click)="setInst(t)">
                           {{ t }}
-                         </button>
+                       </button>
+                    </md-list>
                 </md-menu>
       </div>  
     `
-   // styleUrls: ["css/mystyles.css"]
+
+
+
 })
 
 

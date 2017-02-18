@@ -1,4 +1,5 @@
 import { Ticker } from "./ticker"
+import { Savable } from "./savable"
 
 declare var audioContext: any
 
@@ -24,7 +25,7 @@ declare var audioContext: any
  *   
  */
 
-export class Pulse {
+export class Pulse extends Savable {
 
  /**  current beat to be used by clients */
     beat: number
@@ -33,15 +34,16 @@ export class Pulse {
     time: number
  
     running: boolean = false
-    beatsPerSec: number
+    bpm: number
     tickLen: number
     private clients: Array<Ticker> = []
     state: Array<number>
     pauseTime: number
     lookahead:number = 0.1
 
-    constructor(ticksPerBeat: number, beatsPerSec: number) {
-        this.beatsPerSec = beatsPerSec
+    constructor(ticksPerBeat: number, bpm: number) {
+        super()
+        this.bpm = bpm
         this.beat = 0
         this.tickLen = 1 / ticksPerBeat
         this.clients = []
@@ -50,18 +52,17 @@ export class Pulse {
     tick():void {
         if (this.running) {
             var delta = this.getTime()- this.time
-            var nextBeat = this.beat + delta * this.beatsPerSec
+            var nextBeat = this.beat + delta * this.bpm/60
             while (this.beat + this.tickLen <= nextBeat) {
                 this.state = []
                 this.clients.forEach((client) => { client.tick() })
                 this.beat += this.tickLen
-                this.time += this.tickLen / this.beatsPerSec
+                this.time += this.tickLen * 60 / this.bpm 
             }
         }
     }
 
-    
-
+   
     addClient(client:Ticker):void {
         this.clients.push(client)
     }
@@ -92,7 +93,7 @@ export class Pulse {
     getTimeOfBeat(beat:number):number {
         var dBeat:number=beat-this.beat
        
-        var t:number=this.time + dBeat/this.beatsPerSec
+        var t:number=this.time + dBeat*60/this.bpm
        
         if (t < audioContext.currentTime) {
             console.log(" beat in the past " + t + " " + audioContext.currentTime)
@@ -105,7 +106,7 @@ export class Pulse {
 */
     getBeatNow(): any {
         var dT =  audioContext.currentTime - this.time
-        var beat = this.beat + dT * this.beatsPerSec
+        var beat = this.beat + dT * this.bpm/60
         return beat
     }
 
@@ -138,6 +139,20 @@ export class Pulse {
             this.time += this.getTime() - this.pauseTime
             this.running = true
         }
+    }
+
+
+     saveDB(saver:any) : any {
+     
+         if (this.id !== null) return this.id 
+         
+         var postItems:any={}
+
+         postItems.type ="Pulse"
+         postItems.bpm = this.bpm
+             
+         var id=saver.newIDItem('players',postItems)
+         return id       
     }
 
 }

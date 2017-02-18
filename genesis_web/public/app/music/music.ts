@@ -65,6 +65,10 @@ export class Music extends Savable {
         var postItems:any ={
         }
        
+        var itemID:string=this.pulse.saveDB(saver)
+        
+        postItems[itemID]=true
+
         this.players.forEach((p:Player)=>{
             var itemID:string=p.saveDB(saver)
             if (itemID !== null) {
@@ -82,25 +86,41 @@ export class Music extends Savable {
             
     }
 
+    loadPlayer(playerSnap:any) {
+
+        switch(playerSnap.child("type").val()) {
+
+          case "MidiPlayer":
+            var instName = playerSnap.child("inst").val()
+            var midiPlayer = this.addMidiPlayer(instName)
+            midiPlayer.setID(playerSnap.key)
+
+            var midiKey = playerSnap.child("midi").val()
+            var midiRef = firebase.database().ref("midi").child(midiKey);
+            midiRef.once("value").then((midi: any) => {
+                var midiData:any = JSON.parse(midi.val())
+                var seq:MidiSequencer=<MidiSequencer>midiPlayer.ticker
+                seq.setBuffer(midiData,midiKey)
+            })
+            break
+
+          case "Pulse":
+            var bpm = playerSnap.child("bpm").val()
+            this.pulse.bpm=bpm            
+            break
+          default:
+            console.log("UNKOWN TYPE : " + playerSnap.child("type").val())
+        }
+        
+    }
 
     loadDB(songref:any) {
         songref.once("value").then((song: any) => {
             song.forEach((playerKey: any) => {
                 var playerref = firebase.database().ref("players").child(playerKey.key);
                 playerref.once("value").then((playerSnap: any) => {
-                    if (playerSnap.child("type").val() === "MidiPlayer") {
-                        var instName = playerSnap.child("inst").val()
-                        var midiPlayer = this.addMidiPlayer(instName)
-                        midiPlayer.setID(playerKey.key)
-
-                        var midiKey = playerSnap.child("midi").val()
-                        var midiRef = firebase.database().ref("midi").child(midiKey);
-                        midiRef.once("value").then((midi: any) => {
-                            var midiData:any = JSON.parse(midi.val())
-                            var seq:MidiSequencer=<MidiSequencer>midiPlayer.ticker
-                            seq.setBuffer(midiData,midiKey)
-                        })
-                    }
+                      this.loadPlayer(playerSnap)
+                    
                 })
             })
         })
@@ -109,9 +129,9 @@ export class Music extends Savable {
     constructorX() {
        
         let ticksPerBeat:number = 12
-        let beatsPerSec:number = 2
+        let bpm:number = 120
         
-        this.pulse = new Pulse(ticksPerBeat, beatsPerSec)
+        this.pulse = new Pulse(ticksPerBeat, bpm)
 
         this.ticksArr = [[0,4],[0,2],[0,1], [0, 1.5, 3, 4]]
   

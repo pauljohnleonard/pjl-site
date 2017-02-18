@@ -4,8 +4,10 @@ import { DBService } from './services/db.service'
 import { NetService } from './services/net.service'
 import { SamplesService } from './services/samples.service'
 import { Music } from './music/music'
+import { MetroSlideComponent } from './music/metro-slide.component'
 
 declare var audioContext: any
+
 
 
 @Component({
@@ -45,9 +47,31 @@ declare var audioContext: any
 				  	<button class="btn1" *ngIf="music && !music.metro.active" md-raised-button (click)="music.metro.active=true"   md-tooltip="METRO ON">     
                             <img src="images/tempo_off.png" style="height: 32px" alt="midiin" />
                     </button>
+                   
+     
+                	<button md-button class="btn1" [md-menu-trigger-for]="list" style="float:middle;" >
+                      {{timeSig}}
+                	</button>
+
+                    <md-menu #list="mdMenu" >                    
+                       <md-list>
+     			       <md-list-item class="btn1" *ngFor="let sig of timeSigs" (click)="timeSig=sig">
+                      	  {{sig}}
+                       </md-list-item>
+    				   </md-list>	
+  				    </md-menu>
+
+
+                	<button  md-button class="btn1" (click)="slidershow = ! slidershow" style="float:middle;" >
+                      {{music.pulse.bpm}}
+                	</button>
                     
-                
-                  
+                     <div *ngIf="slidershow"  style="width: 100%">
+     					       <metro-slide #linechart [value]="music.pulse.bpm" (change)="slide($event)">
+            				   </metro-slide>
+                     </div>
+     
+  					
                 </div>
          	</div>
      	</div>
@@ -58,9 +82,14 @@ declare var audioContext: any
 })
 
 
+
+   
+ 
 export class MusicAppComponent {
 
-	//@ViewChild(MusicComponent) 
+	
+	timeSigs:any=["3/4","4/4","5/4","6/8","7/8"]
+	timeSig:string="4/4"
 	music: Music
 	startTime: number;
 	lastTime: number;
@@ -68,7 +97,7 @@ export class MusicAppComponent {
 	dMax: number = undefined;
 	playing: boolean = false;
 	DELTA_T: number = 0.005;
-
+	slidershow:boolean=false
 	playstopTip = "PLAY"
 	play_stop_icon: string = "play_arrow"
 	pauseable: boolean = false
@@ -92,6 +121,12 @@ export class MusicAppComponent {
 		setTimeout(this.playLoop, this.DELTA_T, this)
 	}
 
+	slide(value:any):void {
+		console.log(value)
+		this.music.pulse.bpm = value
+	}
+
+	
 	playLoop(self: any) {
 
 		let time = audioContext.currentTime

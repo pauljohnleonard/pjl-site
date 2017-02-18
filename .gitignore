@@ -1,7 +1,7 @@
 *~
 *.log
-jspm_packages
-node_modules
-bower_components
-appjs
+**/jspm_packages/**
+**/node_modules/**
+**/bower_components/**
+**/appjs/**
 **/aot/**
