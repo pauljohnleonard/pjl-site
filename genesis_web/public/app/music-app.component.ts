@@ -18,7 +18,13 @@ declare var audioContext: any
 		.btn1{
     		min-width:20px;
 		}
-		</style>
+
+        .hiLiHover:hover {
+            background: yellow;
+            cursor: pointer;
+        } 
+       </style>
+	
 		
         <div style="width: 100%">
   			<div class="button-row">
@@ -49,13 +55,13 @@ declare var audioContext: any
                     </button>
                    
      
-                	<button md-button class="btn1" [md-menu-trigger-for]="list" style="float:middle;" >
+                	<button md-button class="btn1 " [md-menu-trigger-for]="list" style="float:middle;" >
                       {{timeSig}}
                 	</button>
 
                     <md-menu #list="mdMenu" >                    
                        <md-list>
-     			       <md-list-item class="btn1" *ngFor="let sig of timeSigs" (click)="timeSig=sig">
+     			       <md-list-item class="hiLiHover" *ngFor="let sig of timeSigs" (click)="setTimeSig(sig)">
                       	  {{sig}}
                        </md-list-item>
     				   </md-list>	
