@@ -18,5 +18,26 @@ export class NetService {
             this.names.push(n)
         }
     }
+
+
+/*
+
+type
+nIn
+nOut
+nHidden[]
+
+
+
+*/
+    createFromConfig(config:any) {
+
+           switch(config.type) {
+
+
+           } 
+    }
    
+
 }
+

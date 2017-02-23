@@ -3,12 +3,12 @@ import { NetService } from '../services/net.service'
 import { Net } from './net'
 import { Ticker } from './ticker'
 import { Pulse } from './pulse'
+import { Savable } from './savable'
+
+import { Generator } from './generator'
 
 
-
-
-
-export class AI {
+export class AI extends  Savable {
 
 
     out:Array<number>
@@ -20,17 +20,10 @@ export class AI {
     pulse:Pulse
 
     constructor(private dbService:DBService,private netService:NetService){
-
+        super()
     }
 
-    ngOnInit() {
-        //  console.log("HELLO"+this.ai.out)
-    }
-
-    ngAfterViewInit() {
-
-    }
-
+  
     start() {}
     stop() {}
 
@@ -38,39 +31,44 @@ export class AI {
         var w = this.net.weights
         var data = JSON.stringify(w)
         this.saved = true
-        //this.dbService.write(w)
     }
 
     //  ai;
-    init(pulse:Pulse, nIn:number, nHidden:number, nOut:number) {
-        this.nIn = nIn
-        this.nOut = nOut
+    init(pulse:Pulse, net:any) {
+        this.nIn = net.nIn
+        this.nOut = net.nOut
         this.pulse = pulse
         this.out = new Array(this.nOut)
         this.out.fill(0.5)
-        this.implant({nHidden:[nHidden]})
+        this.implant(net)
     }
 
 
-    implant(params:any) {
+    implant(net:any) {
 	 
         delete this.net
+        var proto:any
+        if (net.type === undefined) {
+            proto=this.netService.types["Elman"].prototype
+         } else {
+            proto=this.netService.types[net.type].prototype
+         }
 
-        if (params.type === undefined) params.type=this.netService.types["Elman"]
+        this.net=Object.create(proto);
+    
+        var generator = new Generator(net.seed)
 
-        this.net=Object.create(params.type.prototype);
-        
-        this.net.constructor(this.nIn,params.nHidden,this.nOut)
-
-        /*
-        switch (params.type) {
-            case "Elman":
-                this.net = new Elman(this.nIn, params.nHidden, this.nOut)
-                break;
-            case "Jordan":
-                this.net = new Jordan(this.nIn, params.nHidden, this.nOut)
+        if (net.nIn !== this.nIn) {
+            if (net.nIn) console.log(" input mismatch dela with it PAUL ")
+            net.nIn=this.nIn
         }
-        */
+     
+        if (net.nOut !== this.nOut) {
+            if (net.nOut) console.log(" output mismatch dela with it PAUL ")
+            net.nOut=this.nOut
+        }
+        
+        this.net.constructor(net.nIn,net.nHidden,net.nOut,generator)
 
         this.out.fill(0.5)
         this.activateCnt = 0
@@ -84,4 +82,21 @@ export class AI {
         str += "<\p>"
         return str
     }
+
+
+
+    saveDB(saver: any): any {
+        if (this.id !== null) return this.id
+
+        var postItems: any = {}
+        var id=this.net.saveDB(saver)
+        postItems.net=id
+    
+        var id = saver.newIDItem('ai', postItems)
+        
+        this.setID(id)
+        return id
+
+    }
+   
 }

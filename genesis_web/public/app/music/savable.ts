@@ -11,7 +11,7 @@ export class Savable {
         this.id=null
     }
 
-    saveDB(db:DBService):any  {
+    saveDB(saver:any):any  {
             console.log(" NO SAVER "+this)
             return null
     }
@@ -19,4 +19,8 @@ export class Savable {
     setID(id:any):void {
         this.id=id
     }
+
+  
+   
+
 }

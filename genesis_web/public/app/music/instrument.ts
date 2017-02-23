@@ -11,7 +11,7 @@ export class Instrument {
     muted:boolean=false
     midiIn:boolean=false
         
-    constructor(name:string) {
+    constructor(name:string,private monitor:any) {
         this.setInst(name)
     }
 
@@ -31,22 +31,24 @@ export class Instrument {
     }
 
     setInst(name:string) {
-        this.name = name;
         var self = this
+        this.name = "loading . . . "
 
         Soundfont.instrument(audioContext, name).then((inst:any) => {
             this.inst = inst
+            this.name = name
             this.gainValue=inst.out.gain.value
-        
+            console.log(" Loaded instrument " + name)
             //inst.connect(audioContext.destination)
         })
     }
 
 
 
-
     playNote(key:any , vel:number, when:number) {
         if (this.inst === undefined) return
+
+        if (this.monitor) this.monitor.spareTime(when-audioContext.currentTime)
 
         if (vel > 0) {
             this.started[key] = this.inst.play(key, when, {

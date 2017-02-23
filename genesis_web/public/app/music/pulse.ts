@@ -1,6 +1,6 @@
 import { Ticker } from "./ticker"
 import { Savable } from "./savable"
-
+import { SettingsService } from '../services/settings.service'
 declare var audioContext: any
 
 /**
@@ -28,6 +28,8 @@ declare var audioContext: any
 export class Pulse extends Savable {
 
  /**  current beat to be used by clients */
+ 	timeSigs:any=["3/4","4/4","3:2/4","2:3/4","3:3/8","3:2:2/8","3:3:3:3/8"]
+
     beat: number
  
  /**   time to use for scheduling event on current beat. Maybe ahead of real time to avoid underruns */
@@ -39,15 +41,50 @@ export class Pulse extends Savable {
     private clients: Array<Ticker> = []
     state: Array<number>
     pauseTime: number
-    lookahead:number = 0.1
+    lookahead:number = 0.5
+    
+    timeSig:string                 //  See time sigs
 
-    constructor(ticksPerBeat: number, bpm: number) {
+    pulsesPerBeat:number            //  1/4    is 1    1/8 is 2  
+    subDivs:Array<number>
+    patternLength:number           // total of subDivs
+    accents:Array<number>
+   
+    constructor(ticksPerBeat: number, bpm: number , public settings:SettingsService) {
         super()
         this.bpm = bpm
         this.beat = 0
         this.tickLen = 1 / ticksPerBeat
         this.clients = []
+        this.setTimeSig("4/4")
     }
+
+    
+    setTimeSig(sig:string) {
+        this.timeSig=sig
+        var toks=sig.split('/')
+        var subs=toks[0].split(":")     
+        this.subDivs=[]
+        var sum=0
+        this.accents=[]
+        
+        subs.forEach((x:string) => {
+                this.accents.push(1)
+                var val:number = +x
+                this.subDivs.push(val)
+                sum += val
+                for (let i=1;i<val;i++) {
+                   this.accents.push(2)
+                }    
+        })       
+        
+        this.accents[0]=0
+        
+        this.patternLength=sum
+        
+        this.pulsesPerBeat = +toks[1]/4
+    }
+
 
     tick():void {
         if (this.running) {
@@ -83,8 +120,8 @@ export class Pulse extends Savable {
 
 /** get the current time with */
 
-    private getTime():number {
-        return audioContext.currentTime + this.lookahead
+    getTime():number {
+        return audioContext.currentTime + this.settings.playahead
     }
 
 
@@ -105,7 +142,7 @@ export class Pulse extends Savable {
 /** return beat that would be playing at this instant in time
 */
     getBeatNow(): any {
-        var dT =  audioContext.currentTime - this.time
+        var dT =  this.getTime() - this.time
         var beat = this.beat + dT * this.bpm/60
         return beat
     }
@@ -150,9 +187,19 @@ export class Pulse extends Savable {
 
          postItems.type ="Pulse"
          postItems.bpm = this.bpm
+         postItems.sig = this.timeSig
              
          var id=saver.newIDItem('players',postItems)
          return id       
     }
+
+    loadSnap(pulseSnap:any) {
+    
+        this.bpm=pulseSnap.child("bpm").val()            
+        var sig=pulseSnap.child("sig").val() 
+        if (sig !== null) this.setTimeSig(sig)
+                   
+    }
+
 
 }

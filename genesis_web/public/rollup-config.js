@@ -11,7 +11,8 @@ export default {
   plugins: [
       nodeResolve({jsnext: true, module: true}),
       commonjs({
-        include: 'node_modules/rxjs/**'
+	      include: [ 'node_modules/rxjs/**','node_modules/angular-2-local-storage/**']
+		  //	namedExports: { 'angular-2-local-storage': ['LocalStorageService', 'LocalStorageModule' ] }
       }),
       uglify()
 	    ],

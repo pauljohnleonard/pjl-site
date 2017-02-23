@@ -2,70 +2,15 @@ import { Component, ViewChild } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar } from '@angular/material';
 import { DBService } from './services/db.service'
 import { MusicAppComponent } from './music-app.component'
+import { SliderValComponent } from './slider-val.component'
 import { SaveDialog } from './save.dialog'
 import { LoadDialog } from './load.dialog'
+import { SettingsService } from './services/settings.service'
 
 @Component({
+  moduleId: 'app/',
   selector: 'my-app',
-  template: `
-
-    <md-sidenav-layout fullscreen>
-      <md-sidenav #sidebar>
-        <p style="padding: 10px;">
-          <img src="images/genesis_thicker.png" style="height: 40px; width: auto" alt="logo" />
-        </p>
-        <md-nav-list>
-      
-
-            <a md-list-item  (click)="sidebar.close();newMusic()">
-                <md-icon md-list-icon>fiber_new</md-icon>
-                <span md-line>new</span>
-            </a>
-            
-            <a *ngIf="user !== null" md-list-item  (click)="sidebar.close();save()">
-                <md-icon md-list-icon>cloud_download</md-icon>
-                <span md-line>save</span>
-            </a>
-
-            <a *ngIf="user !== null" md-list-item (click)="sidebar.close();load()">
-                <md-icon md-list-icon>cloud_upload</md-icon>
-                <span md-line>load</span>
-            </a>
-
-
-            <a *ngIf="user !== null" md-list-item (click)="sidebar.close();clean()">
-                <md-icon md-list-icon>delete_sweep</md-icon>
-                <span md-line>do not click</span>
-            </a>
-           
-
-
-
-        </md-nav-list>
-      </md-sidenav>
-
-      <md-toolbar>    
-    
-         <button md-icon-button (click)="sidebar.open()">
-                <md-icon>more_vert</md-icon>
-         </button>  
-
-         <span> <img src="images/genesis_thicker.png" style="height: 36px" alt="genesis logo" />
-            Genesis </span>  
-      
-     
-          <button *ngIf="user===null" md-button  (click)="signIn()" >
-             <img src="images/btn_google_signin_light_normal_web.png" style="padding:0px;height: 36px"  />
-          </button>
-      
-          <button *ngIf="user!= null"  md-button (click)="signOut()" style="padding:0px">
-            <img src={{user.photoURL}}  style="height:40px"/>
-          </button>
-        
-      </md-toolbar> 
-        
-      <musicApp></musicApp> 
-      `
+  templateUrl: "app.html"
 })
 
 export class AppComponent {
@@ -74,7 +19,7 @@ export class AppComponent {
 
   user: any = null
 
-  constructor(private dbService: DBService, public dialog: MdDialog, public snackBar: MdSnackBar) {
+  constructor(private dbService: DBService, public dialog: MdDialog, public snackBar: MdSnackBar,public settings:SettingsService) {
     dbService.register((user: any) => {
       this.user = user
 

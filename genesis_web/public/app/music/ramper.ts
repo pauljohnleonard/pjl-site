@@ -61,6 +61,10 @@ export class Ramper implements Ticker{
         }
         this.pulse.state.push(this.val)
     }
+
+     addPostItems(items: any, saver: any):void{
+        console.log(" DO NOTHING ")
+    }
 }
 
 /*

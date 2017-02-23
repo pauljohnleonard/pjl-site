@@ -37,6 +37,14 @@ To build a production bundle (aot-build.min.js) for running in index.html type:
 npm run dist
 ```
 
+## Installed packages
+
+THe following are all created automatically
+
+```
+appjs ,aot , jspm_packages , node_modules
+```
+
 ## Test environment
 
 To start a simple web server for testing type:

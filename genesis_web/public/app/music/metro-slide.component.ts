@@ -18,14 +18,14 @@ import { Subject } from 'rxjs/Subject';
             background: none;
         }
         .dragHandle:hover {
-            fill: #0050a7;
+            fill: yellow;
             cursor: pointer;
         } 
     </style>
  
     <svg #svgelement [attr.viewBox]="getViewbox()"  
             preserveAspectRatio="none"
-            style="width: 100%; height: 50px"          
+            style="width: 100%; height: 40px"          
             >                
           
 
@@ -39,7 +39,7 @@ import { Subject } from 'rxjs/Subject';
             ></line>
 
         <circle [attr.cx]="valueToX()" [attr.cy]="height/2" 
-            r="20" 
+            r="12" 
             stroke="#000"
             stroke-width="1"
             fill="#fff"

@@ -1,225 +1,252 @@
 import { DBService } from '../services/db.service'
 import { NetService } from '../services/net.service'
 import { SamplesService } from '../services/samples.service'
+import { SettingsService } from '../services/settings.service'
 import { AI } from './ai';
 import { AISquencer } from './aisequencer';
 import { Metro } from './metro'
-import { Mapper,MappedPlayer } from './mapper';
+import { Mapper, MappedPlayer } from './mapper';
 import { Instrument } from './instrument'
 import { Pulse } from './pulse'
 import { Player } from "./player"
 import { Ramper } from "./ramper"
 import { MidiSequencer } from './midisequencer'
 import { Savable } from './savable'
+import { Generator } from './generator'
 
-
-declare var firebase:any
+declare var firebase: any
 
 export class Music extends Savable {
 
-    playerType:string="AI"
-    playerTypes:Array<string> =["AI","midi"]
-    players:Array<Player>=[]
-    pulse:Pulse
-    selectedPlayer:Player
-    ticksArr:Array<Array<number>>
-    metro:Metro
-    recording:boolean=false
-    recordBuffer:Array<any>=[]
-    playHead:number=0
-    title:string="A Song"
-    
-    constructor(private dbService: DBService,private samplesService:SamplesService,private netService:NetService) {
-    super()    
-    console.log("new music constructed")
-      var self=this
-      window.navigator["requestMIDIAccess"]().then(
-          (midiAccess:any) => {
-		     midiAccess.inputs.forEach(function (midiInput:any) {
-                console.log(midiInput)
-		        midiInput.onmidimessage = function(event:any) {
-                  //  console.log(event.data)
-                    
-                    if (self.recording && self.pulse.running) {
-                        let stamp = self.pulse.getBeatNow()
-                        self.recordBuffer.push([stamp,event.data])    
+    playerType: string = "AI"
+    playerTypes: Array<string> = ["AI", "midi"]
+    players: Array<Player> = []
+    pulse: Pulse
+    selectedPlayer: Player
+    ticksArr: Array<Array<number>>
+    metro: Metro
+    recording: boolean = false
+    recordBuffer: Array<any> = []
+    playHead: number = 0
+    title: string = "A Song"
+
+    constructor(private dbService: DBService, private samplesService: SamplesService, private netService: NetService, private monitor: any, public settings: SettingsService) {
+        super()
+        console.log("new music constructed")
+        var self = this
+        window.navigator["requestMIDIAccess"]().then(
+            (midiAccess: any) => {
+                midiAccess.inputs.forEach(function (midiInput: any) {
+                    console.log(midiInput)
+                    midiInput.onmidimessage = function (event: any) {
+                        //  console.log(event.data)
+
+                        if (self.recording && self.pulse.running) {
+                            let stamp = self.pulse.getBeatNow()
+                            self.recordBuffer.push([stamp, event.data])
+                        }
+
+                        self.players.forEach((p) => {
+                            if (p.details.inst.recording) p.details.inst.playEvent(event.data, 0)
+                        })
+
                     }
+                })
+            })
 
-                    self.players.forEach((p)=>{
-                         if (p.details.inst.recording) p.details.inst.playEvent(event.data,0)     
-                    })
-
-                }
-		    })
-      })
-      
-      this.setID(0)
-      this.constructorX()
+        this.setID(0)
+        this.constructorX()
     }
 
 
-    saveDB(saver:any):any { 
+    saveDB(saver: any): any {
         if (this.isSaved()) return
-        var itemIDs:Array<any>=[]
-    
-        var postItems:any ={
-        }
-       
-        var itemID:string=this.pulse.saveDB(saver)
-        
-        postItems[itemID]=true
+        var itemIDs: Array<any> = []
 
-        this.players.forEach((p:Player)=>{
-            var itemID:string=p.saveDB(saver)
+        var postItems: any = {
+        }
+
+        var itemID: string = this.pulse.saveDB(saver)
+
+        postItems[itemID] = true
+
+        this.players.forEach((p: Player) => {
+            var itemID: string = p.saveDB(saver)
             if (itemID !== null) {
-                postItems[itemID]=true
+                postItems[itemID] = true
             }
         })
-    
-        this.setID(saver.newIDItem('songs',postItems))
 
-        postItems ={
-            title:this.title,
+        this.setID(saver.newIDItem('songs', postItems))
+
+        postItems = {
+            title: this.title,
         }
 
-        saver.newIDItem('songinfo/'+saver.user.uid,postItems,this.id)
-            
+        saver.newIDItem('songinfo/' + saver.user.uid, postItems, this.id)
+
     }
 
-    loadPlayer(playerSnap:any) {
+    loadPlayer(playerSnap: any) {
 
-        switch(playerSnap.child("type").val()) {
+        switch (playerSnap.child("type").val()) {
 
-          case "MidiPlayer":
-            var instName = playerSnap.child("inst").val()
-            var midiPlayer = this.addMidiPlayer(instName)
-            midiPlayer.setID(playerSnap.key)
+            case "MidiSequencer":
+                var instName = playerSnap.child("inst").val()
+                var midiPlayer = this.addMidiPlayer(instName)
+                midiPlayer.setID(playerSnap.key)
+                var midiKey = playerSnap.child("midi").val()
+                var midiRef = firebase.database().ref("midi").child(midiKey);
+                midiRef.once("value").then((midi: any) => {
+                    var midiData: any = JSON.parse(midi.val())
+                    var seq: MidiSequencer = <MidiSequencer>midiPlayer.ticker
+                    seq.setBuffer(midiData, midiKey)
+                })
+                break
 
-            var midiKey = playerSnap.child("midi").val()
-            var midiRef = firebase.database().ref("midi").child(midiKey);
-            midiRef.once("value").then((midi: any) => {
-                var midiData:any = JSON.parse(midi.val())
-                var seq:MidiSequencer=<MidiSequencer>midiPlayer.ticker
-                seq.setBuffer(midiData,midiKey)
-            })
-            break
-
-          case "Pulse":
-            var bpm = playerSnap.child("bpm").val()
-            this.pulse.bpm=bpm            
-            break
-          default:
-            console.log("UNKOWN TYPE : " + playerSnap.child("type").val())
-        }
         
+            case "AISequencer":
+                 var instName = playerSnap.child("inst").val()
+                 var aiKey=playerSnap.child("ai").val()
+                 var aiRef = firebase.database().ref("ai").child(aiKey);
+                 aiRef.once("value").then((aiSnap: any) => {
+
+                     var netKey=aiSnap.child("net").val()
+                     var netRef=firebase.database().ref("net").child(netKey)
+                     netRef.once("value").then((netSnap:any) => {
+                        var netInfo=netSnap.val()
+                        this.addAIPlayer(instName,netInfo)
+                     }
+                 
+                })
+                break;    
+                
+
+            case "Pulse":
+                this.pulse.loadSnap(playerSnap)
+                break
+            default:
+                console.log("UNKOWN TYPE : " + playerSnap.child("type").val())
+        }
+
     }
 
-    loadDB(songref:any) {
+    loadDB(songref: any) {
         songref.once("value").then((song: any) => {
             song.forEach((playerKey: any) => {
                 var playerref = firebase.database().ref("players").child(playerKey.key);
                 playerref.once("value").then((playerSnap: any) => {
-                      this.loadPlayer(playerSnap)
-                    
+                    this.loadPlayer(playerSnap)
+
                 })
             })
         })
     }
-    
-    constructorX() {
-       
-        let ticksPerBeat:number = 12
-        let bpm:number = 120
-        
-        this.pulse = new Pulse(ticksPerBeat, bpm)
 
-        this.ticksArr = [[0,4],[0,2],[0,1], [0, 1.5, 3, 4]]
-  
-        this.ticksArr.forEach((ticks:Array<number>) => { new Ramper(ticks, this.pulse) })
+    constructorX() {
+
+        let ticksPerBeat: number = 12
+        let bpm: number = 120
+
+        this.pulse = new Pulse(ticksPerBeat, bpm, this.settings)
+
+        this.ticksArr = [[0, 4], [0, 2], [0, 1], [0, 1.5, 3, 4]]
+
+        this.ticksArr.forEach((ticks: Array<number>) => { new Ramper(ticks, this.pulse) })
 
         //var majorSeed = [0, 2, 4, 5, 7, 9, 11]
         //var stack3 = [0, 2, 4, 6, 8, 10, 12]
 
-        this.metro=new Metro(this.pulse,this.samplesService)
-       
+        this.metro = new Metro(this.pulse, this.samplesService, this.monitor)
+
     }
 
 
-    addMidiPlayer(name:string): Player {
-        let player=new Player(this)
+    addMidiPlayer(name: string): Player {
+        let player = new Player(this)
         this.players.push(player)
-        var inst = new Instrument(name)
-        player.details.inst=inst
+        var inst = new Instrument(name, this.monitor)
+        player.details.inst = inst
         var midiPlayer = new MidiSequencer(player)
-        player.ticker = midiPlayer 
+        player.ticker = midiPlayer
         this.change()
         return player
     }
-    
-    addAIPlayer(name:any):Player {
-        let nOut:number = 20
-        let nHidden:number = 20
-        let nIn = this.ticksArr.length
-      
-        let player=new Player(this)
+
+
+
+    addAIPlayer(instName: string, net:any): Player {
+
+        if (!net) net={}
+
+        if ( net.nOut === undefined ) net.nOut= 20
+        if ( net.nHidden === undefined ) net.nHidden=[20]
+        if ( net.nIn === undefined ) net.nIn = this.ticksArr.length
+
+        let player = new Player(this)
         this.players.push(player)
 
-        let ai=new AI(this.dbService,this.netService)
-        
-        player.details.ai=ai
+        let ai = new AI(this.dbService, this.netService)
 
-        this.selectedPlayer=player
+        player.details.ai = ai
+
         
-        ai.init(this.pulse, nIn, nHidden, nOut)
+        if (instName === undefined) instName = "marimba"
+        player.details.name = instName
+
+        var inst = new Instrument(instName, this.monitor)
+        player.details.inst = inst
+
         
-        if (name === undefined) name="marimba"
-        player.details.name=name
-        
-        var inst = new Instrument(name)
-        player.details.inst=inst
-       
-        var base:Array<number> = [0, 3, 5, 7, 10]
+        if (net.seed === undefined) {
+            net.seed=Math.random()
+        }    
+        var generator = new Generator(net.seed)
+
+        ai.init(this.pulse, net)
+
+        var base: Array<number> = [0, 3, 5, 7, 10]
 
         var mapper = new Mapper(40, base)
-        player.details.mapper=mapper
+        player.details.mapper = mapper
 
         var mapPlayer = new MappedPlayer(inst, mapper)
-        
-        let playerAI = new AISquencer(ai, mapPlayer,this.pulse)
+
+        let playerAI = new AISquencer(ai, mapPlayer, this.pulse)
         player.ticker = playerAI
-        this.change()
+        this.change()   //  TODO not if we are loading
         return player
-     
+
     }
-    
-    removePlayer(player:Player) {
-        
+
+    removePlayer(player: Player) {
+
         this.pulse.removeClient(player)
-        let index=0
-        for (let i=0;index<this.players.length;index++) {
-            if (this.players[index]===player) {    
-                 this.players.splice(index, 1);
-                 this.change()
-                 if (this.players.length === 0 ) this.setID(0)
-                 return;
+        let index = 0
+        for (let i = 0; index < this.players.length; index++) {
+            if (this.players[index] === player) {
+                this.players.splice(index, 1);
+                this.change()
+                if (this.players.length === 0) this.setID(0)
+                return;
             }
         }
 
     }
 
-    tick():void {
+    tick(): void {
 
         try {
             this.pulse.tick()
         } catch (err) {
             console.log(err.stack)
         }
-      
-        this.playHead=this.pulse.beat
+
+        this.playHead = this.pulse.beat
     }
-    
-    record(yes:boolean) {
-        this.recording=yes
+
+    record(yes: boolean) {
+        this.recording = yes
     }
 
     start() {
@@ -229,35 +256,35 @@ export class Music extends Savable {
     stop() {
         this.pulse.stop()
         if (this.recordBuffer.length > 0) {
-            this.players.forEach((p)=>{
-                if (p.details.inst.recording &&  (p.ticker instanceof MidiSequencer )) {
-                    p.ticker.setBuffer(this.recordBuffer,null)
+            this.players.forEach((p) => {
+                if (p.details.inst.recording && (p.ticker instanceof MidiSequencer)) {
+                    p.ticker.setBuffer(this.recordBuffer, null)
                     p.change()
-                }  
+                }
             })
         }
-        this.recordBuffer=[]
+        this.recordBuffer = []
     }
 
     pause() {
         this.pulse.pause()
     }
 
-    isRunning():boolean {
+    isRunning(): boolean {
         return this.pulse.running
-    }
-    
-   /*
-    setPlayerType(t:string) {
-        this.playerType=t
     }
 
     /*
-    window.navigator.requestMIDIAccess().then(function(midiAccess) {
-        midiAccess.inputs.forEach(function(midiInput) {
-            self.focusPlayer.listenToMidi(midiInput)
-        });
-    });
-    */
+     setPlayerType(t:string) {
+         this.playerType=t
+     }
+ 
+     /*
+     window.navigator.requestMIDIAccess().then(function(midiAccess) {
+         midiAccess.inputs.forEach(function(midiInput) {
+             self.focusPlayer.listenToMidi(midiInput)
+         });
+     });
+     */
 
 } 

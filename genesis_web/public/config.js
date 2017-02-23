@@ -3,7 +3,9 @@ System.config({
   defaultJSExtensions: true,
   transpiler: "typescript",
   typescriptOptions: {
-    "emitDecoratorMetadata": true
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   paths: {
     "github:*": "jspm_packages/github/*",
@@ -18,16 +20,17 @@ System.config({
   },
 
   map: {
-    "@angular/common": "npm:@angular/common@2.4.7",
-    "@angular/core": "npm:@angular/core@2.4.7",
-    "@angular/forms": "npm:@angular/forms@2.4.7",
-    "@angular/http": "npm:@angular/http@2.4.7",
-    "@angular/material": "npm:@angular/material@2.0.0-beta.1",
-    "@angular/platform-browser": "npm:@angular/platform-browser@2.4.7",
-    "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.4.7",
+    "@angular/common": "npm:@angular/common@2.4.8",
+    "@angular/core": "npm:@angular/core@2.4.8",
+    "@angular/forms": "npm:@angular/forms@2.4.8",
+    "@angular/http": "npm:@angular/http@2.4.8",
+    "@angular/material": "npm:@angular/material@2.0.0-beta.2",
+    "@angular/platform-browser": "npm:@angular/platform-browser@2.4.8",
+    "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.4.8",
+    "angular-2-local-storage": "npm:angular-2-local-storage@1.0.1",
     "reflect-metadata": "npm:reflect-metadata@0.1.9",
     "rxjs": "npm:rxjs@5.1.1",
-    "typescript": "npm:typescript@2.1.6",
+    "typescript": "npm:typescript@2.2.0",
     "zone.js": "npm:zone.js@0.7.7",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -92,44 +95,44 @@ System.config({
     "github:jspm/nodelibs-vm@0.1.0": {
       "vm-browserify": "npm:vm-browserify@0.0.4"
     },
-    "npm:@angular/common@2.4.7": {
-      "@angular/core": "npm:@angular/core@2.4.7"
+    "npm:@angular/common@2.4.8": {
+      "@angular/core": "npm:@angular/core@2.4.8"
     },
-    "npm:@angular/compiler@2.4.7": {
-      "@angular/core": "npm:@angular/core@2.4.7",
+    "npm:@angular/compiler@2.4.8": {
+      "@angular/core": "npm:@angular/core@2.4.8",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:@angular/core@2.4.7": {
+    "npm:@angular/core@2.4.8": {
       "process": "github:jspm/nodelibs-process@0.1.2",
       "rxjs": "npm:rxjs@5.1.1",
       "zone.js": "npm:zone.js@0.7.7"
     },
-    "npm:@angular/forms@2.4.7": {
-      "@angular/common": "npm:@angular/common@2.4.7",
-      "@angular/core": "npm:@angular/core@2.4.7",
+    "npm:@angular/forms@2.4.8": {
+      "@angular/common": "npm:@angular/common@2.4.8",
+      "@angular/core": "npm:@angular/core@2.4.8",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:@angular/http@2.4.7": {
-      "@angular/core": "npm:@angular/core@2.4.7",
-      "@angular/platform-browser": "npm:@angular/platform-browser@2.4.7",
+    "npm:@angular/http@2.4.8": {
+      "@angular/core": "npm:@angular/core@2.4.8",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.4.8",
       "rxjs": "npm:rxjs@5.1.1"
     },
-    "npm:@angular/material@2.0.0-beta.1": {
-      "@angular/common": "npm:@angular/common@2.4.7",
-      "@angular/core": "npm:@angular/core@2.4.7",
-      "@angular/http": "npm:@angular/http@2.4.7",
+    "npm:@angular/material@2.0.0-beta.2": {
+      "@angular/common": "npm:@angular/common@2.4.8",
+      "@angular/core": "npm:@angular/core@2.4.8",
+      "@angular/http": "npm:@angular/http@2.4.8",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:@angular/platform-browser-dynamic@2.4.7": {
-      "@angular/common": "npm:@angular/common@2.4.7",
-      "@angular/compiler": "npm:@angular/compiler@2.4.7",
-      "@angular/core": "npm:@angular/core@2.4.7",
-      "@angular/platform-browser": "npm:@angular/platform-browser@2.4.7"
+    "npm:@angular/platform-browser-dynamic@2.4.8": {
+      "@angular/common": "npm:@angular/common@2.4.8",
+      "@angular/compiler": "npm:@angular/compiler@2.4.8",
+      "@angular/core": "npm:@angular/core@2.4.8",
+      "@angular/platform-browser": "npm:@angular/platform-browser@2.4.8"
     },
-    "npm:@angular/platform-browser@2.4.7": {
-      "@angular/common": "npm:@angular/common@2.4.7",
-      "@angular/core": "npm:@angular/core@2.4.7",
+    "npm:@angular/platform-browser@2.4.8": {
+      "@angular/common": "npm:@angular/common@2.4.8",
+      "@angular/core": "npm:@angular/core@2.4.8",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:asn1.js@4.9.1": {
@@ -378,7 +381,7 @@ System.config({
     "npm:timers-browserify@1.4.2": {
       "process": "npm:process@0.11.9"
     },
-    "npm:typescript@2.1.6": {
+    "npm:typescript@2.2.0": {
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "net": "github:jspm/nodelibs-net@0.1.2",
       "os": "github:jspm/nodelibs-os@0.1.0",

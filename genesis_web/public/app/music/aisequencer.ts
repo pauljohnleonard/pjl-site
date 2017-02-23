@@ -12,17 +12,16 @@ export class AISquencer implements Ticker {
         state:Array<number>
         playing:boolean    
         running:false
+        type:string= "AISequencer"
+        ai:AI
 
     constructor(public ai:AI, public player:MappedPlayer,public pulse:Pulse) {
 
-      //  this.ai = ai
-      //  this.player = player
         this.last = ai.net.out
         this.thresh = 0.5
         this.state = new Array(this.last.length)   
-        //this.cnt = 0
         this.playing = true
-        
+        this.ai=ai
     }
 
 
@@ -63,5 +62,11 @@ export class AISquencer implements Ticker {
         }
         )
         this.last = out
+    }
+
+    addPostItems(items: any, saver: any) {
+         items.type = this.type
+         var id=this.ai.saveDB(saver)
+         items.ai=id
     }
 }

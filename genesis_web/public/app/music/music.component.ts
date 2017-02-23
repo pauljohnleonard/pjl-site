@@ -8,7 +8,7 @@ import { Music } from './music'
             <div style="width: 100%">
               
                <md-input-container>
-                    <input md-input  [(ngModel)]="music.title">
+                    <input mdInput  [(ngModel)]="music.title"/>
                  </md-input-container>
 
                 <button md-mini-fab  [md-menu-trigger-for]="menu" style="float:right;">
@@ -42,20 +42,17 @@ export class MusicComponent {
     }
 
 
-  
-
     addPlayerType(t:string) {
 
         switch(t) {
           case "AI":
-            this.music.addAIPlayer(undefined)
+            this.music.addAIPlayer("marimba",null)
             break
           case "midi":
             this.music.addMidiPlayer("marimba")
             break
         }
     }
-
 
 
   

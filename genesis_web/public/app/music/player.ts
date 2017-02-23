@@ -6,20 +6,22 @@ import { MidiSequencer } from './midisequencer'
 
 
 
-var players:Array<Player>=[] 
+export class Player extends Savable implements Ticker{
 
-export class Player extends Savable {
-    
-    soloed:boolean = false
-    tmpMuted:boolean = false
-    muted:boolean = false
-    ticker:Ticker = null
 
-    details:any={}
-           
-    constructor(public music:Music) {
+    static players: Array<Player> = []
+
+    soloed: boolean = false
+    tmpMuted: boolean = false
+    muted: boolean = false
+    ticker: Ticker = null
+
+    details: any = {}
+    type:string=null
+
+    constructor(public music: Music) {
         super()
-        players.push(this)
+        Player.players.push(this)
         this.music.pulse.addClient(this)
     }
 
@@ -28,77 +30,80 @@ export class Player extends Savable {
     }
 
     start() {
-      if (this.ticker) this.ticker.start()
-  
-    }
-    
-    stop() {
-      if (this.ticker) this.ticker.stop()
+        if (this.ticker) this.ticker.start()
+
     }
 
-    mute()   {
-       this.muted = ! this.muted 
-       this.details.inst.mute(this.muted)
+    stop() {
+        if (this.ticker) this.ticker.stop()
+    }
+
+    mute() {
+        this.muted = !this.muted
+        this.details.inst.mute(this.muted)
     }
 
     solo() {
 
-        this.soloed = ! this.soloed
- 
-        if (this.soloed) this.muted=false
+        this.soloed = !this.soloed
 
-        let soloedCnt=0;
-      
-        players.forEach((p)=>{
-            if (p.soloed) soloedCnt++  
+        if (this.soloed) this.muted = false
+
+        let soloedCnt = 0;
+
+        Player.players.forEach((p) => {
+            if (p.soloed) soloedCnt++
         })
-      
+
         if (soloedCnt == 0) {
-             players.forEach((p)=>{
+            Player.players.forEach((p) => {
                 p.tmpMuted = false
                 p.details.inst.mute(this.muted)
-             })  
+            })
         } else {
-           players.forEach((p)=>{
+            Player.players.forEach((p) => {
                 if (!p.soloed) {
-                  p.tmpMuted=true
-                  p.details.inst.mute(true)
-                }  else {
-                  p.tmpMuted=false
-                  p.details.inst.mute(false)
+                    p.tmpMuted = true
+                    p.details.inst.mute(true)
+                } else {
+                    p.tmpMuted = false
+                    p.details.inst.mute(false)
                 }
             })
         }
     }
 
     removeMe() {
-        setTimeout(()=>{
+        setTimeout(() => {
             this.music.removePlayer(this)
-        },0);
+        }, 0);
     }
 
 
-    saveDB(saver:any) : any {
-     
-         if (this.id !== null) return this.id 
-         
-         var postItems:any={}
+    saveDB(saver: any): any {
+        if (this.id !== null) return this.id
 
-         if (this.ticker instanceof MidiSequencer) { 
-             postItems.type="MidiPlayer"
-             if (this.ticker.midiBuff !== null ) {        
-                var id=this.ticker.midiBuff.saveDB(saver)
-                if (id !==null) postItems.midi=id                  
-            } 
-         }
 
-         
-        postItems.inst=this.details.inst.name
-             
-        var id=saver.newIDItem('players',postItems)
+        var postItems: any = {}
+
+            //if (this.ticker instanceof ItemSaver ) {
+        if (this.ticker.addPostItems !== undefined){        
+            this.ticker.addPostItems(postItems,saver)
+        }
+
+        postItems.inst = this.details.inst.name
+
+        if (this.details.ai ) {
+            var id=this.details.ai.saveDB(saver)
+            postItems.ai=id
+        }
+
+        var id = saver.newIDItem('players', postItems)
         return id
- 
-        
     }
-    
+
+    addPostItems(items: any, saver: any):void{
+        console.log(" DO NOTHING ")
+    }
+
 }

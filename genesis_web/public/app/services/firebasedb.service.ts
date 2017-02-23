@@ -43,6 +43,10 @@ export class FirebaseDBService {
         this.purge('songinfo')
         this.purge('players')
         this.purge('midi')
+        this.purge('net')
+        this.purge('ai')
+   
+        
 
     }
     

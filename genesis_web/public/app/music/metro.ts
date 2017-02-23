@@ -8,68 +8,82 @@ var TOL: number = 0.0001
 
 export class Metro implements Ticker {
 
-    beatNext: number = 0
+    pulseNext: number = 0
     accent: any
     ord: any
     active: boolean = false
-    nDivs:number = 16
-    currentIndex:number = 0
+    nDivs: number = 16
+    currentIndex: number = 0
+    samples: Array<any> = []
+    gain: any
 
-    constructor(public pulse: Pulse, private samplesService: SamplesService) {
-  
+    constructor(public pulse: Pulse, private samplesService: SamplesService, public monitor: any) {
+
         this.pulse.addClient(this)
 
-        samplesService.load("sounds/metro/1.wav").then((source: any) => {
-            this.accent = source
+        samplesService.load("sounds/metro/christeck/Metronom Claves.mp3").then((source: any) => {
+            this.samples[0] = source
         }).catch((reason: any) => {
             console.log(reason)
         });
 
-        samplesService.load("sounds/metro/2.wav").then((source: any) => {
-            this.ord = source
+        samplesService.load("sounds/metro/dan/metro_bar.mp3").then((source: any) => {
+            this.samples[1] = source
         }).catch((reason: any) => {
             console.log(reason)
         });
+
+        samplesService.load("sounds/metro/dan/metro_beat.mp3").then((source: any) => {
+            this.samples[2] = source
+        }).catch((reason: any) => {
+            console.log(reason)
+        });
+
+        this.gain = audioContext.createGain();
+        this.gain.gain.value = 0.1
+        this.gain.connect(audioContext.destination);
     }
 
 
     start() {
-        this.beatNext = 0
+        this.pulseNext = 0
     }
 
-    stop() { 
-
+    stop() {
 
     }
-
 
 
     tick() {
 
+        //console.log(this.pulse.time  + " " + audioContext.currentTime)
 
-           
         if (!this.active) return
-        
+
         //console.log(this.pulse.beat)
-        var beatNow:number = Math.floor(this.pulse.beat + TOL);
-        var fract=this.pulse.beat-beatNow
+        var pulseNow: number = Math.floor(this.pulse.beat * this.pulse.pulsesPerBeat + TOL);
 
-        if (Math.abs(fract) > 2*TOL) return
+        var fract = this.pulse.beat * this.pulse.pulsesPerBeat - pulseNow
 
-                var source: any = audioContext.createBufferSource();
-                if ((beatNow % 4) === 0) {
-                    source.buffer = this.accent
-                //   console.log("A " + this.pulse.beat + " " + this.beatNext)
-                } else {
-                    source.buffer = this.ord
-                //    console.log("O " + this.pulse.beat + " " + this.beatNext)
-                }
+        if (Math.abs(fract) > 2 * TOL) return
 
-                if (source.buffer) {
-                    source.connect(audioContext.destination);
-                    source.start(this.pulse.time)
-                }
-        
-        
+        var source: any = audioContext.createBufferSource();
+
+        var index = (pulseNow % this.pulse.patternLength) | 0
+
+        var ii = this.pulse.accents[index]
+        source.buffer = this.samples[ii]
+
+
+        source.connect(this.gain);
+        source.start(this.pulse.time)
+
+        if (this.monitor) this.monitor.spareTime(this.pulse.time - audioContext.currentTime)
+
+
+    }
+
+    addPostItems(items: any, saver: any): void {
+        console.log(" DO NOTHING ")
     }
 }
