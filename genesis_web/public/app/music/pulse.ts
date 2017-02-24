@@ -2,6 +2,8 @@ import { Ticker } from "./ticker"
 import { Savable } from "./savable"
 import { SettingsService } from '../services/settings.service'
 import { Thing } from './thing'
+import { Ramper } from "./ramper"
+
 declare var audioContext: any
 
 /**
@@ -28,111 +30,135 @@ declare var audioContext: any
 
 export class Pulse extends Savable implements Thing {
 
- /**  current beat to be used by clients */
- 	timeSigs:any=["3/4","4/4","3:2/4","2:3/4","3:3/8","3:2:2/8","3:3:3:3/8"]
-    type:string="Pulse" 
+    /**  current beat to be used by clients */
+    timeSigs: any = ["3/4", "4/4", "3:2/4", "2:3/4", "3:3/8", "3:2:2/8", "3:3:3:3/8"]
+    type: string = "Pulse"
     beat: number
- 
- /**   time to use for scheduling event on current beat. Maybe ahead of real time to avoid underruns */
+
+    /**   time to use for scheduling event on current beat. Maybe ahead of real time to avoid underruns */
     time: number
- 
+
     running: boolean = false
     bpm: number
     tickLen: number
     private clients: Array<Ticker> = []
     state: Array<number>
     pauseTime: number
-    lookahead:number = 0.5
-    
-    timeSig:string                 //  See time sigs
+    lookahead: number = 0.5
 
-    pulsesPerBeat:number            //  1/4    is 1    1/8 is 2  
-    subDivs:Array<number>
-    patternLength:number           // total of subDivs
-    accents:Array<number>
-   
-    constructor(ticksPerBeat: number, bpm: number , public settings:SettingsService) {
+    timeSig: string                 //  See time sigs
+
+    pulsesPerBeat: number            //  1/4    is 1    1/8 is 2  
+    subDivs: Array<number>           // substructure pulse per submetric
+    patternLength: number            // total of pulses per bar
+    accents: Array<number>
+
+    rampers: Array<Ramper>=[]
+
+
+    constructor(ticksPerBeat: number, bpm: number, public settings: SettingsService) {
         super()
         this.bpm = bpm
         this.beat = 0
         this.tickLen = 1 / ticksPerBeat
         this.clients = []
         this.setTimeSig("4/4")
+
+        for (let i = 0; i < 3; i++) {
+            this.rampers.push(new Ramper(this))
+        }
+
+        this.setRampersFromSig()
     }
 
-    
-    setTimeSig(sig:string) {
-        this.timeSig=sig
-        var toks=sig.split('/')
-        var subs=toks[0].split(":")     
-        this.subDivs=[]
-        var sum=0
-        this.accents=[]
-        
-        subs.forEach((x:string) => {
-                this.accents.push(1)
-                var val:number = +x
-                this.subDivs.push(val)
-                sum += val
-                for (let i=1;i<val;i++) {
-                   this.accents.push(2)
-                }    
-        })       
-        
-        this.accents[0]=0
-        
-        this.patternLength=sum
-        
-        this.pulsesPerBeat = +toks[1]/4
+    setRampersFromSig() {
+
+
+        // Each bar
+        this.rampers[0].setTicks([0, this.patternLength / this.pulsesPerBeat])
+        // Each pulse
+        this.rampers[1].setTicks([0, 1 / this.pulsesPerBeat])
+        //    
+
+        var ticks = [0]
+        var sum = 0
+
+        this.subDivs.forEach((s: number) => {
+            sum += s
+            ticks.push(sum / this.pulsesPerBeat)
+        })
+        this.rampers[1].setTicks(ticks)
+    }
+
+    setTimeSig(sig: string) {
+        this.timeSig = sig
+        var toks = sig.split('/')
+        var subs = toks[0].split(":")
+        this.subDivs = []
+        var sum = 0
+        this.accents = []
+
+        subs.forEach((x: string) => {
+            this.accents.push(1)
+            var val: number = +x
+            this.subDivs.push(val)
+            sum += val
+            for (let i = 1; i < val; i++) {
+                this.accents.push(2)
+            }
+        })
+        this.accents[0] = 0
+        this.patternLength = sum
+        this.pulsesPerBeat = +toks[1] / 4
     }
 
 
-    tick():void {
+    tick(): void {
         if (this.running) {
-            var delta = this.getTime()- this.time
-            var nextBeat = this.beat + delta * this.bpm/60
+            var delta = this.getTime() - this.time
+            var nextBeat = this.beat + delta * this.bpm / 60
             while (this.beat + this.tickLen <= nextBeat) {
                 this.state = []
                 this.clients.forEach((client) => { client.tick() })
                 this.beat += this.tickLen
-                this.time += this.tickLen * 60 / this.bpm 
+                this.time += this.tickLen * 60 / this.bpm
             }
         }
     }
 
-   
-    addClient(client:Ticker):void {
+
+    addClient(client: Ticker): void {
         this.clients.push(client)
     }
-    
-    removeClient(client:Ticker):void {
 
-        let index=0
+    removeClient(client: Ticker): void {
 
-        for (let i=0;index<this.clients.length;index++) {
-            if (this.clients[index]===client) {    
-                 this.clients.splice(index, 1);
-                 return;
+        let index = 0
+
+        for (let i = 0; index < this.clients.length; index++) {
+            if (this.clients[index] === client) {
+                this.clients.splice(index, 1);
+                return;
             }
         }
 
     }
 
 
-/** get the current time with */
+    /** get the current time with */
 
-    getTime():number {
+    getTime(): number {
         return audioContext.currentTime + this.settings.playahead
     }
 
 
-/** return the time to schedule a beat */
+    /** return the time to schedule a beat */
 
-    getTimeOfBeat(beat:number):number {
-        var dBeat:number=beat-this.beat
-       
-        var t:number=this.time + dBeat*60/this.bpm
-       
+    getTimeOfBeat(beat: number): number {
+        var dBeat: number = beat - this.beat
+
+        var t: number = this.time + dBeat * 60 / this.bpm
+
         if (t < audioContext.currentTime) {
             console.log(" beat in the past " + t + " " + audioContext.currentTime)
             console.log(new Error().stack)
@@ -140,15 +166,15 @@ export class Pulse extends Savable implements Thing {
         return t
     }
 
-/** return beat that would be playing at this instant in time
-*/
+    /** return beat that would be playing at this instant in time
+    */
     getBeatNow(): any {
-        var dT =  this.getTime() - this.time
-        var beat = this.beat + dT * this.bpm/60
+        var dT = this.getTime() - this.time
+        var beat = this.beat + dT * this.bpm / 60
         return beat
     }
 
-    stop():void {
+    stop(): void {
         this.running = false
         this.clients.forEach((c) => {
             if (c.stop !== undefined) {
@@ -157,7 +183,7 @@ export class Pulse extends Savable implements Thing {
         })
     }
 
-    start():void {
+    start(): void {
         this.beat = 0
         this.time = this.getTime()
         this.running = true
@@ -169,7 +195,7 @@ export class Pulse extends Savable implements Thing {
         })
     }
 
-    pause():void {
+    pause(): void {
         if (this.running === true) {
             this.pauseTime = this.getTime()
             this.running = false
@@ -180,26 +206,26 @@ export class Pulse extends Savable implements Thing {
     }
 
 
-     saveDB(saver:any) : any {
-     
-         if (this.id !== null) return this.id 
-         
-         var postItems:any={}
+    saveDB(saver: any): any {
 
-         postItems.type ="Pulse"
-         postItems.bpm = this.bpm
-         postItems.sig = this.timeSig
-             
-         var id=saver.newIDItem('players',postItems)
-         return id       
+        if (this.id !== null) return this.id
+
+        var postItems: any = {}
+
+        postItems.type = "Pulse"
+        postItems.bpm = this.bpm
+        postItems.sig = this.timeSig
+
+        var id = saver.newIDItem('players', postItems)
+        return id
     }
 
-    loadSnap(pulseSnap:any) {
-    
-        this.bpm=pulseSnap.child("bpm").val()            
-        var sig=pulseSnap.child("sig").val() 
+    loadSnap(pulseSnap: any) {
+
+        this.bpm = pulseSnap.child("bpm").val()
+        var sig = pulseSnap.child("sig").val()
         if (sig !== null) this.setTimeSig(sig)
-                   
+
     }
 
 

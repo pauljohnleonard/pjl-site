@@ -9,11 +9,13 @@ import { Mapper, MappedPlayer } from './mapper';
 import { Instrument } from './instrument'
 import { Pulse } from './pulse'
 import { Player } from "./player"
-import { Ramper } from "./ramper"
+
 import { MidiSequencer } from './midisequencer'
 import { Savable } from './savable'
 import { Generator } from './generator'
 import { Thing } from './thing'
+
+"use strict"
 
 declare var firebase: any
 
@@ -24,7 +26,7 @@ export class Music extends Savable {
     things: Array<Thing> = []
     pulse: Pulse
     selectedPlayer: Player
-    ticksArr: Array<Array<number>>
+
     metro: Metro
     recording: boolean = false
     recordBuffer: Array<any> = []
@@ -157,9 +159,7 @@ export class Music extends Savable {
         this.pulse = new Pulse(ticksPerBeat, bpm, this.settings)
         this.things.push(this.pulse)
 
-        this.ticksArr = [[0, 4], [0, 2], [0, 1], [0, 1.5, 3, 4]]
-
-        this.ticksArr.forEach((ticks: Array<number>) => { new Ramper(ticks, this.pulse) })
+       
 
         //var majorSeed = [0, 2, 4, 5, 7, 9, 11]
         //var stack3 = [0, 2, 4, 6, 8, 10, 12]

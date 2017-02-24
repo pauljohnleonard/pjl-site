@@ -15,33 +15,35 @@ RamperDisplayer.prototype.tick = function () {
 
 
 const TOL = 0.00001
- 
-export class Ramper implements Ticker{
 
-    ticks:Array<number>
-    pulse:Pulse
-    tickPtr:number
-    tStart:number
-    val:number
-    type:string ="Ramper"
+export class Ramper implements Ticker {
 
-    constructor(ticks:Array<number>, pulse:Pulse) {
-        this.ticks = ticks
+    ticks: Array<number>
+    pulse: Pulse
+    tickPtr: number
+    tStart: number
+    val: number
+    type: string = "Ramper"
+
+    constructor(pulse: Pulse) {
         this.pulse = pulse
         this.pulse.addClient(this)
     }
 
+    setTicks(ticks: Array<number>): void {
+        this.ticks = ticks
+    }
 
     start() {
         this.tickPtr = 0
         this.tStart = 0
     }
 
-    stop() {}
+    stop() { }
 
     tick() {
 
-        var time:number = this.pulse.beat - this.tStart
+        var time: number = this.pulse.beat - this.tStart
 
         while (true) {
             var t1 = this.ticks[this.tickPtr]
@@ -63,7 +65,7 @@ export class Ramper implements Ticker{
         this.pulse.state.push(this.val)
     }
 
-     addPostItems(items: any, saver: any):void{
+    addPostItems(items: any, saver: any): void {
         console.log(" DO NOTHING ")
     }
 }

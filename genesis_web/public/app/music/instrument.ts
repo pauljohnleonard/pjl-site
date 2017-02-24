@@ -10,9 +10,12 @@ export class Instrument {
     gainValue:Number
     muted:boolean=false
     midiIn:boolean=false
-        
+    sustaining:boolean=false
+    sustainedKeys:Array<boolean> = new Array(128)
+
     constructor(name:string,private monitor:any) {
         this.setInst(name)
+        this.sustainedKeys.fill(false)
     }
 
 
@@ -55,14 +58,39 @@ export class Instrument {
             this.started[key] = this.inst.play(key, when, {
                 gain: vel
             })
+            this.sustainedKeys[key]=false
         } else {
             if (this.started[key]) {
-                this.started[key].stop(when)
-                delete this.started[key]
+                if (this.sustaining) {
+                    this.sustainedKeys[key]=true
+                } else {
+                    this.started[key].stop(when)
+                    this.sustainedKeys[key]=false
+                    delete this.started[key]
+                }
             }
         }
     }
     
+    sustain(yes:boolean,when:number) {
+
+        if (yes) {
+            this.sustaining=true
+            return
+        }
+
+        this.sustaining=false
+
+        this.sustainedKeys.forEach((v:boolean,key:number)=>{
+            if (v) {
+                this.started[key].stop(when)    
+                delete this.started[key]
+                this.sustainedKeys[key]=false
+            }
+        })
+
+
+    }
 
     playEvent(event:Array<number>,when:number) {
 
@@ -76,8 +104,16 @@ export class Instrument {
          //   console.log(etype)
             var key=event[1]
             this.playNote(key,0,when)
+        } else if (etype === 176 ) {
+            var cc=event[1] 
+            if (cc === 64 ) {
+                 if (event[2] > 0 ) this.sustain(true)
+                 else  this.sustain(false)
+            }
         }
-    }
+
+
+
 
     /*
     playMidi(msg:any) {
