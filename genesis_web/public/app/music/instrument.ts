@@ -48,7 +48,8 @@ export class Instrument {
     playNote(key:any , vel:number, when:number) {
         if (this.inst === undefined) return
 
-        if (this.monitor) this.monitor.spareTime(when-audioContext.currentTime)
+        
+        if (when > 0 && this.monitor) this.monitor.spareTime(when-audioContext.currentTime)
 
         if (vel > 0) {
             this.started[key] = this.inst.play(key, when, {

@@ -21,16 +21,13 @@ import { Music } from './music'
                 </md-menu>
               
                 <br><br>
-                <div *ngFor="let p of music.players">
-                   <player-detail [player]="p" (playerSelected)="slectedPlayer=p"> </player-detail>
+                <div *ngFor="let p of music.things">
+                   <player-detail *ngIf="p.viewMe" [player]="p" (playerSelected)="slectedPlayer=p"> </player-detail>
                 </div>
                </div>    
        </md-card>
     `
 })
-
-
-
 
 
 export class MusicComponent {
@@ -41,15 +38,14 @@ export class MusicComponent {
   
     }
 
-
     addPlayerType(t:string) {
 
         switch(t) {
           case "AI":
-            this.music.addAIPlayer("marimba",null)
+            this.music.addAIPlayer("marimba",null,null)
             break
           case "midi":
-            this.music.addMidiPlayer("marimba")
+            this.music.addMidiPlayer("marimba",null)
             break
         }
     }

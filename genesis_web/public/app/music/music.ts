@@ -13,6 +13,7 @@ import { Ramper } from "./ramper"
 import { MidiSequencer } from './midisequencer'
 import { Savable } from './savable'
 import { Generator } from './generator'
+import { Thing } from './thing'
 
 declare var firebase: any
 
@@ -20,7 +21,7 @@ export class Music extends Savable {
 
     playerType: string = "AI"
     playerTypes: Array<string> = ["AI", "midi"]
-    players: Array<Player> = []
+    things: Array<Thing> = []
     pulse: Pulse
     selectedPlayer: Player
     ticksArr: Array<Array<number>>
@@ -46,8 +47,10 @@ export class Music extends Savable {
                             self.recordBuffer.push([stamp, event.data])
                         }
 
-                        self.players.forEach((p) => {
-                            if (p.details.inst.recording) p.details.inst.playEvent(event.data, 0)
+                        self.things.forEach((p) => {
+                            if (p instanceof Player) {
+                                if (p.details.inst.recording) p.details.inst.playEvent(event.data, 0)
+                            }
                         })
 
                     }
@@ -63,17 +66,16 @@ export class Music extends Savable {
         if (this.isSaved()) return
         var itemIDs: Array<any> = []
 
+        let playerPos = 0
         var postItems: any = {
         }
 
-        var itemID: string = this.pulse.saveDB(saver)
 
-        postItems[itemID] = true
 
-        this.players.forEach((p: Player) => {
+        this.things.forEach((p: Player) => {
             var itemID: string = p.saveDB(saver)
             if (itemID !== null) {
-                postItems[itemID] = true
+                postItems[itemID] = playerPos++
             }
         })
 
@@ -87,43 +89,46 @@ export class Music extends Savable {
 
     }
 
-    loadPlayer(playerSnap: any) {
+    loadPlayer(playerSnap: any, pos: number) {
+
 
         switch (playerSnap.child("type").val()) {
 
             case "MidiSequencer":
                 var instName = playerSnap.child("inst").val()
-                var midiPlayer = this.addMidiPlayer(instName)
+                var midiPlayer = this.addMidiPlayer(instName, pos)
                 midiPlayer.setID(playerSnap.key)
                 var midiKey = playerSnap.child("midi").val()
-                var midiRef = firebase.database().ref("midi").child(midiKey);
-                midiRef.once("value").then((midi: any) => {
-                    var midiData: any = JSON.parse(midi.val())
-                    var seq: MidiSequencer = <MidiSequencer>midiPlayer.ticker
-                    seq.setBuffer(midiData, midiKey)
-                })
+                if (midiKey !== null) {
+                    var midiRef = firebase.database().ref("midi").child(midiKey);
+                    midiRef.once("value").then((midi: any) => {
+                        var midiData: any = JSON.parse(midi.val())
+                        var seq: MidiSequencer = <MidiSequencer>midiPlayer.ticker
+                        seq.setBuffer(midiData, midiKey)
+                    })
+                }
                 break
 
-        
-            case "AISequencer":
-                 var instName = playerSnap.child("inst").val()
-                 var aiKey=playerSnap.child("ai").val()
-                 var aiRef = firebase.database().ref("ai").child(aiKey);
-                 aiRef.once("value").then((aiSnap: any) => {
 
-                     var netKey=aiSnap.child("net").val()
-                     var netRef=firebase.database().ref("net").child(netKey)
-                     netRef.once("value").then((netSnap:any) => {
-                        var netInfo=netSnap.val()
-                        this.addAIPlayer(instName,netInfo)
-                     }
-                 
+            case "AISequencer":
+                var instName = playerSnap.child("inst").val()
+                var aiKey = playerSnap.child("ai").val()
+                var aiRef = firebase.database().ref("ai").child(aiKey);
+                aiRef.once("value").then((aiSnap: any) => {
+
+                    var netKey = aiSnap.child("net").val()
+                    var netRef = firebase.database().ref("net").child(netKey)
+                    netRef.once("value").then((netSnap: any) => {
+                        var netInfo = netSnap.val()
+                        this.addAIPlayer(instName, netInfo, pos)
+                    })
                 })
-                break;    
-                
+                break;
+
 
             case "Pulse":
                 this.pulse.loadSnap(playerSnap)
+
                 break
             default:
                 console.log("UNKOWN TYPE : " + playerSnap.child("type").val())
@@ -133,10 +138,11 @@ export class Music extends Savable {
 
     loadDB(songref: any) {
         songref.once("value").then((song: any) => {
-            song.forEach((playerKey: any) => {
-                var playerref = firebase.database().ref("players").child(playerKey.key);
+            song.forEach((player: any) => {
+
+                var playerref = firebase.database().ref("players").child(player.key);
                 playerref.once("value").then((playerSnap: any) => {
-                    this.loadPlayer(playerSnap)
+                    this.loadPlayer(playerSnap, player.val())
 
                 })
             })
@@ -149,6 +155,7 @@ export class Music extends Savable {
         let bpm: number = 120
 
         this.pulse = new Pulse(ticksPerBeat, bpm, this.settings)
+        this.things.push(this.pulse)
 
         this.ticksArr = [[0, 4], [0, 2], [0, 1], [0, 1.5, 3, 4]]
 
@@ -162,9 +169,10 @@ export class Music extends Savable {
     }
 
 
-    addMidiPlayer(name: string): Player {
+    addMidiPlayer(name: string, pos: number): Player {
         let player = new Player(this)
-        this.players.push(player)
+        if (pos === null) this.things.push(player)
+        else this.things[pos] = player
         var inst = new Instrument(name, this.monitor)
         player.details.inst = inst
         var midiPlayer = new MidiSequencer(player)
@@ -175,32 +183,34 @@ export class Music extends Savable {
 
 
 
-    addAIPlayer(instName: string, net:any): Player {
+    addAIPlayer(instName: string, net: any, pos: number): Player {
 
-        if (!net) net={}
+        if (!net) net = {}
 
-        if ( net.nOut === undefined ) net.nOut= 20
-        if ( net.nHidden === undefined ) net.nHidden=[20]
-        if ( net.nIn === undefined ) net.nIn = this.ticksArr.length
+        if (net.nOut === undefined) net.nOut = 20
+        if (net.nHidden === undefined) net.nHidden = [20]
+        if (net.nIn === undefined) net.nIn = this.ticksArr.length
 
         let player = new Player(this)
-        this.players.push(player)
+
+        if (pos === null) this.things.push(player)
+        else this.things[pos] = player
 
         let ai = new AI(this.dbService, this.netService)
 
         player.details.ai = ai
 
-        
+
         if (instName === undefined) instName = "marimba"
         player.details.name = instName
 
         var inst = new Instrument(instName, this.monitor)
         player.details.inst = inst
 
-        
+
         if (net.seed === undefined) {
-            net.seed=Math.random()
-        }    
+            net.seed = Math.random()
+        }
         var generator = new Generator(net.seed)
 
         ai.init(this.pulse, net)
@@ -223,11 +233,11 @@ export class Music extends Savable {
 
         this.pulse.removeClient(player)
         let index = 0
-        for (let i = 0; index < this.players.length; index++) {
-            if (this.players[index] === player) {
-                this.players.splice(index, 1);
+        for (let i = 0; index < this.things.length; index++) {
+            if (this.things[index] === player) {
+                this.things.splice(index, 1);
                 this.change()
-                if (this.players.length === 0) this.setID(0)
+                if (this.things.length === 0) this.setID(0)
                 return;
             }
         }
@@ -256,10 +266,12 @@ export class Music extends Savable {
     stop() {
         this.pulse.stop()
         if (this.recordBuffer.length > 0) {
-            this.players.forEach((p) => {
-                if (p.details.inst.recording && (p.ticker instanceof MidiSequencer)) {
-                    p.ticker.setBuffer(this.recordBuffer, null)
-                    p.change()
+            this.things.forEach((p) => {
+                if (p instanceof Player) {
+                    if (p.details.inst.recording && (p.ticker instanceof MidiSequencer)) {
+                        p.ticker.setBuffer(this.recordBuffer, null)
+                        p.change()
+                    }
                 }
             })
         }

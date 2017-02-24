@@ -16,6 +16,8 @@ export class Metro implements Ticker {
     currentIndex: number = 0
     samples: Array<any> = []
     gain: any
+    type:string ="Metro"
+
 
     constructor(public pulse: Pulse, private samplesService: SamplesService, public monitor: any) {
 

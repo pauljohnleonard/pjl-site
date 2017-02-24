@@ -23,6 +23,7 @@ export class Ramper implements Ticker{
     tickPtr:number
     tStart:number
     val:number
+    type:string ="Ramper"
 
     constructor(ticks:Array<number>, pulse:Pulse) {
         this.ticks = ticks

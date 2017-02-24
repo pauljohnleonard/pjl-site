@@ -13,7 +13,6 @@ export class AISquencer implements Ticker {
         playing:boolean    
         running:false
         type:string= "AISequencer"
-        ai:AI
 
     constructor(public ai:AI, public player:MappedPlayer,public pulse:Pulse) {
 

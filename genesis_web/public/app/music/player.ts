@@ -3,10 +3,10 @@ import { Ticker } from './ticker'
 import { Music } from './music'
 import { Savable } from './savable'
 import { MidiSequencer } from './midisequencer'
+import { Thing } from './thing'
 
 
-
-export class Player extends Savable implements Ticker{
+export class Player extends Savable implements Ticker ,Thing {
 
 
     static players: Array<Player> = []
@@ -15,9 +15,11 @@ export class Player extends Savable implements Ticker{
     tmpMuted: boolean = false
     muted: boolean = false
     ticker: Ticker = null
-
+    type:string
+    viewMe:boolean=true
+    
     details: any = {}
-    type:string=null
+ 
 
     constructor(public music: Music) {
         super()
@@ -106,4 +108,5 @@ export class Player extends Savable implements Ticker{
         console.log(" DO NOTHING ")
     }
 
+    
 }

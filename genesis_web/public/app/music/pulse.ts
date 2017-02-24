@@ -1,6 +1,7 @@
 import { Ticker } from "./ticker"
 import { Savable } from "./savable"
 import { SettingsService } from '../services/settings.service'
+import { Thing } from './thing'
 declare var audioContext: any
 
 /**
@@ -25,11 +26,11 @@ declare var audioContext: any
  *   
  */
 
-export class Pulse extends Savable {
+export class Pulse extends Savable implements Thing {
 
  /**  current beat to be used by clients */
  	timeSigs:any=["3/4","4/4","3:2/4","2:3/4","3:3/8","3:2:2/8","3:3:3:3/8"]
-
+    type:string="Pulse" 
     beat: number
  
  /**   time to use for scheduling event on current beat. Maybe ahead of real time to avoid underruns */

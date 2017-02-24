@@ -3,7 +3,7 @@ import { MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar } from '@angular/mate
 import { DBService } from './services/db.service'
 import { MusicAppComponent } from './music-app.component'
 import { SliderValComponent } from './slider-val.component'
-import { SaveDialog } from './save.dialog'
+
 import { LoadDialog } from './load.dialog'
 import { SettingsService } from './services/settings.service'
 
