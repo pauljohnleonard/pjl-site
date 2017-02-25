@@ -189,7 +189,7 @@ export class Music extends Savable {
 
         if (net.nOut === undefined) net.nOut = 20
         if (net.nHidden === undefined) net.nHidden = [20]
-        if (net.nIn === undefined) net.nIn = this.ticksArr.length
+        if (net.nIn === undefined) net.nIn = this.pulse.rampers.length
 
         let player = new Player(this)
 

@@ -62,32 +62,30 @@ export class Pulse extends Savable implements Thing {
         this.beat = 0
         this.tickLen = 1 / ticksPerBeat
         this.clients = []
+    
+        this.rampers=[]
+        for (let i=0;i<4;i++) this.rampers.push(new Ramper(this));
         this.setTimeSig("4/4")
-
-        for (let i = 0; i < 3; i++) {
-            this.rampers.push(new Ramper(this))
-        }
-
-        this.setRampersFromSig()
     }
 
     setRampersFromSig() {
 
-
         // Each bar
+
         this.rampers[0].setTicks([0, this.patternLength / this.pulsesPerBeat])
+        
         // Each pulse
-        this.rampers[1].setTicks([0, 1 / this.pulsesPerBeat])
-        //    
+        this.rampers[1].setTicks([0, 1 / this.pulsesPerBeat]))
 
         var ticks = [0]
         var sum = 0
-
         this.subDivs.forEach((s: number) => {
             sum += s
             ticks.push(sum / this.pulsesPerBeat)
         })
-        this.rampers[1].setTicks(ticks)
+        
+        this.rampers[2].setTicks(ticks)
+
     }
 
     setTimeSig(sig: string) {
@@ -110,6 +108,7 @@ export class Pulse extends Savable implements Thing {
         this.accents[0] = 0
         this.patternLength = sum
         this.pulsesPerBeat = +toks[1] / 4
+        this.setRampersFromSig()    
     }
 
 

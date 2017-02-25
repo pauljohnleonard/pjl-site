@@ -50,6 +50,11 @@ export class Net extends Savable implements Net {
 
     activate(x: Array<number>): Array<number> {
         this.activateCnt++
+        
+        if  (x.length !== this.nIn) {
+            throw new Error(" Net activation vector is wrong size")
+        }
+
         return this._activate(x)
     }
 
@@ -112,6 +117,8 @@ export class Perceptron extends Net {
 
     _activate(x: Array<number>) {
 
+      
+        
         this.inL.activate(x)
         this.hiddenL.forEach((l: any) => {
             l.activate()
