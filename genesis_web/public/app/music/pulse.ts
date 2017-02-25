@@ -75,7 +75,7 @@ export class Pulse extends Savable implements Thing {
         this.rampers[0].setTicks([0, this.patternLength / this.pulsesPerBeat])
         
         // Each pulse
-        this.rampers[1].setTicks([0, 1 / this.pulsesPerBeat]))
+        this.rampers[1].setTicks([0, 1 / this.pulsesPerBeat])
 
         var ticks = [0]
         var sum = 0
