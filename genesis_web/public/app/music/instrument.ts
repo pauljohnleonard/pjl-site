@@ -1,118 +1,118 @@
-declare var Soundfont : any
-declare var audioContext : any
+declare var Soundfont: any
+declare var audioContext: any
 
 export class Instrument {
 
     started = {}
     opts = {}
-    name:string
-    inst:any
-    gainValue:Number
-    muted:boolean=false
-    midiIn:boolean=false
-    sustaining:boolean=false
-    sustainedKeys:Array<boolean> = new Array(128)
+    name: string
+    inst: any
+    gainValue: Number
+    muted: boolean = false
+    midiIn: boolean = false
+    sustaining: boolean = false
+    sustainedKeys: Array<boolean> = new Array(128)
 
-    constructor(name:string,private monitor:any) {
+    constructor(name: string, private monitor: any) {
         this.setInst(name)
         this.sustainedKeys.fill(false)
     }
 
 
-    mute(yes:boolean) {
-        
+    mute(yes: boolean) {
+
         if (this.muted == yes) return;
-        this.muted = yes    
-        console.log(this.name+ " mute " + yes);
+        this.muted = yes
+  //      console.log(this.name + " mute " + yes);
         if (yes) {
-            this.gainValue=this.inst.out.gain.value
-            this.inst.out.gain.value=0
+            this.gainValue = this.inst.out.gain.value
+            this.inst.out.gain.value = 0
         } else {
-            this.inst.out.gain.value=this.gainValue 
+            this.inst.out.gain.value = this.gainValue
         }
-    
+
     }
 
-    setInst(name:string) {
+    setInst(name: string) {
         var self = this
         this.name = "loading . . . "
 
-        Soundfont.instrument(audioContext, name).then((inst:any) => {
+        Soundfont.instrument(audioContext, name).then((inst: any) => {
             this.inst = inst
             this.name = name
-            this.gainValue=inst.out.gain.value
-            console.log(" Loaded instrument " + name)
+            this.gainValue = inst.out.gain.value
+//            console.log(" Loaded instrument " + name)
             //inst.connect(audioContext.destination)
         })
     }
 
 
 
-    playNote(key:any , vel:number, when:number) {
+    playNote(key: any, vel: number, when: number) {
         if (this.inst === undefined) return
 
-        
-        if (when > 0 && this.monitor) this.monitor.spareTime(when-audioContext.currentTime)
+
+        if (when > 0 && this.monitor) this.monitor.spareTime(when - audioContext.currentTime)
 
         if (vel > 0) {
             this.started[key] = this.inst.play(key, when, {
                 gain: vel
             })
-            this.sustainedKeys[key]=false
+            this.sustainedKeys[key] = false
         } else {
             if (this.started[key]) {
                 if (this.sustaining) {
-                    this.sustainedKeys[key]=true
+                    this.sustainedKeys[key] = true
                 } else {
                     this.started[key].stop(when)
-                    this.sustainedKeys[key]=false
+                    this.sustainedKeys[key] = false
                     delete this.started[key]
                 }
             }
         }
     }
-    
-    sustain(yes:boolean,when:number) {
+
+    sustain(yes: boolean, when: number) {
 
         if (yes) {
-            this.sustaining=true
+            this.sustaining = true
             return
         }
 
-        this.sustaining=false
+        this.sustaining = false
 
-        this.sustainedKeys.forEach((v:boolean,key:number)=>{
+        this.sustainedKeys.forEach((v: boolean, key: number) => {
             if (v) {
-                this.started[key].stop(when)    
+                this.started[key].stop(when)
                 delete this.started[key]
-                this.sustainedKeys[key]=false
+                this.sustainedKeys[key] = false
             }
         })
 
 
     }
 
-    playEvent(event:Array<number>,when:number) {
+    playEvent(event: Array<number>, when: number) {
 
-        var etype = event[0] &0xF0
+        var etype = event[0] & 0xF0
         if (etype == 144) {
-          //  console.log(etype)
-            var key=event[1]
-            var vel=event[2]
-            this.playNote(key,vel/127,when)
+            //  console.log(etype)
+            var key = event[1]
+            var vel = event[2]
+            this.playNote(key, vel / 127, when)
         } else if (etype == 128) {
-         //   console.log(etype)
-            var key=event[1]
-            this.playNote(key,0,when)
-        } else if (etype === 176 ) {
-            var cc=event[1] 
-            if (cc === 64 ) {
-                 if (event[2] > 0 ) this.sustain(true)
-                 else  this.sustain(false)
+            //   console.log(etype)
+            var key = event[1]
+            this.playNote(key, 0, when)
+        } else if (etype === 176) {
+            var cc = event[1]
+            if (cc === 64) {
+                if (event[2] > 0) this.sustain(true, when)
+                else this.sustain(false, when)
             }
         }
 
-
+    }
 
 
     /*

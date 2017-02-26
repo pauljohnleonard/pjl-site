@@ -1,0 +1,36 @@
+<style>
+    svg text {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: default;
+    }
+    
+    svg text::selection {
+        background: none;
+    }
+    
+    .dragHandle:hover {
+        fill: yellow;
+        cursor: pointer;
+    }
+</style>
+
+
+<svg #svgelement [attr.viewBox]="getViewbox()" preserveAspectRatio="none" style="width:220px;height: 40px" (mousedown)="dragValue($event)"
+    (touchstart)="dragValue($event)">
+
+    <!--line [attr.x1]="padLeft" [attr.x2]="width-padRight" [attr.y1]="heightSlide" [attr.y2]="heightSlide" stroke="#000" stroke-width="1"></line-->
+
+    <rect [attr.x]="padLeft" [attr.width]="width-padRight-padLeft" [attr.y]="heightSlide" [attr.height]="height-heightSlide" stroke="#000" stroke-width="1" fill="#000"></rect>
+
+    <rect [attr.x]="valueToX()" [attr.y]="heightSlide" [attr.width]="20" [attr.height]="height-heightSlide" stroke="#000" stroke-width="1"
+        fill="#fff" class="dragHandle">
+    </rect>
+
+    <text [attr.x]="textX" [attr.y]="textY"> {{value}} {{unit}} </text>
+    <text [attr.x]="width/3" [attr.y]="textY"> {{title}} </text>
+
+
+</svg>

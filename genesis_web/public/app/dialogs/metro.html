@@ -1,0 +1,45 @@
+<style>
+    .items {
+        overflow: hidden;
+   
+    }
+    
+    .role {
+        float: left;
+        width: 15%;
+        padding: 10px;
+    }
+    .name {
+        float: left;
+        width: 15%;
+        padding: 10px;
+    }
+
+    .slider {
+        float: left;
+        width: 50%;
+        padding: 10px;
+    }
+
+</style>
+
+<md-list *ngIf="metro">
+    <md-list-item *ngFor="let samp of metro.samples">
+
+        <span class="role"> <strong> {{samp.role}} </strong></span>
+        <button class="name" md-button [md-menu-trigger-for]="list" style="float:middle;">
+                      {{samp.name}}
+                 </button>
+
+        <slider-val class="slider" [value]="samp.gain.gain.value"  (change)="samp.gain.gain.value=$event"></slider-val>
+
+        <md-menu #list="mdMenu">
+            <md-list dense style="width:100%">
+                <button md-list-item *ngFor="let t of metro.names" (click)="samp.setBuffer(t)">
+                        {{ t }}
+                       </button>
+
+            </md-list>
+        </md-menu>
+    </md-list-item>
+</md-list>

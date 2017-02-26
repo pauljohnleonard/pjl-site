@@ -17,7 +17,7 @@ export class Player extends Savable implements Ticker ,Thing {
     ticker: Ticker = null
     type:string
     viewMe:boolean=true
-    
+    expanded:boolean = true
     details: any = {}
  
 

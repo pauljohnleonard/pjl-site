@@ -3,21 +3,28 @@
         <md-nav-list>
             <a md-list-item (click)="sidebar.close();newMusic()">
                 <md-icon md-list-icon>fiber_new</md-icon>
-                <span md-line>new</span>
+                <span md-line>New song</span>
             </a>
 
             <a *ngIf="user !== null" md-list-item (click)="sidebar.close();save()">
                 <md-icon md-list-icon>cloud_download</md-icon>
-                <span md-line>save</span>
+                <span md-line>Save song</span>
             </a>
 
             <a *ngIf="user !== null" md-list-item (click)="sidebar.close();load()">
                 <md-icon md-list-icon>cloud_upload</md-icon>
-                <span md-line>load</span>
+                <span md-line>Load song</span>
+            </a>
+
+             <a  md-list-item (click)="sidebar.close();metroSetup()">
+                <img src="images/tempo.png" style="height:32px;float:left" alt="midiin" /> 
+                <span >Metro Settings</span>
             </a>
 
 
-            <slider-val [value]="settings.playahead" [minVal]="0.01" [maxVal]="2"  [fixed]="2" (change)="settings.setPlayahead($event)"> </slider-val>
+            <a>    
+            <slider-val [value]="settings.playahead" [minVal]="0.01" [maxVal]="2"  [fixed]="2"  [title]="'PlayAhead'"  (change)="settings.setPlayahead($event)"> </slider-val>
+            </a>
 
         </md-nav-list>
 

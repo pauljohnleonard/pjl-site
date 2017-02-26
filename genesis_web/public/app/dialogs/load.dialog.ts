@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
-import { MusicAppComponent } from './music-app.component'
-import { DBService } from './services/db.service'
+import { MusicAppComponent } from '../music-app.component'
+import { DBService } from '../services/db.service'
 
 
 

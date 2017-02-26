@@ -4,57 +4,9 @@ import { Subscriber } from 'rxjs/Subscriber';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
+    moduleId:"./app/",
     selector: "slider-val",
-    template: `
-    <style>
-        svg text {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            cursor: default;
-        }
-        svg text::selection {
-            background: none;
-        }
-        .dragHandle:hover {
-            fill: yellow;
-            cursor: pointer;
-        } 
-    </style>
- 
-
-    <svg #svgelement [attr.viewBox]="getViewbox()"  
-            preserveAspectRatio="none"
-            style="width:220px;height: 40px"          
-            >                   
- 
-        <line   
-            [attr.x1]="padLeft"
-            [attr.x2]="width-padRight" 
-            [attr.y1]="height/2"            
-            [attr.y2]="height/2" 
-            stroke="#000"
-            stroke-width="1"
-            ></line>
-
-        <circle [attr.cx]="valueToX()" [attr.cy]="height/2" 
-            r="12" 
-            stroke="#000"
-            stroke-width="1"
-            fill="#fff"
-            (mousedown)="dragValue($event)"
-            (touchstart)="dragValue($event)"
-            class="dragHandle"
-            >
-        </circle>
-
-        <text [attr.x]="textX" [attr.y]="textY" style="align:center"> {{value}}s </text>
-
-
-    </svg>
-
-    `
+    templateUrl: "slider-val.html"
 })
 
 export class SliderValComponent implements AfterViewInit, OnInit {
@@ -62,7 +14,9 @@ export class SliderValComponent implements AfterViewInit, OnInit {
     @Input() value: number=0.1
     @Input() minVal: number = 0
     @Input() maxVal: number = 1
-    @Input() fixed: number = 2
+    @Input() fixed : number = 2
+    @Input() title : string 
+    @Input() unit:string
     @Output() change = new EventEmitter();
     
     @ViewChild("svgelement") svgElm: any;
@@ -73,14 +27,17 @@ export class SliderValComponent implements AfterViewInit, OnInit {
 
     inited:boolean=false
 
-    padLeft: number = 70
+    padLeft: number = 15
     padRight: number = 15
     width: number;
     height: number;
     textX: number
     textY: number
     bounds: any
-    
+    heightSlide:number
+    heightLabel:number
+
+
     constructor() {
 
     }
@@ -89,15 +46,18 @@ export class SliderValComponent implements AfterViewInit, OnInit {
         this.bounds = this.svgElm.nativeElement.getBoundingClientRect();
         this.width = this.bounds.width;
         this.height = this.bounds.height;
+
+        
         this.textX = 20
         this.textY = this.height / 2
+        this.heightSlide = 2*this.height / 3
+        this.heightLabel = this.height / 3
     }
 
 
     ngOnInit() {
         this.recalculateBounds();
         console.log(this.value)
-        
     }
 
     ngAfterViewInit() {
@@ -150,7 +110,7 @@ export class SliderValComponent implements AfterViewInit, OnInit {
 
     public valueToX(): number {
      //   console.log(this.value)
-        var val = this.padLeft + (this.width - this.padLeft - this.padRight) * (this.value - this.minVal) / (this.maxVal - this.minVal)
+        var val = this.padLeft + (this.width - this.padLeft - this.padRight) * (this.value - this.minVal) / (this.maxVal - this.minVal)-10
         return val
     }
 

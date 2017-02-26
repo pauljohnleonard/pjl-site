@@ -4,7 +4,9 @@ import { DBService } from './services/db.service'
 import { MusicAppComponent } from './music-app.component'
 import { SliderValComponent } from './slider-val.component'
 
-import { LoadDialog } from './load.dialog'
+import { LoadDialog } from './dialogs/load.dialog'
+import { MetroDialog } from './dialogs/metro.dialog'
+
 import { SettingsService } from './services/settings.service'
 
 @Component({
@@ -52,16 +54,6 @@ export class AppComponent {
       })
     }
 
-    /*
-    let config = new MdDialogConfig();
-
-
-    let dialogRef:MdDialogRef<SaveDialog> = this.dialog.open(SaveDialog,config)
-     dialogRef.componentInstance.setUp(this.musicApp.music,this.dbService )
-     dialogRef.afterClosed().subscribe((result:any) => {
-      console.log(result)
-    });
-    */
   }
 
   load() {
@@ -73,6 +65,17 @@ export class AppComponent {
       console.log(result)
     });
 
+  }
+
+  metroSetup() {
+    let config = new MdDialogConfig();
+
+    let dialogRef: MdDialogRef<MetroDialog> = this.dialog.open(MetroDialog, config)
+    dialogRef.componentInstance.metro=this.musicApp.music.metro
+    
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(result)
+    });
   }
 
   clean() {

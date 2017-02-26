@@ -18,7 +18,8 @@ import { SettingsService } from './services/settings.service';
 import { NetService } from './services/net.service';
 import { SamplesService } from './services/samples.service';
 
-import { LoadDialog }  from './load.dialog'
+import { LoadDialog }  from './dialogs/load.dialog'
+import { MetroDialog }  from './dialogs/metro.dialog'
 import { MetroSlideComponent } from './music/metro-slide.component';
 import { MonitorComponent } from './music/monitor.component'
 import { SliderValComponent } from './slider-val.component'
@@ -33,11 +34,11 @@ import { LocalStorageModule } from 'angular-2-local-storage';
         }) 
   ],
   declarations: [ AppComponent,AIDetailComponent,InstrumentDetailComponent,PlayerDetailComponent,
-        MusicComponent,MusicAppComponent,LoadDialog,MetroSlideComponent,MonitorComponent,SliderValComponent],
+        MusicComponent,MusicAppComponent,LoadDialog,MetroDialog,MetroSlideComponent,MonitorComponent,SliderValComponent],
   providers: [{ provide: DBService, useClass: FirebaseDBService },
          SFService,SamplesService,NetService,SettingsService],
   bootstrap:    [ AppComponent ],
-  entryComponents: [LoadDialog]
+  entryComponents: [LoadDialog,MetroDialog]
 })
 
 
