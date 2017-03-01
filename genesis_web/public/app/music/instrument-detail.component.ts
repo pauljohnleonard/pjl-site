@@ -1,43 +1,56 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit,ViewChild } from '@angular/core';
 import { SFService } from '../services/sf.service'
 import { Instrument } from './instrument'
+import { FormControl } from '@angular/forms';
+import { MdAutocomplete,MdAutocompleteTrigger } from '@angular/material'
+
+//import 'rxjs/add/operator/startWith';
 
 @Component({
-    selector: "instrument-detail",
-  
-    template: 
-    `
-      <div *ngIf="inst">    
-                 <button md-button [md-menu-trigger-for]="list" style="float:middle;" >
-                      {{inst.name}}
-                 </button>
-
-                
-                 <md-menu   #list="mdMenu" >                    
-                    <md-list dense style="width:100%">
-                      <button md-list-item *ngFor="let t of sfService.names" [value]="instname" (click)="setInst(t)">
-                          {{ t }}
-                       </button>
-                    </md-list>
-                </md-menu>
-      </div>  
-    `
-
-
+  moduleId: "app/music/",
+  selector: "instrument-detail",
+  templateUrl: "instrument-detail.html"
 
 })
 
 
 export class InstrumentDetailComponent {
-  @Input() inst : Instrument;
+  @Input() inst: Instrument;
+  @ViewChild(MdAutocompleteTrigger) auto:MdAutocomplete 
 
+  nameCtrl: FormControl;
+  name:string 
+  filteredNames: any;
+  displayName:string
+  val:string
 
-  constructor(private sfService:SFService) {
-   console.log("Hello")
+  constructor(private sfService: SFService) {
+    this.nameCtrl = new FormControl();
+    this.filteredNames = this.nameCtrl.valueChanges
+      .startWith(null)
+      .map(name => this.filterNames(name));
+      
+    console.log(name)
+    this.nameCtrl.valueChanges.subscribe((val)=>{
+
+      console.log(val)
+     
+      if ( this.sfService.names.indexOf(val) >= 0 ){
+       this.inst.setInst(val)
+      }
+    })
   }
 
-  setInst(name:string) {
-    this.inst.setInst(name) 
+
+  ngOnInit() {
+    this.nameCtrl.setValue(this.inst.name)
   }
+
+  filterNames(val: string) {
+    return val ? this.sfService.names.filter((s) => new RegExp(val, 'gi').test(s)) : this.sfService.names;
+  }
+
 
 }
+
+

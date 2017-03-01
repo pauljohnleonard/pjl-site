@@ -171,7 +171,7 @@ export class Music extends Savable {
 
     addMidiPlayer(name: string, pos: number): Player {
         let player = new Player(this)
-        if (pos === null) this.things.push(player)
+        if (pos === null || pos === true ) this.things.push(player)
         else this.things[pos] = player
         var inst = new Instrument(name, this.monitor)
         player.details.inst = inst

@@ -14,7 +14,6 @@ export class SFService {
     
     constructor(private http: Http) {
         this.getJSON()
-
     }
 
     public getNames() :Array<string> {
@@ -23,17 +22,13 @@ export class SFService {
 
     public getJSON() {
 
-
         this.http.get('./sfnames.json')
             .map(res => res.json())
             .subscribe(
             data => this.names = data,
             err => console.log(err),
-            () => console.log('Completed'));
-    
+            () => console.log('LOad names Completed'));
         
     }
-
-
 
 }

@@ -1,3 +1,4 @@
+
 declare var Soundfont: any
 declare var audioContext: any
 
@@ -5,17 +6,18 @@ export class Instrument {
 
     started = {}
     opts = {}
-    name: string
+
     inst: any
     gainValue: Number
     muted: boolean = false
     midiIn: boolean = false
     sustaining: boolean = false
     sustainedKeys: Array<boolean> = new Array(128)
+    loading: boolean
 
     constructor(name: string, private monitor: any) {
         this.setInst(name)
-        this.sustainedKeys.fill(false)
+        this.sustainedKeys.fill(false)    
     }
 
 
@@ -23,7 +25,7 @@ export class Instrument {
 
         if (this.muted == yes) return;
         this.muted = yes
-  //      console.log(this.name + " mute " + yes);
+        //      console.log(this.name + " mute " + yes);
         if (yes) {
             this.gainValue = this.inst.out.gain.value
             this.inst.out.gain.value = 0
@@ -35,17 +37,15 @@ export class Instrument {
 
     setInst(name: string) {
         var self = this
-        this.name = "loading . . . "
-
+        this.loading = true
+        this.name = name
+        // this.obs.next("loading . . . ")
         Soundfont.instrument(audioContext, name).then((inst: any) => {
             this.inst = inst
-            this.name = name
+            this.loading=false    
             this.gainValue = inst.out.gain.value
-//            console.log(" Loaded instrument " + name)
-            //inst.connect(audioContext.destination)
-        })
+          })
     }
-
 
 
     playNote(key: any, vel: number, when: number) {

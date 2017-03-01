@@ -6,9 +6,9 @@ import { Pulse } from './pulse'
 import { Savable } from './savable'
 
 import { Generator } from './generator'
+import { Scenable } from './scenable'
 
-
-export class AI extends  Savable {
+export class AI  extends  Savable implements Scenable {
 
 
     out:Array<number>
@@ -17,7 +17,10 @@ export class AI extends  Savable {
     nIn:number
     nOut:number
     net:Net
+    nets:Array<Net>=[]
     pulse:Pulse
+    snapID:number=null
+
 
     constructor(private dbService:DBService,private netService:NetService){
         super()
@@ -27,11 +30,32 @@ export class AI extends  Savable {
     start() {}
     stop() {}
 
-    save() {
+    /* save() {
         var w = this.net.weights
         var data = JSON.stringify(w)
         this.saved = true
     }
+    */
+
+    snap():number {
+        this.snapID=this.nets.length
+        this.nets.push(this.net)
+        
+        return this.nets.length-1
+    }
+
+    select(i:number) {
+        if (this.nets.length === 0 ) return
+        i=(i+this.nets.length)%this.nets.length
+        this.net=this.nets[i]
+        this.snapID=i
+    }
+
+    snapID2Label(i:number):string {
+        if (i === null ) return '?'
+        var chr = String.fromCharCode(65 + i);
+        return chr
+    } 
 
     //  ai;
     init(pulse:Pulse, net:any) {
@@ -46,7 +70,7 @@ export class AI extends  Savable {
 
     implant(net:any) {
 	 
-        delete this.net
+        
         var proto:any
         if (net.type === undefined) {
             proto=this.netService.types["Elman"].prototype
@@ -72,6 +96,7 @@ export class AI extends  Savable {
 
         this.out.fill(0.5)
         this.activateCnt = 0
+        this.snapID=null
     }
 
     toHTML() {

@@ -8,7 +8,7 @@
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
-        -webkit-flex-flow: row wrap;
+        -webkit-flex-flow: row;
     }
     
    
@@ -38,21 +38,21 @@
         width: 60px;
         font-weight: bold;
         text-align: center;
-        flex-grow:2;
+        flex-grow:3;
     }
 
    
 </style>
 
 
-<md-card style="background:#F0F0FF">
-    <md-card-content>
+<md-card #card style="background-color:#fff8ff;" >   
+    <md-card-content style="background-color:#fff0ff;">
         <div class="flex-container">
             <button class="flex-item-left" md-button  (click)="removeMe()"> <md-icon>close</md-icon></button>
             <button *ngIf="!player.expanded" class="flex-item-left" md-button  (click)="player.expanded=true"> <md-icon > expand_more</md-icon></button>
             <button *ngIf="player.expanded" class="flex-item-left" md-button  (click)="player.expanded=false"> <md-icon > expand_less</md-icon></button>
             <instrument-detail class="flex-item-inst" [inst]="player.details.inst"> </instrument-detail>
-            <button class="flex-item-tran" *ngIf="player.details.inst.recording" md-button (click)="toggleRecord()" style="color:#000000;background-color:DeepPink"><div>R</div></button>
+            <button class="flex-item-tran" *ngIf="player.details.inst.recording" md-button (click)="toggleRecord()" style=" color:#000000;background-color:DeepPink"><div>R</div></button>
             <button class="flex-item-tran" *ngIf="!player.details.inst.recording" md-button (click)="toggleRecord()" style="">R</button>
             <button class="flex-item-tran" *ngIf="player.soloed" md-button (click)="solo()" style="color:#000000;background-color:orange">S</button>
             <button class="flex-item-tran" *ngIf="!player.soloed" md-button (click)="solo()" style="">S</button>

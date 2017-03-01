@@ -1,0 +1,20 @@
+<div *ngIf="inst">
+    <button md-button [md-menu-trigger-for]="list" style="float:middle;">
+                      {{inst.name}}
+                 </button>
+
+
+
+
+    <-md-menu #list="mdMenu" [overlapTrigger]="false">
+        <md-list dense style="width:100%">
+            <div style="height:300px;overflow:scroll;">
+                <button md-list-item *ngFor="let t of sfService.names" [value]="instname" (click)="setInst(t)">
+                          {{ t }}
+                         </button>
+            </div>
+        </md-list>
+    </md-menu>
+
+
+</div>

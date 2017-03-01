@@ -1,7 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { HttpModule,JsonpModule }      from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+
 import { MaterialModule } from '@angular/material';
 
 import { AppComponent }   from './app.component';
@@ -24,10 +24,11 @@ import { MetroSlideComponent } from './music/metro-slide.component';
 import { MonitorComponent } from './music/monitor.component'
 import { SliderValComponent } from './slider-val.component'
 import { LocalStorageModule } from 'angular-2-local-storage';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
-  imports: [ BrowserModule,HttpModule,JsonpModule,FormsModule,
-    MaterialModule.forRoot() ,
+  imports: [ BrowserModule,HttpModule,JsonpModule,FormsModule,ReactiveFormsModule,
+    MaterialModule,
       LocalStorageModule.withConfig({
             prefix: 'my-app',
             storageType: 'localStorage'
