@@ -15,7 +15,7 @@ export class Instrument {
     sustainedKeys: Array<boolean> = new Array(128)
     loading: boolean
 
-    constructor(name: string, private monitor: any) {
+    constructor(public name: string, private monitor: any) {
         this.setInst(name)
         this.sustainedKeys.fill(false)    
     }

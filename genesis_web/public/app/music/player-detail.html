@@ -51,9 +51,9 @@
             <button class="flex-item-left" md-button  (click)="removeMe()"> <md-icon>close</md-icon></button>
             <button *ngIf="!player.expanded" class="flex-item-left" md-button  (click)="player.expanded=true"> <md-icon > expand_more</md-icon></button>
             <button *ngIf="player.expanded" class="flex-item-left" md-button  (click)="player.expanded=false"> <md-icon > expand_less</md-icon></button>
-            <instrument-detail class="flex-item-inst" [inst]="player.details.inst"> </instrument-detail>
-            <button class="flex-item-tran" *ngIf="player.details.inst.recording" md-button (click)="toggleRecord()" style=" color:#000000;background-color:DeepPink"><div>R</div></button>
-            <button class="flex-item-tran" *ngIf="!player.details.inst.recording" md-button (click)="toggleRecord()" style="">R</button>
+            <instrument-detail class="flex-item-inst" [inst]="player.inst"> </instrument-detail>
+            <button class="flex-item-tran" *ngIf="player.recording" md-button (click)="toggleRecord()" style=" color:#000000;background-color:DeepPink"><div>R</div></button>
+            <button class="flex-item-tran" *ngIf="!player.recording" md-button (click)="toggleRecord()" style="">R</button>
             <button class="flex-item-tran" *ngIf="player.soloed" md-button (click)="solo()" style="color:#000000;background-color:orange">S</button>
             <button class="flex-item-tran" *ngIf="!player.soloed" md-button (click)="solo()" style="">S</button>
             <button class="flex-item-tran" *ngIf="player.muted" md-button (click)="mute()" style="color:#FFFFFF;background-color:indigo">M</button>
@@ -61,8 +61,8 @@
         </div>
 
 
-        <div *ngIf="player.details.ai && player.expanded">
-            <ai-detail [ai]="player.details.ai"> </ai-detail>
+        <div *ngIf="player.ai && player.expanded">
+            <ai-detail [ai]="player.ai"> </ai-detail>
         </div>
 
     </md-card-content>

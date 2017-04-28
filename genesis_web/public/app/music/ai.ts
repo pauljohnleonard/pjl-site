@@ -8,8 +8,10 @@ import { Savable } from './savable'
 import { Generator } from './generator'
 import { Scenable } from './scenable'
 
+/**
+ * 
+ */
 export class AI  extends  Savable implements Scenable {
-
 
     out:Array<number>
     saved:boolean
@@ -21,13 +23,18 @@ export class AI  extends  Savable implements Scenable {
     pulse:Pulse
     snapID:number=null
 
-
+    /**
+     * 
+     * @param dbService 
+     * @param netService 
+     */
     constructor(private dbService:DBService,private netService:NetService){
         super()
     }
 
   
     start() {}
+
     stop() {}
 
     /* save() {
@@ -83,12 +90,12 @@ export class AI  extends  Savable implements Scenable {
         var generator = new Generator(net.seed)
 
         if (net.nIn !== this.nIn) {
-            if (net.nIn) console.log(" input mismatch dela with it PAUL ")
+            if (net.nIn) console.log(" input mismatch deal with it PAUL ")
             net.nIn=this.nIn
         }
      
         if (net.nOut !== this.nOut) {
-            if (net.nOut) console.log(" output mismatch dela with it PAUL ")
+            if (net.nOut) console.log(" output mismatch deal with it PAUL ")
             net.nOut=this.nOut
         }
         

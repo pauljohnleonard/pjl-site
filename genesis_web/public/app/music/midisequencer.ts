@@ -16,7 +16,6 @@ export class MidiSequencer implements Ticker {
     type:string="MidiSequencer"
     
     constructor(player: Player) {
-
         this.player = player
         this.pulse = player.music.pulse
     }
@@ -39,7 +38,7 @@ export class MidiSequencer implements Ticker {
 
                 if (midiBeat > beatNow) break
                 let ev = this.midiBuff.buff[this.buffPtr][1]
-                this.player.details.inst.playEvent(ev, t)
+                this.player.inst.playEvent(ev, t)
                 this.buffPtr++
             }
         }

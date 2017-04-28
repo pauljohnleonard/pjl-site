@@ -25,7 +25,7 @@ export class Music extends Savable {
     playerTypes: Array<string> = ["AI", "midi"]
     things: Array<Thing> = []
     pulse: Pulse
-    selectedPlayer: Player
+
 
     metro: Metro
     recording: boolean = false
@@ -51,7 +51,7 @@ export class Music extends Savable {
 
                         self.things.forEach((p) => {
                             if (p instanceof Player) {
-                                if (p.details.inst.recording) p.details.inst.playEvent(event.data, 0)
+                                if (p.recording) p.inst.playEvent(event.data, 0)
                             }
                         })
 
@@ -169,12 +169,12 @@ export class Music extends Savable {
     }
 
 
-    addMidiPlayer(name: string, pos: number): Player {
+    addMidiPlayer(name: string, pos: any): Player {
         let player = new Player(this)
         if (pos === null || pos === true ) this.things.push(player)
         else this.things[pos] = player
         var inst = new Instrument(name, this.monitor)
-        player.details.inst = inst
+        player.inst = inst
         var midiPlayer = new MidiSequencer(player)
         player.ticker = midiPlayer
         this.change()
@@ -198,14 +198,14 @@ export class Music extends Savable {
 
         let ai = new AI(this.dbService, this.netService)
 
-        player.details.ai = ai
+        player.ai = ai
 
 
         if (instName === undefined) instName = "marimba"
-        player.details.name = instName
+        player.name = instName
 
         var inst = new Instrument(instName, this.monitor)
-        player.details.inst = inst
+        player.inst = inst
 
 
         if (net.seed === undefined) {
@@ -218,7 +218,7 @@ export class Music extends Savable {
         var base: Array<number> = [0, 3, 5, 7, 10]
 
         var mapper = new Mapper(40, base)
-        player.details.mapper = mapper
+        player.mapper = mapper
 
         var mapPlayer = new MappedPlayer(inst, mapper)
 
@@ -268,7 +268,7 @@ export class Music extends Savable {
         if (this.recordBuffer.length > 0) {
             this.things.forEach((p) => {
                 if (p instanceof Player) {
-                    if (p.details.inst.recording && (p.ticker instanceof MidiSequencer)) {
+                    if (p.recording && (p.ticker instanceof MidiSequencer)) {
                         p.ticker.setBuffer(this.recordBuffer, null)
                         p.change()
                     }

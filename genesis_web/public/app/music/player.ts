@@ -4,7 +4,8 @@ import { Music } from './music'
 import { Savable } from './savable'
 import { MidiSequencer } from './midisequencer'
 import { Thing } from './thing'
-
+import { AI } from './ai'
+import { Mapper } from './mapper'
 
 export class Player extends Savable implements Ticker ,Thing {
 
@@ -18,8 +19,11 @@ export class Player extends Savable implements Ticker ,Thing {
     type:string
     viewMe:boolean=true
     expanded:boolean = true
-    details: any = {}
- 
+    inst:Instrument
+    ai:AI=null
+    name:string
+    recording:boolean=false
+    mapper:Mapper=null
 
     constructor(public music: Music) {
         super()
@@ -42,7 +46,7 @@ export class Player extends Savable implements Ticker ,Thing {
 
     mute() {
         this.muted = !this.muted
-        this.details.inst.mute(this.muted)
+        this.inst.mute(this.muted)
     }
 
     solo() {
@@ -60,16 +64,16 @@ export class Player extends Savable implements Ticker ,Thing {
         if (soloedCnt == 0) {
             Player.players.forEach((p) => {
                 p.tmpMuted = false
-                p.details.inst.mute(this.muted)
+                p.inst.mute(this.muted)
             })
         } else {
             Player.players.forEach((p) => {
                 if (!p.soloed) {
                     p.tmpMuted = true
-                    p.details.inst.mute(true)
+                    p.inst.mute(true)
                 } else {
                     p.tmpMuted = false
-                    p.details.inst.mute(false)
+                    p.inst.mute(false)
                 }
             })
         }
@@ -93,10 +97,10 @@ export class Player extends Savable implements Ticker ,Thing {
             this.ticker.addPostItems(postItems,saver)
         }
 
-        postItems.inst = this.details.inst.name
+        postItems.inst = this.inst.name
 
-        if (this.details.ai ) {
-            var id=this.details.ai.saveDB(saver)
+        if (this.ai ) {
+            var id=this.ai.saveDB(saver)
             postItems.ai=id
         }
 

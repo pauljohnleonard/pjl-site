@@ -28,7 +28,7 @@ export class PlayerDetailComponent {
   }
 
   getAI(): AI {
-    return this.player.details.ai
+    return this.player.ai
 
   }
 
@@ -44,8 +44,8 @@ export class PlayerDetailComponent {
   
   toggleRecord() {
 
-    var inst = this.player.details.inst
-    inst.recording = !inst.recording;
+    var player = this.player
+    player.recording = !player.recording;
     
   }
 

@@ -21,8 +21,11 @@ export class Mapper {
 
 export class MappedPlayer {
     inst: Instrument
+    
     mapper: Mapper
+    
     state: Array<number>
+
     constructor(inst: Instrument, mapper: Mapper) {
         this.inst = inst
         this.mapper = mapper
