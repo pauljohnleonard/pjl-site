@@ -15,10 +15,9 @@ Go into the genesis_web/public folder:
 
 For development remember to run:
 
-```
-npm install
-npm run jspminstall
-```
+* npm update      !   get the latest versions !!!
+* npm install
+* npm run jspminstall
 
 for installing dependencies.
 

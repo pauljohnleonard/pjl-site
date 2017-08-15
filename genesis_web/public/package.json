@@ -1,54 +1,52 @@
 {
+  "name": "x",
+  "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
-    "jspminstall": "jspm install",
-    "devserver": "node devserver.js",
-    "dist": "ngc -p tsconfig.json && rollup -c rollup-config.js"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
-  "jspm": {
-    "dependencies": {
-      "@angular/common": "npm:@angular/common@^2.4.7",
-      "@angular/core": "npm:@angular/core@^2.4.7",
-      "@angular/forms": "npm:@angular/forms@^2.4.7",
-      "@angular/http": "npm:@angular/http@^2.4.7",
-      "@angular/material": "npm:@angular/material@^2.0.0-beta.2",
-      "@angular/platform-browser": "npm:@angular/platform-browser@^2.4.7",
-      "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.4.7",
-      "angular-2-local-storage": "npm:angular-2-local-storage@^1.0.1",
-      "reflect-metadata": "npm:reflect-metadata@^0.1.9",
-      "rxjs": "npm:rxjs@^5.1.1",
-      "zone.js": "npm:zone.js@^0.7.7"
-    },
-    "devDependencies": {
-      "typescript": "npm:typescript@^2.1.6"
-    }
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^4.3.4",
+    "@angular/cdk": "^2.0.0-beta.8",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.0.0",
+    "@angular/http": "^4.0.0",
+    "@angular/material": "^2.0.0-beta.8",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/router": "^4.0.0",
+    "angular-2-local-storage": "^1.0.1",
+    "core-js": "^2.4.1",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "",
-    "@types/hammerjs": "^2.0.34",
-    "compression": "^1.6.2",
-    "express": "^4.14.0",
-    "jspm": "^0.16.52",
-    "reflect-metadata": "^0.1.8",
-    "rollup": "^0.36.4",
-    "rollup-plugin-commonjs": "^5.0.5",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-uglify": "^1.0.1",
-    "typescript": ""
-  },
-  "dependencies": {
-    "@angular/common": "",
-    "@angular/compiler": "",
-    "@angular/core": "",
-    "@angular/forms": "",
-    "@angular/http": "",
-    "@angular/material": "^2.0.0-beta.2",
-    "@angular/platform-browser": "",
-    "@angular/platform-browser-dynamic": "",
-    "@angular/router": "",
-    "@types/hammerjs": "",
-    "angular-2-local-storage": "",
-    "hammerjs": "^2.0.8",
-    "rxjs": "",
-    "zone.js": ""
+    "@angular/cli": "1.2.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/language-service": "^4.0.0",
+    "@types/jasmine": "~2.5.53",
+    "@types/jasminewd2": "~2.0.2",
+    "@types/node": "~6.0.60",
+    "codelyzer": "~3.0.1",
+    "jasmine-core": "~2.6.2",
+    "jasmine-spec-reporter": "~4.1.0",
+    "karma": "~1.7.0",
+    "karma-chrome-launcher": "~2.1.1",
+    "karma-cli": "~1.0.1",
+    "karma-coverage-istanbul-reporter": "^1.2.1",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "~5.1.2",
+    "ts-node": "~3.0.4",
+    "tslint": "~5.3.2",
+    "typescript": "~2.3.3"
   }
 }

@@ -5,3 +5,4 @@
 **/bower_components/**
 **/appjs/**
 **/aot/**
+.DS_STORE

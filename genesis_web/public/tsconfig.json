@@ -1,25 +1,20 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "appjs",
-    "target": "es5",
-    "module": "es2015",
-    "moduleResolution": "node",
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
     "sourceMap": true,
-    "emitDecoratorMetadata": false,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es2015", "dom"],
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true
-  },
-
-  "files": [
-    "app/app.module.ts",    
-    "app/main.ts",
-    "app/main_aot.ts"
-  ],
-
-  "angularCompilerOptions": {
-   "genDir": "aot",
-   "skipMetadataEmit" : true
- }
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2016",
+      "dom"
+    ]
+  }
 }
