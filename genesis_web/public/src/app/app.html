@@ -16,6 +16,11 @@
                 <span md-line>Load song</span>
             </a>
 
+            <a md-list-item>
+               <p> import midi </p>  <input type="file" #midiload />
+            </a>
+
+
              <a  md-list-item (click)="sidebar.close();metroSetup()">
                 <img src="assets/images/tempo.png" style="height:32px;float:left" alt="midiin" /> 
                 <span >Metro Settings</span>
@@ -58,5 +63,5 @@
 
     </md-toolbar>
 
-    <musicApp></musicApp>
+    <app-music></app-music>
 </md-sidenav-container>

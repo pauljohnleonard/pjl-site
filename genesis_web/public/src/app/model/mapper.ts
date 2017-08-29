@@ -1,5 +1,5 @@
-import { Player } from "./player"
-import { Instrument } from "./instrument"
+import { Player } from './player'
+import { Instrument } from './instrument'
 
 
 export class Mapper {
@@ -21,9 +21,9 @@ export class Mapper {
 
 export class MappedPlayer {
     inst: Instrument
-    
+
     mapper: Mapper
-    
+
     state: Array<number>
 
     constructor(inst: Instrument, mapper: Mapper) {
@@ -32,23 +32,23 @@ export class MappedPlayer {
         this.state = []
     }
 
-    playNote(i: number, vel: number, when:number):void {
+    playNote(i: number, vel: number, when: number): void {
         let key = this.mapper.map(i)
         if (this.state[i] !== undefined) {
-            let keyLast = this.state[i]
+            const keyLast = this.state[i]
             if (vel === 0) {
-                this.inst.playNote(keyLast, 0,when)
+                this.inst.playNote(keyLast, 0, when)
                 delete this.state[i]
-                this.state[i] === undefined
+                this.state[i] = undefined
             } else if (key === keyLast) {
-                this.inst.playNote(keyLast, vel,when)
+                this.inst.playNote(keyLast, vel, when)
             } else {
-                this.inst.playNote(keyLast, 0,when)
-                this.inst.playNote(key, vel,when)
+                this.inst.playNote(keyLast, 0, when)
+                this.inst.playNote(key, vel, when)
                 this.state[i] = key
             }
         } else {
-            this.inst.playNote(key, vel,when)
+            this.inst.playNote(key, vel, when)
             this.state[i] = key
         }
     }

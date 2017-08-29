@@ -15,7 +15,7 @@ export class SamplesService {
 
     }
 
-    load(url: string):any {
+    load(url: string): any {
         // Load asynchronously
 
         var p = new Promise((resolve, reject) => {
@@ -24,9 +24,9 @@ export class SamplesService {
 
             request.responseType = "arraybuffer";
 
-           
+
             request.onload = function () {
-                audioContext.decodeAudioData(request.response, (buffer: any) => { 
+                audioContext.decodeAudioData(request.response, (buffer: any) => {
                     resolve(buffer)
                 })
             }

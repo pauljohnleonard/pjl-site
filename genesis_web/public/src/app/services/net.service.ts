@@ -1,18 +1,18 @@
 
 import { Injectable } from '@angular/core';
-import { Perceptron,Elman,Jordan } from '../music/net'
+import { Perceptron, Elman, Jordan } from '../model/net'
 
 
 @Injectable()
 export class NetService {
 
-    types:Array<any>=[]
-    names:Array<string>=[]
-    
+    types: Array<any> = []
+    names: Array<string> = []
+
     constructor() {
-        this.types["Perceptron"]=Perceptron
-        this.types["Elman"]=Elman
-        this.types["Jordan"]=Jordan
+        this.types['Perceptron'] = Perceptron
+        this.types['Elman'] = Elman
+        this.types['Jordan'] = Jordan
 
         for (let n in this.types) {
             this.names.push(n)
@@ -20,24 +20,24 @@ export class NetService {
     }
 
 
-/*
+    /*
+    
+    type
+    nIn
+    nOut
+    nHidden[]
+    
+    
+    
+    */
+    createFromConfig(config: any) {
 
-type
-nIn
-nOut
-nHidden[]
+        switch (config.type) {
 
 
-
-*/
-    createFromConfig(config:any) {
-
-           switch(config.type) {
-
-
-           } 
+        }
     }
-   
+
 
 }
 

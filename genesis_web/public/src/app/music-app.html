@@ -62,8 +62,8 @@
 
             <div *ngIf="slidershow">
                 <!--  style="width: 100%"-->
-                <metro-slide #linechart [value]="music.pulse.bpm" (change)="music.pulse.bpm=$event">
-                </metro-slide>
+                <app-metro-slide #linechart [value]="music.pulse.bpm" (change)="music.pulse.bpm=$event">
+                </app-metro-slide>
             </div>
 
         </div>
@@ -72,4 +72,4 @@
 </div>
 
 
-<music-comp [music]="music"> </music-comp>
+<app-music-comp [music]="music"> </app-music-comp>

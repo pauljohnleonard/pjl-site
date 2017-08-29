@@ -5,23 +5,25 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'angular-2-local-storage';
 
 
-//declare var localstorage:any
+// declare var localstorage:any
 
 @Injectable()
 export class SettingsService {
 
-    //@LocalStorageModule() 
-    playahead:number = 0.1
+    // @LocalStorageModule()
+    playahead = 0.1
 
-    constructor( private localStorageService: LocalStorageService) {
-        var x:any=this.localStorageService.get("playahead")
-        console.log(" playhead loaded =",x)
-        if (x !== null) this.playahead=x
+    constructor(private localStorageService: LocalStorageService) {
+        const x: any = this.localStorageService.get('playahead')
+        console.log(' playhead loaded =', x)
+        if (x !== null) {
+            this.playahead = x
+        }
     }
 
-    setPlayahead(x:number){
-         this.playahead=x
-         this.localStorageService.set("playahead",this.playahead)
+    setPlayahead(x: number) {
+        this.playahead = x
+        this.localStorageService.set('playahead', this.playahead)
     }
 
 }

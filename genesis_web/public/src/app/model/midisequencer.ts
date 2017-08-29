@@ -1,20 +1,21 @@
-import { Player } from "./player"
-import { Pulse } from "./pulse"
-import { Ticker } from "./ticker"
+import { Player } from './player'
+import { Pulse } from './pulse'
+import { Ticker } from './ticker'
 import { Savable } from './savable'
 import { MidiBuffer } from './midibuffer'
 
-const playAhead: number = 0.0
+const playAhead = 0.0
+
 declare var audioContext: any
 
 export class MidiSequencer implements Ticker {
 
-    buffPtr: number = 0
+    buffPtr = 0
     midiBuff: MidiBuffer = null
     pulse: Pulse
     player: Player
-    type:string="MidiSequencer"
-    
+    type = 'MidiSequencer'
+
     constructor(player: Player) {
         this.player = player
         this.pulse = player.music.pulse
@@ -24,20 +25,20 @@ export class MidiSequencer implements Ticker {
 
         if (this.midiBuff) {
 
-            var beatNow = this.pulse.getBeatNow() + playAhead
+            const beatNow = this.pulse.getBeatNow() + playAhead
 
             while ((this.buffPtr < this.midiBuff.buff.length)) {
 
-                let midiBeat = this.midiBuff.buff[this.buffPtr][0]
+                const midiBeat = this.midiBuff.buff[this.buffPtr][0]
 
-                let t = this.pulse.getTimeOfBeat(midiBeat)
+                const t = this.pulse.getTimeOfBeat(midiBeat)
 
                 if (t < audioContext.currentTime) {
-                    console.log(" UNDERRUN " + t + " " + audioContext.currentTime)
+                    console.log(' UNDERRUN ' + t + ' ' + audioContext.currentTime)
                 }
 
-                if (midiBeat > beatNow) break
-                let ev = this.midiBuff.buff[this.buffPtr][1]
+                if (midiBeat > beatNow) { break }
+                const ev = this.midiBuff.buff[this.buffPtr][1]
                 this.player.inst.playEvent(ev, t)
                 this.buffPtr++
             }
@@ -61,8 +62,8 @@ export class MidiSequencer implements Ticker {
     addPostItems(items: any, saver: any) {
         items.type = this.type
         if (this.midiBuff !== null) {
-            var id = this.midiBuff.saveDB(saver)
-            if (id !== null) items.midi = id
+            const id = this.midiBuff.saveDB(saver)
+            if (id !== null) { items.midi = id }
         }
     }
 

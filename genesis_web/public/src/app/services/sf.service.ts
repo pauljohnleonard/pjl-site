@@ -5,18 +5,18 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-//import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/angular2';
+// import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/angular2';
 
 @Injectable()
 export class SFService {
 
-    names:Array<string> = []
-    
+    names: Array<string> = []
+
     constructor(private http: Http) {
         this.getJSON()
     }
 
-    public getNames() :Array<string> {
+    public getNames(): Array<string> {
         return this.names
     }
 
@@ -27,8 +27,6 @@ export class SFService {
             .subscribe(
             data => this.names = data,
             err => console.log(err),
-            () => console.log('LOad names Completed'));
-        
+            () => console.log('Load names Completed'));
     }
-
 }

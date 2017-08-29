@@ -1,3 +1,5 @@
+import { Midi } from './midi'
+import { SFService } from 'app/services/sf.service';
 
 declare var Soundfont: any
 declare var audioContext: any
@@ -9,21 +11,21 @@ export class Instrument {
 
     inst: any
     gainValue: Number
-    muted: boolean = false
-    midiIn: boolean = false
-    sustaining: boolean = false
+    muted = false
+    midiIn = false
+    sustaining = false
     sustainedKeys: Array<boolean> = new Array(128)
     loading: boolean
 
-    constructor(public name: string, private monitor: any) {
+    constructor(public name: string, private monitor: any, private sfService: SFService) {
         this.setInst(name)
-        this.sustainedKeys.fill(false)    
+        this.sustainedKeys.fill(false)
     }
 
 
     mute(yes: boolean) {
 
-        if (this.muted == yes) return;
+        if (this.muted === yes) { return };
         this.muted = yes
         //      console.log(this.name + " mute " + yes);
         if (yes) {
@@ -36,23 +38,39 @@ export class Instrument {
     }
 
     setInst(name: string) {
-        var self = this
+        // var self = this
+        name = name.toLowerCase()
+
         this.loading = true
-        this.name = name
-        // this.obs.next("loading . . . ")
-        Soundfont.instrument(audioContext, name).then((inst: any) => {
+        const names = this.sfService.getNames()
+        this.name = null
+        if (names.indexOf(name) >= 0 ) {
+               this.name = name
+        } else {
+            names.forEach( (n) => {
+                if (n.includes(name)) {
+                    this.name = n
+                }
+            })
+        }
+
+        if (!this.name ) {
+            this.name = names[0]
+        }
+
+        Soundfont.instrument(audioContext, this.name).then((inst: any) => {
             this.inst = inst
-            this.loading=false    
+            this.loading = false
             this.gainValue = inst.out.gain.value
-          })
+        })
     }
 
 
     playNote(key: any, vel: number, when: number) {
-        if (this.inst === undefined) return
+        if (this.inst === undefined) { return }
 
 
-        if (when > 0 && this.monitor) this.monitor.spareTime(when - audioContext.currentTime)
+        if (when > 0 && this.monitor) { this.monitor.spareTime(when - audioContext.currentTime) }
 
         if (vel > 0) {
             this.started[key] = this.inst.play(key, when, {
@@ -94,21 +112,26 @@ export class Instrument {
 
     playEvent(event: Array<number>, when: number) {
 
-        var etype = event[0] & 0xF0
-        if (etype == 144) {
+        // tslint:disable-next-line:no-bitwise
+        const etype = event[0] & Midi.SYSEX_EVENT_MASK   // 0xF0
+
+        if (etype === Midi.NOTE_ON_MASK) {    // 144
             //  console.log(etype)
-            var key = event[1]
-            var vel = event[2]
+            const key = event[1]
+            const vel = event[2]
             this.playNote(key, vel / 127, when)
-        } else if (etype == 128) {
+        } else if (etype === Midi.NOTE_ON_MASK) { //  128
             //   console.log(etype)
-            var key = event[1]
+            const key = event[1]
             this.playNote(key, 0, when)
-        } else if (etype === 176) {
-            var cc = event[1]
+        } else if (etype === Midi.CONTROL_MASK)  {  //   176) {
+            const cc = event[1]
             if (cc === 64) {
-                if (event[2] > 0) this.sustain(true, when)
-                else this.sustain(false, when)
+                if (event[2] > 0) {
+                    this.sustain(true, when)
+                } else {
+                    this.sustain(false, when)
+                }
             }
         }
 

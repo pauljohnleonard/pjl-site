@@ -1,6 +1,6 @@
 
 export class Monitor {
-    underruns: number = 0
+    underruns = 0
     maxUnder: number
 
     constructor() {
@@ -21,10 +21,8 @@ export class Monitor {
     }
 
     reset() {
-        this.maxUnder=undefined
-        this.underruns=0
+        this.maxUnder = undefined
+        this.underruns = 0
     }
-
-    
 
 }

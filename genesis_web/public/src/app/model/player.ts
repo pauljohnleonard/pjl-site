@@ -7,23 +7,23 @@ import { Thing } from './thing'
 import { AI } from './ai'
 import { Mapper } from './mapper'
 
-export class Player extends Savable implements Ticker ,Thing {
+export class Player extends Savable implements Ticker , Thing {
 
 
     static players: Array<Player> = []
 
-    soloed: boolean = false
-    tmpMuted: boolean = false
-    muted: boolean = false
+    soloed = false
+    tmpMuted = false
+    muted = false
     ticker: Ticker = null
-    type:string
-    viewMe:boolean=true
-    expanded:boolean = true
-    inst:Instrument
-    ai:AI=null
-    name:string
-    recording:boolean=false
-    mapper:Mapper=null
+    type: string
+    viewMe = true
+    expanded = true
+    inst: Instrument
+    ai: AI = null
+    name: string
+    recording = false
+    mapper: Mapper = null
 
     constructor(public music: Music) {
         super()
@@ -32,16 +32,16 @@ export class Player extends Savable implements Ticker ,Thing {
     }
 
     tick() {
-        if (this.ticker) this.ticker.tick()
+        if (this.ticker) {this.ticker.tick()}
     }
 
     start() {
-        if (this.ticker) this.ticker.start()
+        if (this.ticker) {this.ticker.start()}
 
     }
 
     stop() {
-        if (this.ticker) this.ticker.stop()
+        if (this.ticker) {this.ticker.stop()}
     }
 
     mute() {
@@ -53,15 +53,15 @@ export class Player extends Savable implements Ticker ,Thing {
 
         this.soloed = !this.soloed
 
-        if (this.soloed) this.muted = false
+        if (this.soloed) { this.muted = false }
 
         let soloedCnt = 0;
 
         Player.players.forEach((p) => {
-            if (p.soloed) soloedCnt++
+            if (p.soloed) {soloedCnt++}
         })
 
-        if (soloedCnt == 0) {
+        if (soloedCnt === 0) {
             Player.players.forEach((p) => {
                 p.tmpMuted = false
                 p.inst.mute(this.muted)
@@ -87,30 +87,28 @@ export class Player extends Savable implements Ticker ,Thing {
 
 
     saveDB(saver: any): any {
-        if (this.id !== null) return this.id
+        if (this.id !== null) { return this.id }
 
 
-        var postItems: any = {}
+        const postItems: any = {}
 
-            //if (this.ticker instanceof ItemSaver ) {
-        if (this.ticker.addPostItems !== undefined){        
-            this.ticker.addPostItems(postItems,saver)
+
+        if (this.ticker.addPostItems !== undefined) {
+            this.ticker.addPostItems(postItems, saver)
         }
 
         postItems.inst = this.inst.name
 
         if (this.ai ) {
-            var id=this.ai.saveDB(saver)
-            postItems.ai=id
+            const id1 = this.ai.saveDB(saver)
+            postItems.ai = id1
         }
 
-        var id = saver.newIDItem('players', postItems)
+        const id = saver.newIDItem('players', postItems)
         return id
     }
 
-    addPostItems(items: any, saver: any):void{
-        console.log(" DO NOTHING ")
+    addPostItems(items: any, saver: any): void {
+        console.log(' DO NOTHING ')
     }
-
-    
 }

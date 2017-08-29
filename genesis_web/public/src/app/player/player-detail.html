@@ -9,6 +9,7 @@
         display: -webkit-flex;
         display: flex;
         -webkit-flex-flow: row;
+        flex-flow: row;
     }
     
    
@@ -45,19 +46,19 @@
 </style>
 
 
-<md-card #card style="background-color:#fff8ff;" >   
-    <md-card-content style="background-color:#fff0ff;">
+<md-card #card style="background-color:#fff8ff" >   
+    <md-card-content style="background-color:#fff0ff">
         <div class="flex-container">
             <button class="flex-item-left" md-button  (click)="removeMe()"> <md-icon>close</md-icon></button>
             <button *ngIf="!player.expanded" class="flex-item-left" md-button  (click)="player.expanded=true"> <md-icon > expand_more</md-icon></button>
             <button *ngIf="player.expanded" class="flex-item-left" md-button  (click)="player.expanded=false"> <md-icon > expand_less</md-icon></button>
-            <instrument-detail class="flex-item-inst" [inst]="player.inst"> </instrument-detail>
+            <app-instrument-detail class="flex-item-inst" [inst]="player.inst"> </app-instrument-detail>
             <button class="flex-item-tran" *ngIf="player.recording" md-button (click)="toggleRecord()" style=" color:#000000;background-color:DeepPink"><div>R</div></button>
-            <button class="flex-item-tran" *ngIf="!player.recording" md-button (click)="toggleRecord()" style="">R</button>
+            <button class="flex-item-tran" *ngIf="!player.recording" md-button (click)="toggleRecord()" >R</button>
             <button class="flex-item-tran" *ngIf="player.soloed" md-button (click)="solo()" style="color:#000000;background-color:orange">S</button>
-            <button class="flex-item-tran" *ngIf="!player.soloed" md-button (click)="solo()" style="">S</button>
+            <button class="flex-item-tran" *ngIf="!player.soloed" md-button (click)="solo()" >S</button>
             <button class="flex-item-tran" *ngIf="player.muted" md-button (click)="mute()" style="color:#FFFFFF;background-color:indigo">M</button>
-            <button class="flex-item-tran" *ngIf="!player.muted" md-button (click)="mute()" style="">M</button>
+            <button class="flex-item-tran" *ngIf="!player.muted" md-button (click)="mute()" >M</button>
         </div>
 
 
