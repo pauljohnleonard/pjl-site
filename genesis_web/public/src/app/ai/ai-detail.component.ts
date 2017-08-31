@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AI } from '../model/ai'
-import { Generator } from '../model/generator'
+import { AI } from '../../model/ai'
+import { Generator } from '../../model/generator'
 import { SFService } from '../services/sf.service'
 import { NetService } from '../services/net.service'
 
 @Component({
     moduleId: 'app/music/',
-    selector: 'ai-detail',
+    selector: 'app-ai-detail',
     templateUrl: './ai-detail.html'
 
 })

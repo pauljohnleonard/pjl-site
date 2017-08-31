@@ -62,7 +62,11 @@ export class Instrument {
             this.inst = inst
             this.loading = false
             this.gainValue = inst.out.gain.value
-        })
+        }).catch((reason) => {
+            console.log(' Failed to  load : ' + this.name)
+            console.log(reason)
+            this.loading = false
+        } )
     }
 
 

@@ -1,7 +1,7 @@
-import { DBService } from '../services/db.service'
-import { NetService } from '../services/net.service'
-import { SamplesService } from '../services/samples.service'
-import { SettingsService } from '../services/settings.service'
+import { DBService } from '../app/services/db.service'
+import { NetService } from '../app/services/net.service'
+import { SamplesService } from '../app/services/samples.service'
+import { SettingsService } from '../app/services/settings.service'
 import { AI } from './ai';
 import { AISquencer } from './aisequencer';
 import { Metro } from './metro'
@@ -275,7 +275,7 @@ export class Music extends Savable {
         } else {
             this.things[pos] = player
         }
-        const ai = new AI(this.dbService, this.netService)
+        const ai = new AI( this.netService )
 
         player.ai = ai
 

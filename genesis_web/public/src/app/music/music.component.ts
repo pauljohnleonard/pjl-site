@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { Music } from '../model/music'
+import { Music } from '../../model/music'
+
+
+declare var Kit: any
 
 @Component({
     selector: 'app-music-comp',
@@ -13,7 +16,8 @@ export class MusicComponent {
     @Input() music: Music;
 
     constructor() {
-
+            const kit = new Kit('Kit3')
+            kit.load()
     }
 
     addPlayerType(t: string) {

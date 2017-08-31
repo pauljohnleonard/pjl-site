@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Player } from '../model//player'
+import { Player } from '../../model//player'
 import { AIDetailComponent } from '../ai/ai-detail.component'
 import { InstrumentDetailComponent } from '../instrument/instrument-detail.component'
-import { AI } from '../model/ai'
+import { AI } from '../../model/ai'
 
 import { MdCard } from '@angular/material'
 

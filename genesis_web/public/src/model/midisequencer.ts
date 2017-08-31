@@ -29,7 +29,7 @@ export class MidiSequencer implements Ticker {
 
             while ((this.buffPtr < this.midiBuff.buff.length)) {
 
-                const midiBeat = this.midiBuff.buff[this.buffPtr][0]
+                const midiBeat = this.midiBuff.buff[this.buffPtr].stamp
 
                 const t = this.pulse.getTimeOfBeat(midiBeat)
 
@@ -38,7 +38,7 @@ export class MidiSequencer implements Ticker {
                 }
 
                 if (midiBeat > beatNow) { break }
-                const ev = this.midiBuff.buff[this.buffPtr][1]
+                const ev = this.midiBuff.buff[this.buffPtr].effect
                 this.player.inst.playEvent(ev, t)
                 this.buffPtr++
             }
@@ -68,5 +68,3 @@ export class MidiSequencer implements Ticker {
     }
 
 }
-
-

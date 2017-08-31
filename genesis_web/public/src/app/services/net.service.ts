@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Perceptron, Elman, Jordan } from '../model/net'
+import { Perceptron, Elman, Jordan } from '../../model/net'
 
 
 @Injectable()

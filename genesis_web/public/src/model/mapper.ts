@@ -33,7 +33,7 @@ export class MappedPlayer {
     }
 
     playNote(i: number, vel: number, when: number): void {
-        let key = this.mapper.map(i)
+        const key = this.mapper.map(i)
         if (this.state[i] !== undefined) {
             const keyLast = this.state[i]
             if (vel === 0) {

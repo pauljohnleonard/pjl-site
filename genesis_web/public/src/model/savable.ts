@@ -1,4 +1,4 @@
-import { DBService } from '../services/db.service'
+import { DBService } from '../app/services/db.service'
 
 export class Savable {
     id: any = null
