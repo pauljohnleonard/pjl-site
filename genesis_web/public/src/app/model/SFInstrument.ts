@@ -1,25 +1,23 @@
 import { Midi } from './midi'
 import { SFService } from 'app/services/sf.service';
-
+import { Instrument } from './instrument'
 declare var Soundfont: any
 declare var audioContext: any
 
-export class Instrument {
+export class SFInstrument extends Instrument {
 
-    started = {}
-    opts = {}
+    //  opts = {}
 
     inst: any
     gainValue: Number
-    muted = false
+
     midiIn = false
-    sustaining = false
-    sustainedKeys: Array<boolean> = new Array(128)
+
     loading: boolean
 
-    constructor(public name: string, private monitor: any, private sfService: SFService) {
+    constructor(public name: string, monitor: any, private sfService: SFService) {
+        super(name, monitor)
         this.setInst(name)
-        this.sustainedKeys.fill(false)
     }
 
 
@@ -37,27 +35,34 @@ export class Instrument {
 
     }
 
-    setInst(name: string) {
+    setInst(name: any) {
         // var self = this
-        name = name.toLowerCase()
-
         this.loading = true
-        const names = this.sfService.getNames()
-        this.name = null
-        if (names.indexOf(name) >= 0 ) {
-               this.name = name
+
+        if (typeof name === 'number') {
+            this.name = this.sfService.gmIDToFontName[name]
+
         } else {
-            names.forEach( (n) => {
-                if (n.includes(name)) {
-                    this.name = n
-                }
-            })
-        }
 
-        if (!this.name ) {
-            this.name = names[0]
-        }
+            name = name.toLowerCase()
 
+            const names = this.sfService.getNames()
+            this.name = null
+            if (names.indexOf(name) >= 0) {
+                this.name = name
+            } else {
+                names.forEach((n) => {
+                    if (n.includes(name)) {
+                        this.name = n
+                    }
+                })
+            }
+
+
+            if (!this.name) {
+                this.name = names[0]
+            }
+        }
         Soundfont.instrument(audioContext, this.name).then((inst: any) => {
             this.inst = inst
             this.loading = false
@@ -66,7 +71,7 @@ export class Instrument {
             console.log(' Failed to  load : ' + this.name)
             console.log(reason)
             this.loading = false
-        } )
+        })
     }
 
 
@@ -94,25 +99,6 @@ export class Instrument {
         }
     }
 
-    sustain(yes: boolean, when: number) {
-
-        if (yes) {
-            this.sustaining = true
-            return
-        }
-
-        this.sustaining = false
-
-        this.sustainedKeys.forEach((v: boolean, key: number) => {
-            if (v) {
-                this.started[key].stop(when)
-                delete this.started[key]
-                this.sustainedKeys[key] = false
-            }
-        })
-
-
-    }
 
     playEvent(event: Array<number>, when: number) {
 
@@ -128,7 +114,7 @@ export class Instrument {
             //   console.log(etype)
             const key = event[1]
             this.playNote(key, 0, when)
-        } else if (etype === Midi.CONTROL_MASK)  {  //   176) {
+        } else if (etype === Midi.CONTROL_MASK) {  //   176) {
             const cc = event[1]
             if (cc === 64) {
                 if (event[2] > 0) {

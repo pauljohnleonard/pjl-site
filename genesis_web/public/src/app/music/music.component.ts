@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Music } from '../../model/music'
+import { Music } from '../model/music'
 
 
 declare var Kit: any

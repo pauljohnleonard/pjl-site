@@ -1,6 +1,6 @@
 import { Savable } from './savable'
 import { Generator } from './generator'
-import { DBService } from '../app/services/db.service'
+import { DBService } from '../services/db.service'
 
 
 declare var synaptic: any

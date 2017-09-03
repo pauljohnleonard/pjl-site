@@ -1,6 +1,6 @@
 import { Ticker } from './ticker'
 import { Pulse } from './pulse'
-import { SamplesService } from '../app/services/samples.service'
+import { SamplesService } from '../services/samples.service'
 
 declare const audioContext: any
 

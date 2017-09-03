@@ -1,5 +1,5 @@
 
-import { NetService } from '../app/services/net.service'
+import { NetService } from '../services/net.service'
 import { Net } from './net'
 import { Ticker } from './ticker'
 import { Pulse } from './pulse'

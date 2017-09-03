@@ -1,7 +1,7 @@
-import { DBService } from '../app/services/db.service'
-import { NetService } from '../app/services/net.service'
-import { SamplesService } from '../app/services/samples.service'
-import { SettingsService } from '../app/services/settings.service'
+import { DBService } from '../services/db.service'
+import { NetService } from '../services/net.service'
+import { SamplesService } from '../services/samples.service'
+import { SettingsService } from '../services/settings.service'
 import { AI } from './ai';
 import { AISquencer } from './aisequencer';
 import { Metro } from './metro'
@@ -14,8 +14,9 @@ import { MidiSequencer } from './midisequencer'
 import { Savable } from './savable'
 import { Generator } from './generator'
 import { Thing } from './thing'
-import { Midi } from './midi'
+
 import { SFService } from 'app/services/sf.service';
+import { SFInstrument } from "../model/SFInstrument";
 
 
 declare var firebase: any
@@ -157,74 +158,6 @@ export class Music extends Savable {
     }
 
 
-    loadMidi(midi) {
-
-        const ticksPerBeat = midi.header.ticksPerBeat;
-        let pos = 0;
-        midi.tracks.forEach(track => {
-            const lane = new Array<MidiEvent>()
-            let instName = null
-            let ticks = 0;
-            let beat = 0
-            track.forEach(element => {
-                ticks += element.deltaTime;
-                beat = ticks / ticksPerBeat
-                switch (element.type) {
-                    case 'meta':    /// TODO Meta track
-                        switch (element.subtype) {
-                            case 'setTempo':
-                                const bpm = (1000000 / element.microsecondsPerBeat) * 60 ;
-                                console.log('BPM:' + bpm)
-                                this.pulse.bpm = bpm
-                                break;
-                            case 'timeSigniture':
-                                const sig = element.numerator + '/' + element.denominator
-                                this.pulse.setTimeSig(sig)
-                                console.log(' Sig : ' + sig)
-                                break;
-                            case 'endOfTrack':
-                                console.log(' EOT : ' + element.deltaTime)
-                                break;
-                            case 'trackName':
-                                instName = element.text
-                                break
-                            default:
-                                console.log(' Unkown meta subtype : ' + element.subtype)
-                        }
-                        break
-
-                    case 'channel':
-
-                        switch (element.subtype) {
-                            case 'noteOn':
-                                lane.push(new MidiEvent(beat, [Midi.NOTE_ON_MASK, element.noteNumber, element.velocity]))
-                                break;
-                            case 'noteOff':
-                                lane.push(new MidiEvent(beat, [Midi.NOTE_OFF_MASK, element.noteNumber, element.velocity]))
-                                break;
-                            default:
-                                console.log(' channel sub type not imlemented yet ; ' + element.subtype)
-                        }
-                        break;
-
-                    default:
-                        console.log(' type not imlemented yet ; ' + element.type)
-                }
-
-            })
-
-            if (instName !== null) {
-
-                const midiPlayer = this.addMidiPlayer(instName, pos)
-                pos++
-
-                const seq: MidiSequencer = <MidiSequencer>midiPlayer.ticker
-                seq.setBuffer(lane, null)
-            }
-        })
-    }
-
-
     constructorX() {
 
         const ticksPerBeat = 12
@@ -250,7 +183,7 @@ export class Music extends Savable {
         } else {
             this.things[pos] = player
         }
-        const inst = new Instrument(name, this.monitor, this.sfService)
+        const inst = new SFInstrument(name, this.monitor, this.sfService)
         player.inst = inst
         const midiPlayer = new MidiSequencer(player)
         player.ticker = midiPlayer
@@ -275,7 +208,7 @@ export class Music extends Savable {
         } else {
             this.things[pos] = player
         }
-        const ai = new AI( this.netService )
+        const ai = new AI(this.netService)
 
         player.ai = ai
 
@@ -283,7 +216,7 @@ export class Music extends Savable {
         if (instName === undefined) { instName = 'marimba' }
         player.name = instName
 
-        const inst = new Instrument(instName, this.monitor, this.sfService)
+        const inst = new SFInstrument(instName, this.monitor, this.sfService)
         player.inst = inst
 
 

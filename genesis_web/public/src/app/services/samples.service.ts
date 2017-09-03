@@ -1,25 +1,34 @@
+/**
+ *
+ *   Reposible for getting sampl,es given a URL
+*/
+
 
 import { Injectable } from '@angular/core';
 
-declare var audioContext: any
+declare const audioContext: any
 
 
 
 @Injectable()
 export class SamplesService {
 
-    samples: Array<any> = []
-
+  //  samples: Array<any> = []
 
     constructor() {
 
     }
 
+    /**
+     *
+     * @param url URL to load
+     * returns promise which resolves to an audio buffer
+     */
     load(url: string): any {
         // Load asynchronously
 
-        var p = new Promise((resolve, reject) => {
-            var request = new XMLHttpRequest();
+        const p = new Promise((resolve, reject) => {
+            const request = new XMLHttpRequest();
             request.open("GET", url, true);
 
             request.responseType = "arraybuffer";

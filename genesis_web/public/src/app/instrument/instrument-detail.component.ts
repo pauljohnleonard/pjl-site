@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { SFService } from '../services/sf.service'
-import { Instrument } from '../../model/instrument'
+import { Instrument } from '../model/instrument'
 import { FormControl } from '@angular/forms';
 import { MdAutocomplete, MdAutocompleteTrigger } from '@angular/material'
+import { SFInstrument } from "../model/SFInstrument";
 
 
 @Component({
@@ -14,7 +15,7 @@ import { MdAutocomplete, MdAutocompleteTrigger } from '@angular/material'
 
 
 export class InstrumentDetailComponent implements OnInit {
-    @Input() inst: Instrument;
+    @Input() inst: SFInstrument;
     @ViewChild(MdAutocompleteTrigger) auto: MdAutocomplete
 
     nameCtrl: FormControl;

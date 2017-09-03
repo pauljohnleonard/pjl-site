@@ -7,10 +7,10 @@ import { LoadDialogComponent } from './load/load.dialog'
 import { MetroDialogComponent } from './metro/metro.dialog'
 
 import { SettingsService } from './services/settings.service'
-
+import { MidiParser } from './model/midiparser'
 
 declare var JSMIDIParser;
-declare var MidiFile;
+declare var MidiFile
 
 @Component({
     moduleId: 'app/',
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
 
                 this.musicApp.newMusic()
                 const music = this.musicApp.music
-                music.loadMidi(midi)
+                MidiParser.loadMidi(midi, music)
                 let nn = file.name
                 const ii = nn.lastIndexOf('/');
                 if (ii > 0) {nn = nn.substring(ii)}

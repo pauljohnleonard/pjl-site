@@ -1,6 +1,6 @@
 import { Ticker } from './ticker'
 import { Savable } from './savable'
-import { SettingsService } from '../app/services/settings.service'
+import { SettingsService } from '../services/settings.service'
 import { Thing } from './thing'
 import { Ramper } from './ramper'
 
