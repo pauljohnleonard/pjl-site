@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { MaterialModule } from '@angular/material';
+// import { Material } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { AIDetailComponent } from './ai/ai-detail.component';
@@ -18,20 +18,19 @@ import { SettingsService } from './services/settings.service';
 import { NetService } from './services/net.service';
 import { SamplesService } from './services/samples.service';
 
-import { LoadDialogComponent } from './load/load.dialog'
-import { MetroDialogComponent } from './metro/metro.dialog'
+import { LoadDialogComponent } from './load/load.dialog';
+import { MetroDialogComponent } from './metro/metro.dialog';
 import { MetroSlideComponent } from './metro-slide/metro-slide.component';
-import { MonitorComponent } from './monitor/monitor.component'
-import { SliderValComponent } from './slider-val/slider-val.component'
+import { MonitorComponent } from './monitor/monitor.component';
+import { SliderValComponent } from './slider-val/slider-val.component';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
+import { MyMaterialModule } from './material/material.module';
 
 @NgModule({
     imports: [BrowserAnimationsModule, BrowserModule, HttpModule, JsonpModule, FormsModule, ReactiveFormsModule,
-        MaterialModule,
+        MyMaterialModule,
         LocalStorageModule.withConfig({
             prefix: 'my-app',
             storageType: 'localStorage'
@@ -39,7 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ],
     declarations: [AppComponent, AIDetailComponent, InstrumentDetailComponent, PlayerDetailComponent,
         MusicComponent, MusicAppComponent, LoadDialogComponent, MetroDialogComponent, MetroSlideComponent,
-         MonitorComponent, SliderValComponent],
+        MonitorComponent, SliderValComponent],
     providers: [{ provide: DBService, useClass: FirebaseDBService },
         SFService, SamplesService, NetService, SettingsService],
     bootstrap: [AppComponent],

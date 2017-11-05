@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { MusicAppComponent } from '../music-app.component'
 import { DBService } from '../services/db.service'
 
@@ -11,11 +11,11 @@ declare var firebase: any
 @Component({
     selector: 'app-load-dialog',
     template: `
-    <md-list>
-    <md-list-item *ngFor='let item of list' (click)='doLoad(item)'>
+    <mat-list>
+    <mat-list-item *ngFor='let item of list' (click)='doLoad(item)'>
         <div style='width:100%'><strong>{{ item.title }}</strong></div>
-    </md-list-item>
-    </md-list>
+    </mat-list-item>
+    </mat-list>
 `
 })
 
@@ -28,7 +28,7 @@ export class LoadDialogComponent {
     list: Array<any> = []
     musicApp: MusicAppComponent
 
-    constructor(public dialogRef: MdDialogRef<LoadDialogComponent>) {
+    constructor(public dialogRef: MatDialogRef<LoadDialogComponent>) {
 
     }
 

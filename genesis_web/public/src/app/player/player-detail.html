@@ -46,19 +46,19 @@
 </style>
 
 
-<md-card #card style="background-color:#fff8ff" >   
-    <md-card-content style="background-color:#fff0ff">
+<mat-card #card style="background-color:#fff8ff" >   
+    <mat-card-content style="background-color:#fff0ff">
         <div class="flex-container">
-            <button class="flex-item-left" md-button  (click)="removeMe()"> <md-icon>close</md-icon></button>
-            <button *ngIf="!player.expanded" class="flex-item-left" md-button  (click)="player.expanded=true"> <md-icon > expand_more</md-icon></button>
-            <button *ngIf="player.expanded" class="flex-item-left" md-button  (click)="player.expanded=false"> <md-icon > expand_less</md-icon></button>
+            <button class="flex-item-left" mat-button  (click)="removeMe()"> <mat-icon>close</mat-icon></button>
+            <button *ngIf="!player.expanded" class="flex-item-left" mat-button  (click)="player.expanded=true"> <mat-icon > expand_more</mat-icon></button>
+            <button *ngIf="player.expanded" class="flex-item-left" mat-button  (click)="player.expanded=false"> <mat-icon > expand_less</mat-icon></button>
             <app-instrument-detail class="flex-item-inst" [inst]="player.inst"> </app-instrument-detail>
-            <button class="flex-item-tran" *ngIf="player.recording" md-button (click)="toggleRecord()" style=" color:#000000;background-color:DeepPink"><div>R</div></button>
-            <button class="flex-item-tran" *ngIf="!player.recording" md-button (click)="toggleRecord()" >R</button>
-            <button class="flex-item-tran" *ngIf="player.soloed" md-button (click)="solo()" style="color:#000000;background-color:orange">S</button>
-            <button class="flex-item-tran" *ngIf="!player.soloed" md-button (click)="solo()" >S</button>
-            <button class="flex-item-tran" *ngIf="player.muted" md-button (click)="mute()" style="color:#FFFFFF;background-color:indigo">M</button>
-            <button class="flex-item-tran" *ngIf="!player.muted" md-button (click)="mute()" >M</button>
+            <button class="flex-item-tran" *ngIf="player.recording" mat-button (click)="toggleRecord()" style=" color:#000000;background-color:DeepPink"><div>R</div></button>
+            <button class="flex-item-tran" *ngIf="!player.recording" mat-button (click)="toggleRecord()" >R</button>
+            <button class="flex-item-tran" *ngIf="player.soloed" mat-button (click)="solo()" style="color:#000000;background-color:orange">S</button>
+            <button class="flex-item-tran" *ngIf="!player.soloed" mat-button (click)="solo()" >S</button>
+            <button class="flex-item-tran" *ngIf="player.muted" mat-button (click)="mute()" style="color:#FFFFFF;background-color:indigo">M</button>
+            <button class="flex-item-tran" *ngIf="!player.muted" mat-button (click)="mute()" >M</button>
         </div>
 
 
@@ -66,5 +66,5 @@
             <app-ai-detail [ai]="player.ai"> </app-ai-detail>
         </div>
 
-    </md-card-content>
-</md-card>
+    </mat-card-content>
+</mat-card>

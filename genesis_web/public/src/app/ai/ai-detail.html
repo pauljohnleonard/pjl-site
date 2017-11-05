@@ -57,33 +57,33 @@
 
 </style>
 
-<md-card *ngIf="ai && ai.net">
-    <md-card-content style="height:40px;">
+<mat-card *ngIf="ai && ai.net">
+    <mat-card-content style="height:40px;">
 
         <div class="flex-container">
-        <button class="flex-item-name" md-button *ngIf="aiName" [md-menu-trigger-for]="menu"> 
+        <button class="flex-item-name" mat-button *ngIf="aiName" [mat-menu-trigger-for]="menu"> 
                     {{aiName}}
                  </button>
 
-        <md-menu #menu="mdMenu">
-            <button md-menu-item *ngFor="let n of netService.names" [value]="ai.net.name" (click)="aiName=n">
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let n of netService.names" [value]="ai.net.name" (click)="aiName=n">
                           {{ n }}
                    </button>
-        </md-menu>
+        </mat-menu>
 
-        <input class="flex-item-number"mdInput *ngFor="let n of nHidden;let i = index" [(ngModel)]="nHidden[i]" type="number" value="20" min="1" max="30"
+        <input class="flex-item-number"matInput *ngFor="let n of nHidden;let i = index" [(ngModel)]="nHidden[i]" type="number" value="20" min="1" max="30"
         />
 
-        <button class="flex-item-die" md-icon-button (click)="ai.select(ai.snapID-1)"><md-icon>navigate_before</md-icon> </button>
+        <button class="flex-item-die" mat-icon-button (click)="ai.select(ai.snapID-1)"><mat-icon>navigate_before</mat-icon> </button>
     
-        <button class="flex-item-die" md-icon-button (click)="ai.snap()"><md-icon>add_a_photo</md-icon> </button>
+        <button class="flex-item-die" mat-icon-button (click)="ai.snap()"><mat-icon>add_a_photo</mat-icon> </button>
     
-        <button class="flex-item-die" md-icon-button (click)="ai.select(ai.snapID+1)"><md-icon>navigate_next</md-icon> </button>
+        <button class="flex-item-die" mat-icon-button (click)="ai.select(ai.snapID+1)"><mat-icon>navigate_next</mat-icon> </button>
     
         <div class="flex-item-snaplabel"> {{ai.snapID2Label(ai.snapID)}} </div> 
 
-        <button class="flex-item-die" md-icon-button (click)="implant()" ><img src="assets/images/die_roll.png" /> </button>
+        <button class="flex-item-die" mat-icon-button (click)="implant()" ><img src="assets/images/die_roll.png" /> </button>
         </div>
-    </md-card-content>
+    </mat-card-content>
 
-</md-card>
+</mat-card>

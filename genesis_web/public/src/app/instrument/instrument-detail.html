@@ -65,17 +65,17 @@
 
              
         <div *ngIf="inst.loading" class="loader"></div>
-        <md-input-container *ngIf="!inst.loading"> 
-            <input mdInput  [mdAutocomplete]="auto" [formControl]="nameCtrl" >
-        </md-input-container>
+        <mat-input-container *ngIf="!inst.loading"> 
+            <input matInput  [autocomplete]="auto" [formControl]="nameCtrl" >
+        </mat-input-container>
 
         
-        <md-autocomplete #auto="mdAutocomplete"  >
+        <mat-autocomplete #auto="matAutocomplete"  >
       
-            <md-option *ngFor="let n of filteredNames | async" [value]="n"  >
+            <mat-option *ngFor="let n of filteredNames | async" [value]="n"  >
                 {{ n }}
-            </md-option>
+            </mat-option>
  
-        </md-autocomplete>
+        </mat-autocomplete>
      
 </div>

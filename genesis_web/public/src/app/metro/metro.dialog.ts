@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Metro } from '../model/metro'
 import { SliderValComponent } from '../slider-val/slider-val.component'
 
@@ -19,7 +19,7 @@ export class MetroDialogComponent {
 
     metro: Metro
 
-    constructor(public dialogRef: MdDialogRef<MetroDialogComponent>) {
+    constructor(public dialogRef: MatDialogRef<MetroDialogComponent>) {
 
     }
 

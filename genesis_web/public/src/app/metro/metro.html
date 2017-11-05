@@ -23,23 +23,23 @@
 
 </style>
 
-<md-list *ngIf="metro">
-    <md-list-item *ngFor="let samp of metro.samples">
+<mat-list *ngIf="metro">
+    <mat-list-item *ngFor="let samp of metro.samples">
 
         <span class="role"> <strong> {{samp.role}} </strong></span>
-        <button class="name" md-button [md-menu-trigger-for]="list" style="float:middle;">
+        <button class="name" mat-button [mat-menu-trigger-for]="list" style="float:middle;">
                       {{samp.name}}
                  </button>
 
         <slider-val class="slider" [value]="samp.gain.gain.value"  (change)="samp.gain.gain.value=$event"></slider-val>
 
-        <md-menu #list="mdMenu">
-            <md-list dense style="width:100%">
-                <button md-list-item *ngFor="let t of metro.names" (click)="samp.setBuffer(t)">
+        <mat-menu #list="matMenu">
+            <mat-list dense style="width:100%">
+                <button mat-list-item *ngFor="let t of metro.names" (click)="samp.setBuffer(t)">
                         {{ t }}
                        </button>
 
-            </md-list>
-        </md-menu>
-    </md-list-item>
-</md-list>
+            </mat-list>
+        </mat-menu>
+    </mat-list-item>
+</mat-list>

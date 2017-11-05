@@ -1,27 +1,28 @@
-<md-sidenav-container fullscreen>
-    <md-sidenav #sidebar align="end">
-        <md-nav-list>
-            <a md-list-item (click)="sidebar.close();newMusic()">
-                <md-icon md-list-icon>fiber_new</md-icon>
-                <span md-line>New song</span>
+
+<mat-sidenav-container fullscreen>
+    <mat-sidenav #sidebar align="end">
+        <mat-nav-list>
+            <a mat-list-item (click)="sidebar.close();newMusic()">
+                <mat-icon mat-list-icon>fiber_new</mat-icon>
+                <span mat-line>New song</span>
             </a>
 
-            <a *ngIf="user !== null" md-list-item (click)="sidebar.close();save()">
-                <md-icon md-list-icon>cloud_download</md-icon>
-                <span md-line>Save song</span>
+            <a *ngIf="user !== null" mat-list-item (click)="sidebar.close();save()">
+                <mat-icon mat-list-icon>cloud_download</mat-icon>
+                <span mat-line>Save song</span>
             </a>
 
-            <a *ngIf="user !== null" md-list-item (click)="sidebar.close();load()">
-                <md-icon md-list-icon>cloud_upload</md-icon>
-                <span md-line>Load song</span>
+            <a *ngIf="user !== null" mat-list-item (click)="sidebar.close();load()">
+                <mat-icon mat-list-icon>cloud_upload</mat-icon>
+                <span mat-line>Load song</span>
             </a>
 
-            <a md-list-item>
+            <a mat-list-item>
                <p> import midi </p>  <input type="file" #midiload />
             </a>
 
 
-             <a  md-list-item (click)="sidebar.close();metroSetup()">
+             <a  mat-list-item (click)="sidebar.close();metroSetup()">
                 <img src="assets/images/tempo.png" style="height:32px;float:left" alt="midiin" /> 
                 <span >Metro Settings</span>
             </a>
@@ -31,37 +32,37 @@
             <slider-val [value]="settings.playahead" [minVal]="0.01" [maxVal]="2"  [fixed]="2"  [title]="'PlayAhead'"  (change)="settings.setPlayahead($event)"> </slider-val>
             </a>
 
-        </md-nav-list>
+        </mat-nav-list>
 
-        <!-- div *ngIf="user !== null" md-list-item (click)="sidebar.close();clean()">
-            <md-icon md-list-icon>delete_sweep</md-icon>
-            <span md-line>do not click</span>
+        <!-- div *ngIf="user !== null" mat-list-item (click)="sidebar.close();clean()">
+            <mat-icon mat-list-icon>delete_sweep</mat-icon>
+            <span mat-line>do not click</span>
         </div-->
 
-    </md-sidenav>
+    </mat-sidenav>
 
-    <md-toolbar>
+    <mat-toolbar>
 
         <p style="padding: 10px;">
             <img src="assets/images/genesis_thicker.png" style="height: 40px; width: auto" alt="logo" />
         </p>
 
-        <button *ngIf="user===null" md-button (click)="signIn()">
+        <button *ngIf="user===null" mat-button (click)="signIn()">
              <img src="assets/images/btn_google_signin_light_normal_web.png" style="padding:0px;height: 36px"  />
           </button>
 
         <span style="flex-grow:100"></span>
 
-        <button *ngIf="user!= null" md-button (click)="signOut()" style="padding:0px">
+        <button *ngIf="user!= null" mat-button (click)="signOut()" style="padding:0px">
             <img src={{user.photoURL}}  style="height:40px"/>
           </button>
 
-        <button md-icon-button (click)="sidebar.open()">
-                <md-icon>more_vert</md-icon>
+        <button mat-icon-button (click)="sidebar.open()">
+                <mat-icon>more_vert</mat-icon>
          </button>
 
 
-    </md-toolbar>
-
+    </mat-toolbar>
+    
     <app-music></app-music>
-</md-sidenav-container>
+</mat-sidenav-container>

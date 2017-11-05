@@ -1,0 +1,96 @@
+<style>
+  .flex-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .flex-item-number {
+    position: relative;
+    padding: 0px;
+    vertical-align: middle;
+    min-width: 10px;
+    width: 25px;
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  .flex-item-die {
+    position: relative;
+    padding: 0px;
+    vertical-align: middle;
+    min-width: 10px;
+    width: 25px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .flex-item-snaplabel {
+    position: relative;
+    padding: 0px;
+    vertical-align: middle;
+    min-width: 10px;
+    width: 25px;
+    font-weight: bold;
+    text-align: center;
+    background-color: pink;
+  }
+
+  .flex-item-name {
+    position: relative;
+    padding: 1px;
+    vertical-align: middle;
+    width: 60px;
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1;
+  }
+
+</style>
+
+<md-card *ngIf="ai && ai.net">
+  <md-card-content style="height:40px;">
+
+    <div class="flex-container">
+      <button class="flex-item-name" md-button *ngIf="aiName" [md-menu-trigger-for]="menu">
+        {{aiName}}
+      </button>
+
+      <md-menu #menu="mdMenu">
+        <button md-menu-item *ngFor="let n of netService.names" [value]="ai.net.name" (click)="aiName=n">
+          {{ n }}
+        </button>
+      </md-menu>
+
+      <input class="flex-item-number" mdInput *ngFor="let n of nHidden;let i = index" [(ngModel)]="nHidden[i]" type="number" value="20"
+        min="1" max="30" />
+
+      <button class="flex-item-die" md-icon-button (click)="ai.select(ai.snapID-1)">
+        <md-icon>navigate_before</md-icon>
+      </button>
+
+      <button class="flex-item-die" md-icon-button (click)="ai.snap()">
+        <md-icon>add_a_photo</md-icon>
+      </button>
+
+      <button class="flex-item-die" md-icon-button (click)="ai.select(ai.snapID+1)">
+        <md-icon>navigate_next</md-icon>
+      </button>
+
+      <div class="flex-item-snaplabel"> {{ai.snapID2Label(ai.snapID)}} </div>
+
+      <button class="flex-item-die" md-icon-button (click)="implant()">
+        <img src="assets/images/die_roll.png" /> </button>
+    </div>
+  </md-card-content>
+
+</md-card>

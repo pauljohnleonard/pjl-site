@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { SFService } from '../services/sf.service'
-import { Instrument } from '../model/instrument'
+import { SFService } from '../services/sf.service';
+import { Instrument } from '../model/instrument';
 import { FormControl } from '@angular/forms';
-import { MdAutocomplete, MdAutocompleteTrigger } from '@angular/material'
-import { SFInstrument } from "../model/SFInstrument";
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material';
+import { SFInstrument } from '../model/SFInstrument';
 
 
 @Component({
@@ -16,33 +16,33 @@ import { SFInstrument } from "../model/SFInstrument";
 
 export class InstrumentDetailComponent implements OnInit {
     @Input() inst: SFInstrument;
-    @ViewChild(MdAutocompleteTrigger) auto: MdAutocomplete
+    @ViewChild(MatAutocompleteTrigger) auto: MatAutocomplete;
 
     nameCtrl: FormControl;
-    name: string
+    name: string;
     filteredNames: any;
-    displayName: string
-    val: string
+    displayName: string;
+    val: string;
 
     constructor(private sfService: SFService) {
         this.nameCtrl = new FormControl();
         this.filteredNames = this.nameCtrl.valueChanges
             .map(name => this.filterNames(name));
 
-        console.log(name)
+        console.log(name);
         this.nameCtrl.valueChanges.subscribe((val) => {
 
-            console.log(val)
+            console.log(val);
 
             if (this.sfService.names.indexOf(val) >= 0) {
-                this.inst.setInst(val)
+                this.inst.setInst(val);
             }
-        })
+        });
     }
 
 
     ngOnInit() {
-        this.nameCtrl.setValue(this.inst.name)
+        this.nameCtrl.setValue(this.inst.name);
     }
 
     filterNames(val: string) {

@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from '@angular/material';
 import { DBService } from './services/db.service'
 import { MusicAppComponent } from './music-app.component'
 
@@ -9,7 +9,8 @@ import { MetroDialogComponent } from './metro/metro.dialog'
 import { SettingsService } from './services/settings.service'
 import { MidiParser } from './model/midiparser'
 
-declare var JSMIDIParser;
+// declare var JSMIDIParser;
+
 declare var MidiFile
 
 @Component({
@@ -25,8 +26,8 @@ export class AppComponent implements OnInit {
     @ViewChild('midiload') midiloader: ElementRef
     user: any = null
 
-    constructor(private dbService: DBService, public dialog: MdDialog,
-        public snackBar: MdSnackBar, public settings: SettingsService) {
+    constructor(private dbService: DBService, public dialog: MatDialog,
+        public snackBar: MatSnackBar, public settings: SettingsService) {
         dbService.register((user: any) => {
             this.user = user
 
@@ -88,9 +89,9 @@ export class AppComponent implements OnInit {
     }
 
     load() {
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
-        const dialogRef: MdDialogRef<LoadDialogComponent> = this.dialog.open(LoadDialogComponent, config)
+        const dialogRef: MatDialogRef<LoadDialogComponent> = this.dialog.open(LoadDialogComponent, config)
         dialogRef.componentInstance.setUp(this.dbService, this.musicApp)
         dialogRef.afterClosed().subscribe((result: any) => {
             console.log(result)
@@ -101,9 +102,9 @@ export class AppComponent implements OnInit {
 
 
     metroSetup() {
-        const config = new MdDialogConfig();
+        const config = new MatDialogConfig();
 
-        const dialogRef: MdDialogRef<MetroDialogComponent> = this.dialog.open(MetroDialogComponent, config)
+        const dialogRef: MatDialogRef<MetroDialogComponent> = this.dialog.open(MetroDialogComponent, config)
         dialogRef.componentInstance.metro = this.musicApp.music.metro
 
         dialogRef.afterClosed().subscribe((result: any) => {
