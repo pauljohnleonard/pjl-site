@@ -1,10 +1,10 @@
-import { Midi } from './midi'
-import { SFService } from 'app/services/sf.service';
-import { Instrument } from './instrument'
-import { ExtMidiDevice } from './extmididevice'
+import { Midi } from './midi';
+import { SFService } from '../services/sf.service';
+import { Instrument } from './instrument';
+import { ExtMidiDevice } from './extmididevice';
 
-declare var Soundfont: any
-declare var audioContext: any
+declare var Soundfont: any;
+declare var audioContext: any;
 
 
 export class ExtMidiInstrument extends Instrument {
@@ -12,21 +12,15 @@ export class ExtMidiInstrument extends Instrument {
     //  opts = {}
 
 
-    midiIn = false
+    midiIn = false;
 
 
-    constructor(public name: string, monitor: any,  public dev: any, public channel: number ) {
-        super(name, monitor)
-        this.setInst(name)
+    constructor(public name: string, monitor: any, public dev: any, private channel: number) {
+        super(name, monitor);
+        this.setInst(name);
     }
 
 
-    mute(yes: boolean) {
-
-        if (this.muted === yes) { return };
-        this.muted = yes
-
-    }
 
     setInst(name: any) {
 
@@ -37,19 +31,20 @@ export class ExtMidiInstrument extends Instrument {
 
 
         if (vel > 0) {
-
-            this.started[key] = this.dev.send(key, when, {
-                gain: vel
-            })
-            this.sustainedKeys[key] = false
+            if (!this.muted) {
+                this.started[key] = this.dev.send(key, when, {
+                    gain: vel
+                });
+                this.sustainedKeys[key] = false;
+            }
         } else {
             if (this.started[key]) {
                 if (this.sustaining) {
-                    this.sustainedKeys[key] = true
+                    this.sustainedKeys[key] = true;
                 } else {
-                    this.started[key].stop(when)
-                    this.sustainedKeys[key] = false
-                    delete this.started[key]
+                    this.started[key].stop(when);
+                    this.sustainedKeys[key] = false;
+                    delete this.started[key];
                 }
             }
         }
@@ -58,8 +53,10 @@ export class ExtMidiInstrument extends Instrument {
 
     playEvent(event: Array<number>, when: number) {
 
-
-        this.dev.send(event)
+        event[0] = ( event[0] & 0xf0 ) | this.channel ; // tslint:disable-line no-bitwise
+        if (!this.muted) {
+            this.dev.send(event);
+        }
 
         /*
         // tslint:disable-next-line:no-bitwise

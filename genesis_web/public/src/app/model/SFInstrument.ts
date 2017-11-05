@@ -1,99 +1,99 @@
-import { Midi } from './midi'
-import { SFService } from 'app/services/sf.service';
-import { Instrument } from './instrument'
-declare var Soundfont: any
-declare var audioContext: any
+import { Midi } from './midi';
+import { SFService } from '../services/sf.service';
+import { Instrument } from './instrument';
+declare var Soundfont: any;
+declare var audioContext: any;
 
 export class SFInstrument extends Instrument {
 
     //  opts = {}
 
-    inst: any
-    gainValue: Number
+    inst: any;
+    gainValue: Number;
 
-    midiIn = false
+    midiIn = false;
 
-    loading: boolean
+    loading: boolean;
 
     constructor(public name: string, monitor: any, private sfService: SFService) {
-        super(name, monitor)
-        this.setInst(name)
+        super(name, monitor);
+        this.setInst(name);
     }
 
 
     mute(yes: boolean) {
+        super.mute(yes);
+        if (this.muted === yes) { return; }
 
-        if (this.muted === yes) { return };
-        this.muted = yes
         //      console.log(this.name + " mute " + yes);
         if (yes) {
-            this.gainValue = this.inst.out.gain.value
-            this.inst.out.gain.value = 0
+            this.gainValue = this.inst.out.gain.value;
+            this.inst.out.gain.value = 0;
         } else {
-            this.inst.out.gain.value = this.gainValue
+            this.inst.out.gain.value = this.gainValue;
         }
 
     }
 
     setInst(name: any) {
         // var self = this
-        this.loading = true
+        this.loading = true;
 
         if (typeof name === 'number') {
-            this.name = this.sfService.gmIDToFontName[name]
+            this.name = this.sfService.gmIDToFontName[name];
 
         } else {
 
-            name = name.toLowerCase()
+            name = name.toLowerCase();
 
-            const names = this.sfService.getNames()
-            this.name = null
+            const names = this.sfService.getNames();
+            this.name = null;
             if (names.indexOf(name) >= 0) {
-                this.name = name
+                this.name = name;
             } else {
                 names.forEach((n) => {
                     if (n.includes(name)) {
-                        this.name = n
+                        this.name = n;
                     }
-                })
+                });
             }
 
 
             if (!this.name) {
-                this.name = names[0]
+                this.name = names[0];
             }
         }
         Soundfont.instrument(audioContext, this.name).then((inst: any) => {
-            this.inst = inst
-            this.loading = false
-            this.gainValue = inst.out.gain.value
+            this.inst = inst;
+            this.loading = false;
+            this.gainValue = inst.out.gain.value;
         }).catch((reason) => {
-            console.log(' Failed to  load : ' + this.name)
-            console.log(reason)
-            this.loading = false
-        })
+            console.log(' Failed to  load : ' + this.name);
+            console.log(reason);
+            this.loading = false;
+        });
     }
 
 
     playNote(key: any, vel: number, when: number) {
-        if (this.inst === undefined) { return }
+        if (this.inst === undefined) { return; }
 
 
-        if (when > 0 && this.monitor) { this.monitor.spareTime(when - audioContext.currentTime) }
+        if (when > 0 && this.monitor) { this.monitor.spareTime(when - audioContext.currentTime); }
 
         if (vel > 0) {
             this.started[key] = this.inst.play(key, when, {
                 gain: vel
-            })
-            this.sustainedKeys[key] = false
+            });
+            this.sustainedKeys[key] = false;
         } else {
             if (this.started[key]) {
                 if (this.sustaining) {
-                    this.sustainedKeys[key] = true
+                    this.sustainedKeys[key] = true;
                 } else {
-                    this.started[key].stop(when)
-                    this.sustainedKeys[key] = false
-                    delete this.started[key]
+                    this.started[key].stop(when);
+                    this.sustainedKeys[key] = false;
+                    delete this.started[key];
                 }
             }
         }
@@ -103,24 +103,24 @@ export class SFInstrument extends Instrument {
     playEvent(event: Array<number>, when: number) {
 
         // tslint:disable-next-line:no-bitwise
-        const etype = event[0] & Midi.SYSEX_EVENT_MASK   // 0xF0
+        const etype = event[0] & Midi.SYSEX_EVENT_MASK;   // 0xF0
 
         if (etype === Midi.NOTE_ON_MASK) {    // 144
             //  console.log(etype)
-            const key = event[1]
-            const vel = event[2]
-            this.playNote(key, vel / 127, when)
+            const key = event[1];
+            const vel = event[2];
+            this.playNote(key, vel / 127, when);
         } else if (etype === Midi.NOTE_ON_MASK) { //  128
             //   console.log(etype)
-            const key = event[1]
-            this.playNote(key, 0, when)
+            const key = event[1];
+            this.playNote(key, 0, when);
         } else if (etype === Midi.CONTROL_MASK) {  //   176) {
-            const cc = event[1]
+            const cc = event[1];
             if (cc === 64) {
                 if (event[2] > 0) {
-                    this.sustain(true, when)
+                    this.sustain(true, when);
                 } else {
-                    this.sustain(false, when)
+                    this.sustain(false, when);
                 }
             }
         }

@@ -1,23 +1,23 @@
-import { DBService } from '../services/db.service'
+import { DBService } from '../services/db.service';
 
 export class Savable {
-    id: any = null
+    id: any = null;
 
     isSaved(): boolean {
-        return this.id !== null
+        return this.id !== null;
     }
 
     change(): void {
-        this.id = null
+        this.id = null;
     }
 
     saveDB(saver: any): any {
-        console.log(' NO SAVER ' + this)
-        return null
+        console.log(' NO SAVER ' + this);
+        return null;
     }
 
     setID(id: any): void {
-        this.id = id
+        this.id = id;
     }
 
 }

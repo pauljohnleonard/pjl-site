@@ -50,6 +50,8 @@ const SEQUENCER_SPECIFIC_META_EVENT = 0x7f;
 
 
 export const Midi = {
+    BANK_SELECT_CC: 0,
+    BANK_LSB_CC: 32,
     BYTE_MASK: BYTE_MASK,
     HIGHBIT_MASK: HIGHBIT_MASK,
     SYSEX_EVENT_MASK: SYSEX_EVENT_MASK,
@@ -75,3 +77,24 @@ export const Midi = {
     KEY_SIGNATURE_META_EVENT: KEY_SIGNATURE_META_EVENT,
     SEQUENCER_SPECIFIC_META_EVENT: SEQUENCER_SPECIFIC_META_EVENT
 };
+
+
+
+export class MidiEvent {
+    constructor(public stamp: number, public effect: Array<number>) {
+
+    }
+}
+
+export class MidiLane extends Array<MidiEvent> {
+
+
+    chan: number;
+    prog: string;
+
+    constructor(prog?: string, chan?: number) {
+        super();
+        this.chan = chan;
+        this.prog = prog;
+    }
+}

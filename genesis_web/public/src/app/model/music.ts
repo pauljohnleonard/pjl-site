@@ -1,77 +1,77 @@
-import { DBService } from '../services/db.service'
-import { NetService } from '../services/net.service'
-import { SamplesService } from '../services/samples.service'
-import { SettingsService } from '../services/settings.service'
+import { DBService } from '../services/db.service';
+import { NetService } from '../services/net.service';
+import { SamplesService } from '../services/samples.service';
+import { SettingsService } from '../services/settings.service';
 import { AI } from './ai';
 import { AISquencer } from './aisequencer';
-import { Metro } from './metro'
+import { Metro } from './metro';
 import { Mapper, MappedPlayer } from './mapper';
-import { Instrument } from './instrument'
-import { Pulse } from './pulse'
-import { Player } from './player'
-import { MidiEvent } from './midievent'
-import { MidiSequencer } from './midisequencer'
-import { Savable } from './savable'
-import { Generator } from './generator'
-import { Thing } from './thing'
+import { Instrument } from './instrument';
+import { Pulse } from './pulse';
+import { Player } from './player';
+import { MidiEvent, MidiLane } from './midi';
+import { MidiSequencer } from './midisequencer';
+import { Savable } from './savable';
+import { Generator } from './generator';
+import { Thing } from './thing';
 
-import { SFService } from 'app/services/sf.service';
+import { SFService } from '../services/sf.service';
 // import { SFInstrument } from "../model/SFInstrument";
-import { ExtMidiInstrument } from "../model/ExtMidiInstrument";
+import { ExtMidiInstrument } from '../model/ExtMidiInstrument';
 
 
-declare var firebase: any
+declare var firebase: any;
 
 
 export class Music extends Savable {
 
-    playerTypes: Array<string> = ['AI', 'midi']
-    things: Array<Thing> = []
-    pulse: Pulse
+    playerTypes: Array<string> = ['AI', 'midi'];
+    things: Array<Thing> = [];
+    pulse: Pulse;
 
 
-    metro: Metro
-    recording = false
-    recordBuffer: Array<any> = []
-    playHead = 0
-    title = 'A Song'
-    chn = 0
+    metro: Metro;
+    recording = false;
+    recordBuffer: Array<any> = [];
+    playHead = 0;
+    title = 'A Song';
+    chn = 0;
     constructor(private dbService: DBService, private samplesService: SamplesService,
         private netService: NetService, private monitor: any,
         public settings: SettingsService,
         public sfService: SFService,
         public midiOut: any) {
-        super()
-        console.log('new music constructed')
-        this.setID(0)
-        this.constructorX()
+        super();
+        console.log('new music constructed');
+        this.setID(0);
+        this.constructorX();
     }
 
 
     saveDB(saver: any): any {
-        if (this.isSaved()) { return }
-        const itemIDs: Array<any> = []
+        if (this.isSaved()) { return; }
+        const itemIDs: Array<any> = [];
 
-        let playerPos = 0
+        let playerPos = 0;
         let postItems: any = {
-        }
+        };
 
 
 
         this.things.forEach((p: Player) => {
-            const itemID: string = p.saveDB(saver)
+            const itemID: string = p.saveDB(saver);
             if (itemID !== null) {
-                postItems[itemID] = playerPos++
+                postItems[itemID] = playerPos++;
             }
-        })
+        });
 
-        this.setID(saver.newIDItem('songs', postItems))
+        this.setID(saver.newIDItem('songs', postItems));
 
         postItems = {
             title: this.title,
-        }
+        };
 
-        saver.newIDItem('songinfo/' + saver.user.uid, postItems, this.id)
+        saver.newIDItem('songinfo/' + saver.user.uid, postItems, this.id);
 
     }
 
@@ -81,43 +81,43 @@ export class Music extends Savable {
         switch (playerSnap.child('type').val()) {
 
             case 'MidiSequencer':
-                instName = playerSnap.child('inst').val()
-                const midiPlayer = this.addMidiPlayer(instName, pos)
-                midiPlayer.setID(playerSnap.key)
-                const midiKey = playerSnap.child('midi').val()
+                instName = playerSnap.child('inst').val();
+                const midiPlayer = this.addMidiPlayer(new MidiLane(instName, pos));
+                midiPlayer.setID(playerSnap.key);
+                const midiKey = playerSnap.child('midi').val();
                 if (midiKey !== null) {
                     const midiRef = firebase.database().ref('midi').child(midiKey);
                     midiRef.once('value').then((midi: any) => {
-                        const midiData: any = JSON.parse(midi.val())
-                        const seq: MidiSequencer = <MidiSequencer>midiPlayer.ticker
-                        seq.setBuffer(midiData, midiKey)
-                    })
+                        const midiData: any = JSON.parse(midi.val());
+                        const seq: MidiSequencer = <MidiSequencer>midiPlayer.ticker;
+                        seq.setBuffer(midiData, midiKey);
+                    });
                 }
-                break
+                break;
 
 
             case 'AISequencer':
-                instName = playerSnap.child('inst').val()
-                const aiKey = playerSnap.child('ai').val()
+                instName = playerSnap.child('inst').val();
+                const aiKey = playerSnap.child('ai').val();
                 const aiRef = firebase.database().ref('ai').child(aiKey);
                 aiRef.once('value').then((aiSnap: any) => {
 
-                    const netKey = aiSnap.child('net').val()
-                    const netRef = firebase.database().ref('net').child(netKey)
+                    const netKey = aiSnap.child('net').val();
+                    const netRef = firebase.database().ref('net').child(netKey);
                     netRef.once('value').then((netSnap: any) => {
-                        const netInfo = netSnap.val()
-                        this.addAIPlayer(instName, netInfo, pos)
-                    })
-                })
+                        const netInfo = netSnap.val();
+                        this.addAIPlayer(instName, netInfo, pos);
+                    });
+                });
                 break;
 
 
             case 'Pulse':
-                this.pulse.loadSnap(playerSnap)
+                this.pulse.loadSnap(playerSnap);
 
-                break
+                break;
             default:
-                console.log('UNKOWN TYPE : ' + playerSnap.child('type').val())
+                console.log('UNKOWN TYPE : ' + playerSnap.child('type').val());
         }
 
     }
@@ -128,113 +128,107 @@ export class Music extends Savable {
 
                 const playerref = firebase.database().ref('players').child(player.key);
                 playerref.once('value').then((playerSnap: any) => {
-                    this.loadPlayer(playerSnap, player.val())
+                    this.loadPlayer(playerSnap, player.val());
 
-                })
-            })
-        })
+                });
+            });
+        });
     }
-
 
     constructorX() {
 
-        const ticksPerBeat = 12
-        const bpm = 120
+        const ticksPerBeat = 12;
+        const bpm = 120;
 
-        this.pulse = new Pulse(ticksPerBeat, bpm, this.settings)
-        this.things.push(this.pulse)
+        this.pulse = new Pulse(ticksPerBeat, bpm, this.settings);
+        this.things.push(this.pulse);
 
 
 
         // const majorSeed = [0, 2, 4, 5, 7, 9, 11]
         // const stack3 = [0, 2, 4, 6, 8, 10, 12]
 
-        this.metro = new Metro(this.pulse, this.samplesService, this.monitor)
+        this.metro = new Metro(this.pulse, this.samplesService, this.monitor);
 
     }
 
 
-    addMidiPlayer(name: string, pos: any): Player {
-        const player = new Player(this)
-        if (pos === null || pos === true) {
-            this.things.push(player)
-        } else {
-            this.things[pos] = player
-        }
-
+    addMidiPlayer(lane: MidiLane): Player {
+        const player = new Player(this);
+        this.things.push(player);
         // const inst = new SFInstrument(name, this.monitor, this.sfService)
-        const inst = new ExtMidiInstrument(name, this.monitor, this.midiOut, this.chn++)
+        const inst = new ExtMidiInstrument(lane.prog + '', this.monitor, this.midiOut, lane.chan);
 
-        player.inst = inst
-        const midiPlayer = new MidiSequencer(player)
-        player.ticker = midiPlayer
-        this.change()
-        return player
+        player.inst = inst;
+        const midiPlayer = new MidiSequencer(player);
+        player.ticker = midiPlayer;
+        this.change();
+        return player;
     }
 
 
 
     addAIPlayer(instName: string, net: any, pos: number): Player {
 
-        if (!net) { net = {} }
+        if (!net) { net = {}; }
 
-        if (net.nOut === undefined) { net.nOut = 20 }
-        if (net.nHidden === undefined) { net.nHidden = [20] }
-        if (net.nIn === undefined) { net.nIn = this.pulse.rampers.length }
+        if (net.nOut === undefined) { net.nOut = 20; }
+        if (net.nHidden === undefined) { net.nHidden = [20]; }
+        if (net.nIn === undefined) { net.nIn = this.pulse.rampers.length; }
 
-        const player = new Player(this)
+        const player = new Player(this);
 
         if (pos === null) {
-            this.things.push(player)
+            this.things.push(player);
         } else {
-            this.things[pos] = player
+            this.things[pos] = player;
         }
-        const ai = new AI(this.netService)
+        const ai = new AI(this.netService);
 
-        player.ai = ai
+        player.ai = ai;
 
 
-        if (instName === undefined) { instName = 'marimba' }
-        player.name = instName
+        if (instName === undefined) { instName = 'marimba'; }
+        player.name = instName;
 
         //    const inst = new SFInstrument(instName, this.monitor, this.sfService)
 
-        const inst = new ExtMidiInstrument(name, this.monitor, this.midiOut, this.chn++)
+        const inst = new ExtMidiInstrument(name, this.monitor, this.midiOut, this.chn++);
 
-        player.inst = inst
+        player.inst = inst;
 
 
         if (net.seed === undefined) {
-            net.seed = Math.random()
+            net.seed = Math.random();
         }
-        const generator = new Generator(net.seed)
+        const generator = new Generator(net.seed);
 
-        ai.init(this.pulse, net)
+        ai.init(this.pulse, net);
 
-        const base: Array<number> = [0, 3, 5, 7, 10]
+        const base: Array<number> = [0, 3, 5, 7, 10];
 
-        const mapper = new Mapper(40, base)
-        player.mapper = mapper
+        const mapper = new Mapper(40, base);
+        player.mapper = mapper;
 
-        const mapPlayer = new MappedPlayer(inst, mapper)
+        const mapPlayer = new MappedPlayer(inst, mapper);
 
-        const playerAI = new AISquencer(ai, mapPlayer, this.pulse)
-        player.ticker = playerAI
-        this.change()   //  TODO not if we are loading
-        return player
+        const playerAI = new AISquencer(ai, mapPlayer, this.pulse);
+        player.ticker = playerAI;
+        this.change();   //  TODO not if we are loading
+        return player;
 
     }
 
     removePlayer(player: Player) {
 
-        this.pulse.removeClient(player)
-        let index = 0
+        this.pulse.removeClient(player);
+        let index = 0;
         for (; index < this.things.length; index++) {
             if (this.things[index] === player) {
                 this.things.splice(index, 1);
-                this.change()
+                this.change();
                 if (this.things.length === 0) {
-                    this.setID(0)
+                    this.setID(0);
                 }
                 return;
             }
@@ -245,43 +239,43 @@ export class Music extends Savable {
     tick(): void {
 
         try {
-            this.pulse.tick()
+            this.pulse.tick();
         } catch (err) {
-            console.log(err.stack)
+            console.log(err.stack);
         }
 
-        this.playHead = this.pulse.beat
+        this.playHead = this.pulse.beat;
     }
 
     record(yes: boolean) {
-        this.recording = yes
+        this.recording = yes;
     }
 
     start() {
-        this.pulse.start()
+        this.pulse.start();
     }
 
     stop() {
-        this.pulse.stop()
+        this.pulse.stop();
         if (this.recordBuffer.length > 0) {
             this.things.forEach((p) => {
                 if (p instanceof Player) {
                     if (p.recording && (p.ticker instanceof MidiSequencer)) {
-                        p.ticker.setBuffer(this.recordBuffer, null)
-                        p.change()
+                        p.ticker.setBuffer(this.recordBuffer, null);
+                        p.change();
                     }
                 }
-            })
+            });
         }
-        this.recordBuffer = []
+        this.recordBuffer = [];
     }
 
     pause() {
-        this.pulse.pause()
+        this.pulse.pause();
     }
 
     isRunning(): boolean {
-        return this.pulse.running
+        return this.pulse.running;
     }
 
     /*
