@@ -28,7 +28,7 @@ export class MusicComponent {
                 this.music.addAIPlayer('marimba', null, null);
                 break;
             case 'midi':
-                this.music.addMidiPlayer(new MidiLane('marimba', null));
+                this.music.addMidiPlayer(new MidiLane(0, 0, 0));
                 break;
         }
     }

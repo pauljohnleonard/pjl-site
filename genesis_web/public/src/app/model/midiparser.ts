@@ -47,7 +47,7 @@ export const MidiParser = {
                         let lane = lanes[chan];
 
                         if (lane === undefined) {
-                            lane = new MidiLane( null , chan );
+                            lane = new MidiLane( null , chan, 0 );
                             lanes[chan] = lane;
                         }
 
@@ -61,15 +61,16 @@ export const MidiParser = {
 
                             case 'programChange':
                                 lane.push(new MidiEvent(beat, [Midi.PROGRAM_MASK, element.programNumber]));
-                                if (lane.prog !== null) {
+                                if (lane.patch.prog !== null) {
                                     console.log(' IMPLEMENT ME:   Channel has multiple voices');
                                 }
-                                lane.prog = element.programNumber;
+                                lane.patch.prog = element.programNumber;
                                 break;
                             case 'controller':
                                 lane.push(new MidiEvent(beat, [Midi.CONTROL_MASK, element.controllerType, element.value]));
                                 if (element.controllerType === Midi.BANK_SELECT_CC) {
                                     console.log('bankSelect : ', element.value);
+                                    lane.patch.bank = element.value;
                                 } else {
                                     console.log('contoller : ', element.controllerType, element.value);
                                 }

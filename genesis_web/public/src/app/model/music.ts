@@ -82,7 +82,7 @@ export class Music extends Savable {
 
             case 'MidiSequencer':
                 instName = playerSnap.child('inst').val();
-                const midiPlayer = this.addMidiPlayer(new MidiLane(instName, pos));
+                const midiPlayer = this.addMidiPlayer(new MidiLane(pos, 0, 0));
                 midiPlayer.setID(playerSnap.key);
                 const midiKey = playerSnap.child('midi').val();
                 if (midiKey !== null) {
@@ -157,7 +157,8 @@ export class Music extends Savable {
         const player = new Player(this);
         this.things.push(player);
         // const inst = new SFInstrument(name, this.monitor, this.sfService)
-        const inst = new ExtMidiInstrument(lane.prog + '', this.monitor, this.midiOut, lane.chan);
+        const name = this.sfService.getGMName(lane.patch);
+        const inst = new ExtMidiInstrument(name, this.monitor, this.midiOut, lane.chan);
 
         player.inst = inst;
         const midiPlayer = new MidiSequencer(player);

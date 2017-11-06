@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { findNearest } from '../util/levenshtein'
+import { Observable } from 'rxjs/Observable';
+import { findNearest } from '../util/levenshtein';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/forkJoin';
+import { MidiPatch } from '../model/midi';
 
 // import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/angular2';
 
@@ -13,63 +15,67 @@ import 'rxjs/add/operator/catch';
 export class SFService {
     public gmIDToFontName: {};
     public gmNameToID: {};
-    public names: Array<string> = []
-    public gmnames: Array<string> = []
+    public names: Array<string> = [];
+    public gmnames: Array<string> = [];
     constructor(private http: Http) {
-        this.getJSON()
+        this.getJSON();
     }
 
     public getNames(): Array<string> {
-        return this.names
+        return this.names;
     }
 
-    public getGMName(index: number) {
-        return this.gmnames[index]
+    public getGMName(patch: MidiPatch) {
+        if (!patch.bank || patch.bank !== 128 ) {
+            return this.gmnames[patch.prog];
+        } else {
+            return 'DrumKit ' + patch.prog;
+        }
     }
 
     public getGMProg(name: number) {
-        return this.gmNameToID[name]
+        return this.gmNameToID[name];
     }
 
     public getJSON() {
 
-
+        // TODO make async Obserable
         Observable.forkJoin(
             this.http.get('./assets/sfnames.json')
                 .map(res => res.json())
                 .map(data => {
-                    this.names = data
+                    this.names = data;
                 }),
 
             this.http.get('./assets/GMpatchnames.txt')
                 .map(
                 (data) => {
-                    const txt = data.text()
-                    const lines = txt.split('\n')
+                    const txt = data.text();
+                    const lines = txt.split('\n');
                     lines.forEach((line) => {
-                        line = line.trim()
+                        line = line.trim();
                         if (line.length > 0) {
-                            const toks = line.split(':')
-                            this.gmnames[+toks[0] - 1] = toks[1].trim().toLowerCase()
+                            const toks = line.split(':');
+                            this.gmnames[+toks[0] - 1] = toks[1].trim().toLowerCase();
                         }
-                    })
+                    });
                 }
                 ))
             .subscribe(() => {
 
-                this.gmIDToFontName = []
-                this.gmNameToID = {}
+                this.gmIDToFontName = [];
+                this.gmNameToID = {};
 
-                console.log(this.names)
-                console.log(this.gmnames)
+                console.log(this.names);
+                console.log(this.gmnames);
 
 
                 this.names.forEach((name) => {
-                    const gm_id = findNearest(name.toLowerCase(), this.gmnames)
-                    this.gmIDToFontName[gm_id] = name
-                    this.gmNameToID[name] = gm_id
-                    console.log(gm_id + " -> " + name)
-                })
-            })
+                    const gm_id = findNearest(name.toLowerCase(), this.gmnames);
+                    this.gmIDToFontName[gm_id] = name;
+                    this.gmNameToID[name] = gm_id;
+                    console.log(gm_id + ' -> ' + name);
+                });
+            });
     }
 }

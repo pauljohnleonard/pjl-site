@@ -1,4 +1,4 @@
-import { Midi } from './midi';
+import { Midi, MidiLane } from './midi';
 import { SFService } from '../services/sf.service';
 import { Instrument } from './instrument';
 import { ExtMidiDevice } from './extmididevice';
@@ -15,7 +15,7 @@ export class ExtMidiInstrument extends Instrument {
     midiIn = false;
 
 
-    constructor(public name: string, monitor: any, public dev: any, private channel: number) {
+    constructor(name: string , monitor: any, public dev: any , public channel: number) {
         super(name, monitor);
         this.setInst(name);
     }

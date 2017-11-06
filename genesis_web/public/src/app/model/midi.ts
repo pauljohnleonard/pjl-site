@@ -86,15 +86,21 @@ export class MidiEvent {
     }
 }
 
+export class MidiPatch {
+
+
+    constructor(public prog: number, public bank: number) {
+
+    }
+}
 export class MidiLane extends Array<MidiEvent> {
 
 
-    chan: number;
-    prog: string;
 
-    constructor(prog?: string, chan?: number) {
+    patch: MidiPatch;
+
+    constructor(public chan: number, prog: number, bank: number) {
         super();
-        this.chan = chan;
-        this.prog = prog;
+        this.patch = new MidiPatch(prog, bank);
     }
 }
